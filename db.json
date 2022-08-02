@@ -37,6 +37,38 @@
       "phone": "",
       "password": "123412341234qwre",
       "id": 5
+    },
+    {
+      "firstName": "1234",
+      "lastName": "12341234",
+      "email": "1234@daf.asdf",
+      "phone": "",
+      "password": "12314afasdfq",
+      "id": 6
+    },
+    {
+      "firstName": "maria",
+      "lastName": "oliynuk",
+      "email": "mar@mar.ua",
+      "phone": "",
+      "password": "qwe1231",
+      "id": 7
+    },
+    {
+      "firstName": "12341234",
+      "lastName": "12341234",
+      "email": "12@asdf.asdf",
+      "phone": "",
+      "password": "123123dfaefqwef",
+      "id": 8
+    },
+    {
+      "firstName": "443241",
+      "lastName": "1234123",
+      "email": "1234@fdas.sgs",
+      "phone": "",
+      "password": "2134afsdf",
+      "id": 9
     }
   ],
   "users": [
