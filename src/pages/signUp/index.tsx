@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 // components
 import Title from '../../components/Title';
@@ -7,6 +7,9 @@ import { makeStyles } from '@mui/styles';
 import { TextField, Button, Grid, Box, Paper } from '@mui/material';
 // utilites
 import { isEmail, isPassword, isRequired } from '../../utilites/validation';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { LoadingButton } from '@mui/lab';
+import { signUp } from '../../store/auth/authAsync';
 
 interface IForm {
   firstName: string;
@@ -18,8 +21,11 @@ interface IForm {
 
 const SignUpPage: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
 
-  const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
+  const [isLoading, setIsLoadin] = useState(false);
+
+  const { control, reset, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -29,8 +35,24 @@ const SignUpPage: React.FC = () => {
     }
   });
 
+  const clearForm = () => {
+    reset({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+    })
+  }
+
   const onSubmit = handleSubmit((data: IForm) => {
     console.log(data);
+    setIsLoadin(true);
+
+    dispatch(signUp(data))
+      .unwrap()
+      .then(() => clearForm())
+      .finally(() => setIsLoadin(false));
   });
 
   return (
@@ -122,7 +144,13 @@ const SignUpPage: React.FC = () => {
               />
             </Grid>
           </Grid>
-          <Button type='submit' variant='contained' color='primary' fullWidth>Sign Up</Button>
+          <LoadingButton
+            fullWidth
+            loading={isLoading}
+            type='submit'
+            variant='contained'
+            color='primary'
+          >Sign Up</LoadingButton>
         </form>
       </Paper>
     </Box>

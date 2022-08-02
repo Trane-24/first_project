@@ -5,6 +5,38 @@
       "id": 1,
       "email:": "email@mail.com",
       "password": "cXdlcnR5MTIz"
+    },
+    {
+      "firstName": "test",
+      "lastName": "test2",
+      "email": "test@test.te",
+      "phone": "",
+      "password": "1234qwer",
+      "id": 2
+    },
+    {
+      "firstName": "test",
+      "lastName": "test2",
+      "email": "test@test.te",
+      "phone": "",
+      "password": "1234qwer",
+      "id": 3
+    },
+    {
+      "firstName": "pablo",
+      "lastName": "pablo2",
+      "email": "pablo@pablo.ua",
+      "phone": "",
+      "password": "123qwerty",
+      "id": 4
+    },
+    {
+      "firstName": "12341234",
+      "lastName": "23412341234",
+      "email": "qqwer@awer.ua",
+      "phone": "",
+      "password": "123412341234qwre",
+      "id": 5
     }
   ],
   "users": [
@@ -17,7 +49,7 @@
       "role": "owner"
     },
     {
-      "id":2,
+      "id": 2,
       "email": "qa+affleck@mail.com",
       "firstName": "Ben",
       "lastName": "Affleck",
@@ -60,7 +92,7 @@
         }
       },
       "guest": {
-        "id":2,
+        "id": 2,
         "email": "qa+affleck@mail.com",
         "firstName": "Ben",
         "lastName": "Affleck",
