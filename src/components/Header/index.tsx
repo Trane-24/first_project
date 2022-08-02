@@ -1,21 +1,23 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 // mui
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+// selectors
+import { selectIsAuthorization } from '../../store/auth/authSelectors';
+// components
+import UserMenu from './UserMenu';
+import PublicMenu from './PublicMenu';
 
 const Header: React.FC = () => {
   const classes = useStyles();
 
+  const isAuthorization = useSelector(selectIsAuthorization);
+
   return (
     <Box className={classes.header}>
       <nav style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-        <NavLink to="/sign-in" className={classes.button}>
-          <Button variant='contained'>Sign in</Button>
-        </NavLink>
-        <NavLink to="/sign-up" className={classes.button}>
-          <Button variant='contained'>Sign up</Button>
-        </NavLink>
+        {isAuthorization ? <UserMenu /> : <PublicMenu /> }
       </nav>
     </Box>
   );
@@ -32,9 +34,5 @@ const useStyles = makeStyles({
     alignItems: 'center',
     borderBottom: '1px solid gray',
     borderRadius: '0 0 5px 5px'
-  },
-  button: {
-    color: '#fefefe',
-    textDecoration: 'none'
   }
 })
