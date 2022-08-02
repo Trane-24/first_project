@@ -1,4 +1,8 @@
 {
+  "login": {},
+  "registration": [
+    {"id": 1, "email:": "email@mail.com", "password": "cXdlcnR5MTIz"}
+  ],
   "users": [
     {"id":171,"email":"qa+aquilizan@dashweek.com","firstName":"Aaron","lastName":"Aquilizan","phone":"8129928028"},
     {"id":1162,"email":"qa+aljhdixon@dashweek.com","firstName":"Aaron","lastName":"Dixon"},
