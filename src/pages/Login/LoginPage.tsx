@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Typography, Button, Grid } from '@mui/material';
+import { TextField, Typography, Button, Grid, Box } from '@mui/material';
 import { Container } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
 
   const createUser = async (user: any) => {
     await axios.post(`${config.apiURL}users`, user);
-  }
+  };
 
   const onSubmit = (data: Profile) => {
     const newUser = {
@@ -30,8 +30,10 @@ const LoginPage: React.FC = () => {
     createUser(newUser);
   };
 
+  const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
   return (
-    <Container maxWidth='xs' sx={{display: 'flax', justifyContent: 'center', alignItems: 'center'}}>
+    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100%', backgroundColor: 'bcbcbc'}}>
       <Typography variant='h4'>Hello</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container sx={{gap: 2, mt: 1, mb: 2}}>
@@ -59,12 +61,19 @@ const LoginPage: React.FC = () => {
             variant='outlined'
             autoComplete='password'
             fullWidth
-            {...register('password', {required: 'Required'})}
+            {...register('password', {
+              required: 'Required',
+            pattern: {
+              value: mediumRegex,
+              message: 'minimum 6 characters, at least one letter and one number',
+            }})}
+            error={!!errors?.password}
+            helperText={errors?.password ? errors.password.message : null}
           />
         </Grid>
         <Button type='submit' variant='contained' color='primary' fullWidth>Login In</Button>
       </form>
-    </Container>
+    </Box>
   );
 }
 
