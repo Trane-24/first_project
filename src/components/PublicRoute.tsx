@@ -11,7 +11,7 @@ type Props = {
 const PublicRoute:React.FC<Props> = ({ children }) => {
   const isAuthorization:boolean = useSelector(selectIsAuthorization);
 
-  if ( isAuthorization ) return <Navigate to="/" replace />;
+  if ( isAuthorization ) return <Navigate to="/admin" replace />;
 
   return children;
 };

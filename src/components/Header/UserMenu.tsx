@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth/authSlice';
 
-const PublicMenu:React.FC = () => {
+const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
@@ -22,4 +22,4 @@ const PublicMenu:React.FC = () => {
   )
 }
 
-export default PublicMenu;
+export default UserMenu;

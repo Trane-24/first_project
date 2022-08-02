@@ -14,7 +14,7 @@ import AdminPage from '../pages/AdminPage';
 const AppRouting: React.FC = () => {
   const isAuthorization = useSelector(selectIsAuthorization);
 
-  const navigateTo = isAuthorization ? '/' : '/sign-in';
+  const navigateTo = isAuthorization ? '/admin' : '/sign-in';
 
   return (
     <Routes>
@@ -29,7 +29,7 @@ const AppRouting: React.FC = () => {
         </PublicRoute>
       } />
 
-      <Route path="/" element={
+      <Route path="/admin/*" element={
         <PrivateRoute>
           <AdminPage />
         </PrivateRoute>

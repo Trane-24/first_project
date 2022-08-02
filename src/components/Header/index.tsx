@@ -1,38 +1,66 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-// mui
-import { Box } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-// selectors
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+// Actions
+import { appActions } from '../../store/app/appSlice';
+// Selectors
 import { selectIsAuthorization } from '../../store/auth/authSelectors';
+// Mui
+import {
+  AppBar, Toolbar, Box,
+  IconButton, Typography
+} from '@mui/material';
+// Icons
+import { Menu as MenuIcon } from '@mui/icons-material';
 // components
-import UserMenu from './UserMenu';
 import PublicMenu from './PublicMenu';
+import UserMenu from './UserMenu';
 
-const Header: React.FC = () => {
-  const classes = useStyles();
+const NavBar:FC = () => {
+  // Dispatch
+  const dispatch = useDispatch();
+  // State
+  const isAuthorization:boolean = useSelector(selectIsAuthorization);
 
-  const isAuthorization = useSelector(selectIsAuthorization);
+  const handleToggleDrawer = () => dispatch(appActions.toggleDrawer());
 
   return (
-    <Box className={classes.header}>
-      <nav style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-        {isAuthorization ? <UserMenu /> : <PublicMenu /> }
-      </nav>
-    </Box>
+    <AppBar position="relative" elevation={0} sx={{ background: 'linear-gradient(315deg, #3D98BF 0%, #53B8E0 100%)' }}>
+      <Toolbar>
+        {isAuthorization && (
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ color: 'white', mr: 2 }}
+            onClick={handleToggleDrawer}
+          ><MenuIcon /></IconButton>
+        )}
+        <Box
+          display="flex" alignItems="center"
+          component={Link} to="/"
+          sx={{
+            textDecoration: 'none'
+          }}
+        >
+          <Typography
+            sx={{
+              color: 'white',
+              fontSize: '20px',
+              fontWeight: 500,
+              lineHeight: '32px',
+              letterSpacing: '-0.35px'
+            }}
+          >Admin Module</Typography>
+        </Box>
+        <Box flexGrow={1} />
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          {isAuthorization ? <UserMenu /> : <PublicMenu />}
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
-};
+}
 
-export default Header;
-
-const useStyles = makeStyles({
-  header: {
-    backgroundColor: '#eee',
-    padding: '20px 40px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: '1px solid gray',
-    borderRadius: '0 0 5px 5px'
-  }
-})
+export default NavBar;
