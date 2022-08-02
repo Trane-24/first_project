@@ -1,25 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import TodosAsynk from "./todosAsync";
+import { signIn } from "./authAsync";
 
 interface IState {
-  todos: any[] | null;
+  isAuthorization: boolean;
 }
 
 const initialState: IState = {
-  todos: null,
+  isAuthorization: false,
 }
 
 const todosSlice = createSlice({
-  name: 'todos',
+  name: 'auth',
   initialState,
   reducers: {
 
   },
   extraReducers: (builder) => {
     builder
-    //Fetch todos
-    .addCase(TodosAsynk.fetchTodos.fulfilled, (state, action) => {
-      state.todos = action.payload;
+    // Sign in
+    .addCase(signIn.fulfilled, (state) => {
+      state.isAuthorization = true;
     })
   }
 })

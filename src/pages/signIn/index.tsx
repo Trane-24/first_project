@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+// hooks
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+// Async
+import { signIn } from '../../store/auth/authAsync';
 // components
 import Title from '../../components/Title';
 // mui
+import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
-import { TextField, Button, Grid, Box, Paper } from '@mui/material';
+import { TextField, Grid, Box, Paper } from '@mui/material';
 // utilites
 import { isEmail, isPassword, isRequired } from '../../utilites/validation';
 
@@ -15,6 +20,9 @@ interface IForm {
 
 const SignInPage: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
@@ -24,7 +32,11 @@ const SignInPage: React.FC = () => {
   });
 
   const onSubmit = handleSubmit((data: IForm) => {
-    console.log(data);
+    setIsLoading(true);
+
+    dispatch(signIn(data))
+      .unwrap()
+      .finally(() => setIsLoading(false));
   });
 
   return (
@@ -69,7 +81,13 @@ const SignInPage: React.FC = () => {
               />
             </Grid>
           </Grid>
-          <Button type='submit' variant='contained' color='primary' fullWidth>Sign In</Button>
+          <LoadingButton
+            fullWidth
+            loading={isLoading}
+            type='submit'
+            variant='contained'
+            color='primary'
+          >Sign In</LoadingButton>
         </form>
       </Paper>
     </Box>
@@ -85,4 +103,4 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center'
   }
-})
+});

@@ -1,6 +1,5 @@
 const config = {
-  apiURL: 'https://jsonplaceholder.typicode.com/',
-  apiTodos: 'https://mate.academy/students-api',
+  apiURL: 'http://localhost:5000',
 }
 
 export default config;
