@@ -1,64 +1,71 @@
 {
   "login": {},
   "registration": [
-    {"id": 1, "email:": "email@mail.com", "password": "cXdlcnR5MTIz"}
+    {
+      "id": 1,
+      "email:": "email@mail.com",
+      "password": "cXdlcnR5MTIz"
+    }
   ],
   "users": [
-    {"id":171,"email":"qa+aquilizan@dashweek.com","firstName":"Aaron","lastName":"Aquilizan","phone":"8129928028"},
-    {"id":1162,"email":"qa+aljhdixon@dashweek.com","firstName":"Aaron","lastName":"Dixon"},
-    {"id":1488,"email":"qa+azza4818@dashweek.com","firstName":"Aaron","lastName":"Frazer"},
-    {"id":3252,"email":"qa+cedarstarnw@dashweek.com","firstName":"Aaron","lastName":"Myers"},
-    {"id":4273,"email":"qa+waskinner@dashweek.com","firstName":"Aaron","lastName":"Skinner"},
-    {"id":656,"email":"qa+movinchick@dashweek.com","firstName":"Abby","lastName":"Cade"},
-    {"id":2886,"email":"qa+abby.mariazeta@dashweek.com","firstName":"Abby","lastName":"Mariazeta"},
-    {"id":4384,"email":"qa+abbystanton@dashweek.com","firstName":"Abby","lastName":"Stanton"},
-    {"id":3614,"email":"qa+apinchevsky@dashweek.com","firstName":"Abram","lastName":"Pinchevsky"},
-    {"id":4975,"email":"qa+achim.wolper@dashweek.com","firstName":"Achim","lastName":"Wolper"},
-    {"id":4158,"email":"qa+info@dashweek.com","firstName":"Ada","lastName":"Senno"},
-    {"id":338,"email":"qa+abeduhn@dashweek.com","firstName":"Adam","lastName":"Beduhn"},
-    {"id":778,"email":"qa+Adamcharuhas@dashweek.com","firstName":"Adam","lastName":"Charuhas"},
-    {"id":2388,"email":"qa+kimplead@dashweek.com","firstName":"Adam","lastName":"Kimple"},
-    {"id":4908,"email":"qa+wichmann_adam@dashweek.com","firstName":"Adam","lastName":"Wichmann"},
-    {"id":1692,"email":"qa+adele.goodge@dashweek.com","firstName":"Adele","lastName":"Goodge"},
-    {"id":1188,"email":"qa+tadonohoe@dashweek.com","firstName":"Adri","lastName":"Donohoe"},
-    {"id":4880,"email":"qa+adriawest@dashweek.com","firstName":"Adria","lastName":"West"},
-    {"id":2717,"email":"qa+adrian@dashweek.com","firstName":"Adrian","lastName":"Logiudice"},
-    {"id":936,"email":"qa+adriane.e.costa@dashweek.com","firstName":"Adriane","lastName":"Costa"},
-    {"id":2178,"email":"qa+ajami@dashweek.com","firstName":"Adrianna","lastName":"Jamison"},
-    {"id":95,"email":"qa+aaalfi@dashweek.com","firstName":"Ahmed","lastName":"Alfi"},
-    {"id":4802,"email":"qa+agwreid02@dashweek.com","firstName":"Aida","lastName":"Walter-reid"},
-    {"id":2174,"email":"qa+aimeejakubik@dashweek.com","firstName":"Aiimee","lastName":"Jakubik"},
-    {"id":469,"email":"qa+aimee.boes@dashweek.com","firstName":"Aimee","lastName":"Boes"},
-    {"id":3886,"email":"qa+aimeebrodgers@dashweek.com","firstName":"Aimee","lastName":"Rodgers"},
-    {"id":4362,"email":"qa+shoppingru2@dashweek.com","firstName":"Aimee","lastName":"Spence"},
-    {"id":21,"email":"qa+aimeeszymczak@dashweek.com","firstName":"Aimee","lastName":"unknown"},
-    {"id":4953,"email":"qa+winglea@dashweek.com","firstName":"Aimee","lastName":"Wingle"},
-    {"id":2151,"email":"qa+ainsjackson@dashweek.com","firstName":"Ainsley","lastName":"Jackson"},
-    {"id":1663,"email":"qa+godhwani@dashweek.com","firstName":"Ajay","lastName":"Godwhani"},
-    {"id":2564,"email":"qa+al@dashweek.com","firstName":"Al","lastName":"Langkilde"},
-    {"id":3965,"email":"qa+alrubino23@dashweek.com","firstName":"Al","lastName":"Rubino"},
-    {"id":3360,"email":"qa+alaleha@dashweek.com","firstName":"Alaleh","lastName":"Nouri"},
-    {"id":98,"email":"qa+Alan@dashweek.com","firstName":"Alan","lastName":"Alhadeff"},
-    {"id":2127,"email":"qa+sigried_n@dashweek.com","firstName":"Alan","lastName":"Ingarfield"},
-    {"id":2280,"email":"qa+elmogs@dashweek.com","firstName":"Alan","lastName":"Kamiya"},
-    {"id":3609,"email":"qa+alanpig@dashweek.com","firstName":"Alan","lastName":"Piggot"},
-    {"id":4760,"email":"qa+alanwac1@dashweek.com","firstName":"Alan","lastName":"Wachtel"},
-    {"id":4804,"email":"qa+alwang@dashweek.com","firstName":"Albert","lastName":"Wang"},
-    {"id":1338,"email":"qa+alefaccas@dashweek.com","firstName":"Alejandra","lastName":"Faccas"},
-    {"id":1153,"email":"qa+dimauroa@dashweek.com","firstName":"Alessandra","lastName":"Dimauro"},
-    {"id":4252,"email":"qa+alysimons@dashweek.com","firstName":"Alessandra","lastName":"Simons"},
-    {"id":797,"email":"qa+polinka27@dashweek.com","firstName":"Alex","lastName":"Cherpel"},
-    {"id":1246,"email":"qa+aedavies@dashweek.com","firstName":"Alex","lastName":"Duran"},
-    {"id":1576,"email":"qa+mgarvall@dashweek.com","firstName":"Alex","lastName":"Garvall"},
-    {"id":5184,"email":"vadymdziubenko99+alex@gmail.com","firstName":"Alex","lastName":"Guest"},
-    {"id":3299,"email":"qa+ali.halpert@dashweek.com","firstName":"Alex","lastName":"Neumayer"},
-    {"id":4970,"email":"qa+randykrum@dashweek.com","firstName":"Alex","lastName":"Wolfe"},
-    {"id":5090,"email":"qa+alexzn2001@dashweek.com","firstName":"Alex","lastName":"Zilberman"},
-    {"id":1455,"email":"qa+alec0884@dashweek.com","firstName":"Alexander","lastName":"Forbes"},
-    {"id":4851,"email":"qa+alexgw62@dashweek.com","firstName":"Alexander","lastName":"Weidling"},
-    {"id":53,"email":"qa+abrahamsstudio@dashweek.com","firstName":"Alexandra","lastName":"Abrahams"},
-    {"id":3740,"email":"qa+alexandria.raeburn@dashweek.com","firstName":"Alexandria","lastName":"Raeburn"},
-    {"id":2425,"email":"qa+aleksey.klishin@dashweek.com","firstName":"Alexey","lastName":"Klishin"},
-    {"id":4289,"email":"qa+aadityarini@dashweek.com","firstName":"Alfonsa","lastName":"Smith"}
+    {
+      "id": 1,
+      "email": "qa+aquilizan@mail.com",
+      "firstName": "Aaron",
+      "lastName": "Aquilizan",
+      "phone": "8129928028",
+      "role": "owner"
+    },
+    {
+      "id":2,
+      "email": "qa+affleck@mail.com",
+      "firstName": "Ben",
+      "lastName": "Affleck",
+      "role": "guest"
+    }
+  ],
+  "hotels": [
+    {
+      "id": 1,
+      "name": "name",
+      "country": "Ukraine",
+      "city": "Bukovel",
+      "owner": {
+        "id": 1,
+        "email": "qa+aquilizan@mail.com",
+        "firstName": "Aaron",
+        "lastName": "Aquilizan",
+        "phone": "8129928028",
+        "role": "owner"
+      }
+    }
+  ],
+  "reservations": [
+    {
+      "id": 1,
+      "startDate": "2022-08-08",
+      "endDate": "2022-08-15",
+      "hotel": {
+        "id": 1,
+        "name": "name",
+        "country": "Ukraine",
+        "city": "Bukovel",
+        "owner": {
+          "id": 1,
+          "email": "qa+aquilizan@mail.com",
+          "firstName": "Aaron",
+          "lastName": "Aquilizan",
+          "phone": "8129928028",
+          "role": "owner"
+        }
+      },
+      "guest": {
+        "id":2,
+        "email": "qa+affleck@mail.com",
+        "firstName": "Ben",
+        "lastName": "Affleck",
+        "role": "guest"
+      }
+    }
   ]
 }

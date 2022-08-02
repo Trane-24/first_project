@@ -4,6 +4,7 @@ import { Container } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import config from '../../config';
+import { isEmail, isRequired } from '../../utilites/validation';
 
 type Profile = {
   email: string;
@@ -35,7 +36,7 @@ const LoginPage: React.FC = () => {
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100%', backgroundColor: 'bcbcbc'}}>
       <Typography variant='h4'>Hello</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Grid container sx={{gap: 2, mt: 1, mb: 2}}>
           <TextField
             id='email'
@@ -45,11 +46,8 @@ const LoginPage: React.FC = () => {
             fullWidth
             autoComplete='email'
             {...register('email', {
-              required: 'Required field',
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Invalid email address'
-              }
+              required: isRequired,
+              pattern: isEmail
             })}
             error={!!errors?.email}
             helperText={errors?.email ? errors.email.message : null}
