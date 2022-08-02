@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 // async
 import { signUp } from '../../store/auth/authAsync';
 // components
@@ -9,7 +10,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 // mui
 import { makeStyles } from '@mui/styles';
 import { LoadingButton } from '@mui/lab';
-import { TextField, Grid, Box, Paper } from '@mui/material';
+import { TextField, Grid, Box, Paper, Button } from '@mui/material';
 // utilites
 import { isEmail, isPassword, isRequired } from '../../utilites/validation';
 
@@ -26,8 +27,9 @@ const SignUpPage: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoadin] = useState(false);
+  const [isSingUp, setIsSingUp] = useState(false);
 
-  const { control, reset, handleSubmit, formState: { errors } } = useForm<IForm>({
+  const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -37,25 +39,28 @@ const SignUpPage: React.FC = () => {
     }
   });
 
-  const clearForm = () => {
-    reset({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      password: '',
-    })
-  }
-
   const onSubmit = handleSubmit((data: IForm) => {
     console.log(data);
     setIsLoadin(true);
 
     dispatch(signUp(data))
       .unwrap()
-      .then(() => clearForm())
+      .then(() => setIsSingUp(true))
       .finally(() => setIsLoadin(false));
   });
+
+  if (isSingUp) {
+    return (
+      <Box className={classes.page}>
+      <Paper elevation={5} sx={{ p:5, width: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <Title>You are registered. Welcome!</Title>
+        <NavLink to="/sign-in" className={classes.button}>
+          <Button variant='contained'>Sign in</Button>
+        </NavLink>
+      </Paper>
+    </Box>
+    )
+  }
 
   return (
     <Box className={classes.page}>
@@ -167,5 +172,9 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  button: {
+    color: '#fefefe',
+    textDecoration: 'none'
+  },
 });
