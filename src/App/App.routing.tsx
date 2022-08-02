@@ -1,13 +1,14 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from '../pages/HomePage/HomePage';
-import LoginPage from '../pages/Login/LoginPage';
+import { Routes, Route } from 'react-router-dom';
+// pages
+import SignInPage from '../pages/signIn';
+import SignUpPage from '../pages/signUp';
 
 const AppRouting: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/sign-in" element={<SignInPage />} />
+      <Route path="/sign-up" element={<SignUpPage />} />
     </Routes>
   )
 }
