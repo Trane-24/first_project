@@ -77,7 +77,7 @@ const Drawer:FC = () => {
             xs: '256px',
             sm: drawerOpen ? '256px' : '72px'
           },
-          height: '100%',
+          minHeight: 'calc(100vh - 64px)',
           bgcolor: 'white',
           borderRight: '1px solid rgba(0,0,0,0.12)',
           transform: {

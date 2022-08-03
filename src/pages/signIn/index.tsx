@@ -98,7 +98,7 @@ export default SignInPage;
 
 const useStyles = makeStyles({
   page: {
-    height: 'calc(100vh - 78px)',
+    height: 'calc(100vh - 64px)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'

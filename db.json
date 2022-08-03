@@ -69,6 +69,38 @@
       "phone": "",
       "password": "2134afsdf",
       "id": 9
+    },
+    {
+      "firstName": "asd",
+      "lastName": "asd",
+      "email": "sad@dasd.sa",
+      "phone": "123123",
+      "password": "asdSAD123",
+      "id": 10
+    },
+    {
+      "firstName": "фів",
+      "lastName": "іфв",
+      "email": "sadas@das.das",
+      "phone": "123",
+      "password": "sfasdfas@123",
+      "id": 11
+    },
+    {
+      "firstName": "asd",
+      "lastName": "asd",
+      "email": "asd@sad.sa",
+      "phone": "",
+      "password": "qwe123",
+      "id": 12
+    },
+    {
+      "firstName": "qwe",
+      "lastName": "qwe",
+      "email": "qwee@qwe.qw",
+      "phone": "",
+      "password": "qwe123",
+      "id": 13
     }
   ],
   "users": [
