@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 // hooks
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 // Async
-import { signIn } from '../../store/auth/authAsync';
+import { signIn } from '../store/auth/authAsync';
 // components
-import Title from '../../components/Title';
+import Title from '../components/Title';
 // mui
 import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
 import { TextField, Grid, Box, Paper } from '@mui/material';
 // utilites
-import { isEmail, isPassword, isRequired } from '../../utilites/validation';
+import { isEmail, isPassword, isRequired } from '../utilites/validation';
 
 interface IForm {
   email: string;

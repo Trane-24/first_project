@@ -7,8 +7,8 @@ import { selectIsAuthorization } from '../store/auth/authSelectors';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
 // pages
-import SignInPage from '../pages/signIn';
-import SignUpPage from '../pages/signUp';
+import SignInPage from '../pages/signInPage';
+import SignUpPage from '../pages/signUpPage';
 import AdminPage from '../pages/AdminPage';
 
 const AppRouting: React.FC = () => {
