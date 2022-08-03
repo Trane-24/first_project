@@ -51,9 +51,9 @@ const SignUpPage: React.FC = () => {
     return (
       <Box className={classes.page}>
       <Paper elevation={5} sx={{ p:5, width: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <Title>You are registered. Welcome!</Title>
+        <Title>You have been successfully registered</Title>
         <NavLink to="/sign-in" className={classes.button}>
-          <Button variant='contained'>Sign in</Button>
+          <Button variant='contained' sx={{ mt: 5, minWidth: '200px'}}>Sign in</Button>
         </NavLink>
       </Paper>
     </Box>
