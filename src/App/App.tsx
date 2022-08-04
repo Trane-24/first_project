@@ -12,6 +12,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(authActions.checkIsAuthorization());
+
+    // eslint-disable-next-line
   }, []);
 
   return (

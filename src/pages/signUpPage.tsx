@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
+// async
+import { signUp } from '../store/auth/authAsync';
 // components
-import Title from '../../components/Title';
+import Title from '../components/Title';
+// hooks
+import { useAppDispatch } from '../hooks/useAppDispatch';
 // mui
 import { makeStyles } from '@mui/styles';
-import { TextField, Button, Grid, Box, Paper } from '@mui/material';
-// utilites
-import { isEmail, isPassword, isRequired } from '../../utilites/validation';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { LoadingButton } from '@mui/lab';
-import { signUp } from '../../store/auth/authAsync';
-import { NavLink } from 'react-router-dom';
+import { TextField, Grid, Box, Paper, Button } from '@mui/material';
+// utilites
+import { isEmail, isPassword, isRequired } from '../utilites/validation';
 
 interface IForm {
   firstName: string;
@@ -166,7 +168,7 @@ export default SignUpPage;
 
 const useStyles = makeStyles({
   page: {
-    height: 'calc(100vh - 78px)',
+    height: 'calc(100vh - 64px)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
