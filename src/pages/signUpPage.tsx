@@ -10,7 +10,7 @@ import { useAppDispatch } from '../hooks/useAppDispatch';
 // mui
 import { makeStyles } from '@mui/styles';
 import { LoadingButton } from '@mui/lab';
-import { TextField, Grid, Box, Paper, Button } from '@mui/material';
+import { TextField, Grid, Box, Paper, Button, Typography } from '@mui/material';
 // utilites
 import { isEmail, isPassword, isRequired } from '../utilites/validation';
 
@@ -53,9 +53,9 @@ const SignUpPage: React.FC = () => {
     return (
       <Box className={classes.page}>
         <Paper elevation={5} sx={{ p:5, width: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <Title>You have been successfully registered</Title>
+          <Typography sx={{ fontSize: '24px' }}>You have been successfully registered</Typography>
           <NavLink to="/sign-in" className={classes.button}>
-            <Button variant='contained' sx={{ mt: 5, minWidth: '200px'}}>Sign in</Button>
+            <Button variant="contained" size="large" sx={{ mt: 5 }}>Sign in</Button>
           </NavLink>
         </Paper>
       </Box>
