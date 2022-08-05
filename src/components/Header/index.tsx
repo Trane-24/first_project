@@ -20,7 +20,7 @@ const NavBar:FC = () => {
   // Dispatch
   const dispatch = useDispatch();
   // State
-  const isAuthorization:boolean = useSelector(selectIsAuthorization);
+  const isAuthorization:boolean | null = useSelector(selectIsAuthorization);
 
   const handleToggleDrawer = () => dispatch(appActions.toggleDrawer());
 
