@@ -27,4 +27,13 @@ export const deleteUser = createAsyncThunk('user/Delete user', async (userId: nu
   } catch {
     return thunkApi.rejectWithValue(null);
   }
+});
+
+export const updateUser = createAsyncThunk('user/Update user', async (params: any, thunkApi) => {
+  try {
+    const { data } = await axios.put(`${config.apiURL}/users/${params.userId}`, params.user)
+    return data;
+  } catch {
+    return thunkApi.rejectWithValue(null);
+  }
 })

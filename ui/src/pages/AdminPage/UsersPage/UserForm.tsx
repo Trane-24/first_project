@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import IUser from '../../../models/User';
-import { createUser } from '../../../store/users/usersAsync';
+import { createUser, updateUser } from '../../../store/users/usersAsync';
 import UserRoles from '../../../types/UserRoles';
 import { isEmail, isRequired } from '../../../utilites/validation';
 
@@ -19,7 +19,7 @@ interface IForm {
   lastName: string;
   email: string;
   phone?: string;
-  role: string | null;
+  role: string;
 }
 // role: UserRoles | string;
 
@@ -30,7 +30,7 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
       firstName: user ? user.firstName : '',
       lastName: user ? user.lastName : '',
       phone: user ? user.phone : '',
-      role: user ? user.role : null,
+      role: user ? user.role : '',
     }
   });
 
@@ -42,7 +42,12 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
     setIsLoading(true);
 
     if (user) {
+      const params = {
+        userId: user.id,
+        user: data,
+      }
 
+      dispatch(updateUser(params))
     } else {
       dispatch(createUser(data));
     }

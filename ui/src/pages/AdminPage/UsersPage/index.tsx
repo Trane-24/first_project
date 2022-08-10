@@ -28,12 +28,12 @@ const UserPage: React.FC<Props> = ({ role }) => {
   const getVisibleUsers = () => {
     const newData = users.filter((user: IUser) => user.role === role);
 
-    setVisibleUsers(newData)
+    setVisibleUsers(newData);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    console.log('useEffect')
+
     dispatch(fetchUsers({}))
       .unwrap()
       .then(() => getVisibleUsers())
@@ -54,14 +54,17 @@ const UserPage: React.FC<Props> = ({ role }) => {
       <Box sx={{
         height: 'calc(100vh - 78px)',
         display: 'flex',
+        width: '100%'
       }}>
-        <Box sx={{ padding: '40px 80px'}}>
-          <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Typography variant='h5'>{`${capitalizeFirstLetter(role)} List`}</Typography>
+        <Box sx={{ padding: '40px 80px', width: '100%'}}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Typography variant='h5'>
+              {`${capitalizeFirstLetter(role)} List`}
+            </Typography>
             <Button variant='contained' onClick={openDialog}>{`create ${role}`}</Button>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', pt: 5}}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '10px', pt: 5}}>
             {visibleUsers.map((user: IUser) => {
               return (
                 <UserItem key={user.id} user={user} />
@@ -71,7 +74,6 @@ const UserPage: React.FC<Props> = ({ role }) => {
         </Box>
       </Box>
     </React.Fragment>
-  
   );
 };
 

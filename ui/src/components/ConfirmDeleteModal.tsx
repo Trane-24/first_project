@@ -16,19 +16,22 @@ const ConfirmDeleteModal: React.FC<Props> = ({
   remove
 }) => {
   const handleRemove =() => {
+    console.log('delete user')
     remove();
     onClose();
   }
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box>
-        <Typography>
+      <Box sx={{
+        p: 5, backgroundColor: '#fff', borderRadius: '5px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'
+      }}>
+        <Typography variant='h6'>
           {`Are you sure want to delete ${title}`}
         </Typography>
-        <Box>
-          <Button>Cancel</Button>
-          <Button>Delete</Button>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1.5, pt: 3}}>
+          <Button variant="outlined" onClick={onClose} >Cancel</Button>
+          <Button variant="contained" color="error" onClick={handleRemove}>Delete</Button>
         </Box>
       </Box>
     </Modal>

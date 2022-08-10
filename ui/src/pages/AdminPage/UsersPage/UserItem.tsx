@@ -50,20 +50,20 @@ const UserItem: React.FC<Props> = ({ user }) => {
         <UserForm onClose={closeDialog} user={user} />
       </Dialog>
 
-      <Card style={{ width: '100%'}}>
+      <Card style={{ width: '100%', padding: '10px'}}>
         <Grid container>
           <Grid item xs={4}>
-            <Typography>Name</Typography>
+            <Typography sx={{ fontSize: '0.8rem', color: 'gray' }}>Name</Typography>
             <Typography>{fullName(user.firstName, user.lastName)}</Typography>
           </Grid>
 
           <Grid item xs={4}>
-            <Typography>E-mail</Typography>
+            <Typography sx={{ fontSize: '0.8rem', color: 'gray' }}>E-mail</Typography>
             <Typography>{user.email}</Typography>
           </Grid>
 
-          <Grid item xs={4}>
-            <Typography>Phone</Typography>
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: '0.8rem', color: 'gray' }}>Phone</Typography>
             <Typography>{user.phone ? user.phone : 'Not found'}</Typography>
           </Grid>
 
