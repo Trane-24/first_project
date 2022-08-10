@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import IUser from "../../models/User";
-import { createUser, deleteUser, fetchUsers, updateUser } from "./usersAsync";
+import { createUser, deleteUser, fetchMe, fetchUsers, updateUser } from "./usersAsync";
 
 interface IState {
+  currentUser: IUser | null;
   users: IUser[];
 }
 
 const initialState: IState = {
+  currentUser: null,
   users: [],
 }
 
@@ -18,6 +20,10 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    // fetch me
+      .addCase(fetchMe.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+      })
       // fetch users
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.users = action.payload;

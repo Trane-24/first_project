@@ -18,6 +18,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setAuthorization: (state, action) => {
+      state.isAuthorization = action.payload;
+    },
     checkIsAuthorization: (state) => {
       state.isAuthorization = StorageService.getToken() ? true : false;
     },
@@ -26,15 +29,6 @@ const authSlice = createSlice({
       StorageService.removeToken();
       state.currentUser = null;
     }
-  },
-  extraReducers: (builder) => {
-    builder
-    // Sign in
-    .addCase(signIn.fulfilled, (state, action) => {
-      StorageService.setToken(action.payload.token);
-      state.isAuthorization = true;
-      state.currentUser = action.payload.user;
-    })
   }
 })
 

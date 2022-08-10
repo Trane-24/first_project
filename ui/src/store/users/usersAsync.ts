@@ -1,38 +1,54 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import StorageService from "services/StorageService";
+import { authActions } from "store/auth/authSlice";
 import config from "../../config";
 
-export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any , thunkApi) => {
+const url = `${config.apiURL}/users`;
+
+export const fetchMe = createAsyncThunk('users/Fetch me', async(_:any , thunkApi) => {
   try {
-    const { role } = params;
-    const response: any = await axios.get(`${config.apiURL}/users?role=${role}`);
+    const response: any = await axios.get(`${url}/fetchMe`, {
+      headers: {Authorization: `Barrer ${StorageService.getToken()}`}
+    });
+    thunkApi.dispatch(authActions.setAuthorization(true));
     return response.data;
   } catch {
     return thunkApi.rejectWithValue(null);
   }
 });
 
-export const createUser = createAsyncThunk('user/Create user', async(user: any, thunkApi) => {
+export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any , thunkApi) => {
   try {
-    const { data } = await axios.post(`${config.apiURL}/users`, user);
+    const { role } = params;
+    const response: any = await axios.get(`${url}?role=${role}`);
+    return response.data;
+  } catch {
+    return thunkApi.rejectWithValue(null);
+  }
+});
+
+export const createUser = createAsyncThunk('users/Create user', async(user: any, thunkApi) => {
+  try {
+    const { data } = await axios.post(url, user);
     return data;
   } catch {
     return thunkApi.rejectWithValue(null);
   }
 });
 
-export const deleteUser = createAsyncThunk('user/Delete user', async (userId: number, thunkApi) => {
+export const deleteUser = createAsyncThunk('users/Delete user', async (userId: number, thunkApi) => {
   try {
-    const { data } = await axios.delete(`${config.apiURL}/users/${userId}`);
+    const { data } = await axios.delete(`${url}/${userId}`);
     return data;
   } catch {
     return thunkApi.rejectWithValue(null);
   }
 });
 
-export const updateUser = createAsyncThunk('user/Update user', async (params: any, thunkApi) => {
+export const updateUser = createAsyncThunk('users/Update user', async (params: any, thunkApi) => {
   try {
-    const { data } = await axios.put(`${config.apiURL}/users/${params.userId}`, params.user)
+    const { data } = await axios.put(`${url}/${params.userId}`, params.user)
     return data;
   } catch {
     return thunkApi.rejectWithValue(null);
