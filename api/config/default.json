@@ -1,0 +1,5 @@
+{
+  "serverPort": 5000,
+  "dbUrl": "mongodb+srv://admin:d7M885x5urfbRfXT@hotels.czvopei.mongodb.net/?retryWrites=true&w=majority",
+  "secretKey": "mern-seckret-key"
+}
