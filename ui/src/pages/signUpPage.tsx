@@ -13,8 +13,10 @@ import { LoadingButton } from '@mui/lab';
 import { TextField, Grid, Box, Paper, Button, Typography } from '@mui/material';
 // utilites
 import { isEmail, isPassword, isRequired } from '../utilites/validation';
+import UserRoles from 'types/UserRoles';
 
 interface IForm {
+  role: UserRoles;
   firstName: string;
   lastName: string;
   email: string;
@@ -31,6 +33,7 @@ const SignUpPage: React.FC = () => {
 
   const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
+      role: UserRoles.Admin,
       firstName: '',
       lastName: '',
       email: '',

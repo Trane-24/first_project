@@ -35,6 +35,9 @@ const Drawer:FC = () => {
 
   const navs:{ [key:string]:INav[] } = useMemo(() => {
     return {
+      'admin': [
+        { to: `/admin/agents`, label: 'Agents', icon: PeopleOutlinedIcon },
+      ],
       'owner': [
         { to: `/admin/owners`, label: 'Owners', icon: PeopleOutlinedIcon },
         { to: `/admin/hotels`, label: 'Hotels', icon: HomeWorkOutlinedIcon },

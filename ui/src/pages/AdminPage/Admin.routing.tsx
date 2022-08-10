@@ -7,24 +7,31 @@ import UsersPage from './Users';
 const AdminRouting:React.FC = () => {
   return (
     <Routes>
+      <Route path="agents" element={
+        <AgentsWrapper>
+          <UsersPage role={UserRoles.Admin} />
+        </AgentsWrapper>
+      } />
+
       <Route path="owners" element={
-        <OwnersWraper>
+        <OwnersWrapper>
           <UsersPage role={UserRoles.Owner} />
-        </OwnersWraper>
+        </OwnersWrapper>
       } />
       
       <Route path="guests" element={
-        <GuestsWraper>
+        <GuestsWrapper>
           <UsersPage role={UserRoles.Guest} />
-        </GuestsWraper>
+        </GuestsWrapper>
       } />
       
-      <Route path="*" element={<Navigate to="/admin/owners" />} />
+      <Route path="*" element={<Navigate to="/admin/agents" />} />
     </Routes>
   )
 }
 
 export default AdminRouting;
 
-const GuestsWraper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;
-const OwnersWraper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;
+const GuestsWrapper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;
+const OwnersWrapper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;
+const AgentsWrapper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;
