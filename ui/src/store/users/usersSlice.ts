@@ -20,9 +20,12 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    // fetch me
+      // fetch me
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.currentUser = action.payload;
+      })
+      .addCase(fetchMe.rejected, (state) => {
+        state.currentUser = null;
       })
       // fetch users
       .addCase(fetchUsers.fulfilled, (state, action) => {

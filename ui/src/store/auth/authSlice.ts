@@ -5,12 +5,10 @@ import IUser from "../../models/User";
 
 interface IState {
   isAuthorization: boolean | null;
-  currentUser: IUser | null;
 }
 
 const initialState: IState = {
   isAuthorization: null,
-  currentUser: null,
 }
 
 const authSlice = createSlice({
@@ -26,7 +24,6 @@ const authSlice = createSlice({
     signOut: (state) => {
       state.isAuthorization = false;
       StorageService.removeToken();
-      state.currentUser = null;
     }
   }
 })
