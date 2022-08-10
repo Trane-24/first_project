@@ -1,6 +1,20 @@
 const Router = require('express');
 const User = require('../models/User');
 const router = new Router();
+const authMiddleware = require('../middlewares/auth.middleware');
+
+router.get('/fetchMe',
+  authMiddleware,
+  async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user.id });
+    const { _id, email, firstName, lastName, phone } = user;
+    return res.json({ _id, email, firstName, lastName, phone });
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+});
 
 router.get('/', async (req, res) => {
   try {
@@ -18,7 +32,9 @@ router.get('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({message: 'User not found'});
     }
-    return res.json(user);
+
+    const { _id, email, firstName, lastName, phone } = user;
+    return res.json({ _id, email, firstName, lastName, phone });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
