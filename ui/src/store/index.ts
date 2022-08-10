@@ -3,6 +3,7 @@ import authReducer from 'store/auth/authSlice';
 import appReducer from 'store/app/appSlice';
 import usersReducer from 'store/users/usersSlice'
 import errorMiddleware from "middlewares/errorMiddelware";
+import signInMiddleware from "middlewares/signInMeddelware";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,7 +17,7 @@ export const setupStore = () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }).concat(errorMiddleware),
+      }).concat(errorMiddleware).concat(signInMiddleware),
   });
 };
 
