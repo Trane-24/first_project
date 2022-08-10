@@ -43,6 +43,19 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    const { firstName, lastName, phone, email, role } = req.body;
+    if (!firstName) {
+      return res.status(400).json({message: 'firstName is reequire'});
+    }
+    if (!lastName) {
+      return res.status(400).json({message: 'lastName is reequire'});
+    }
+    if (!email) {
+      return res.status(400).json({message: 'email is reequire'});
+    }
+    if (!role) {
+      return res.status(400).json({message: 'role is reequire'});
+    }
     const user = new User(req.body);
     const response = await user.save();
     return res.json(response);
@@ -72,6 +85,22 @@ router.put('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({message: 'User not found'});
     }
+
+    const { firstName, lastName, phone, email, role } = req.body;
+  
+    if (!firstName) {
+      return res.status(400).json({message: 'firstName is reequire'});
+    }
+    if (!lastName) {
+      return res.status(400).json({message: 'lastName is reequire'});
+    }
+    if (!email) {
+      return res.status(400).json({message: 'email is reequire'});
+    }
+    if (!role) {
+      return res.status(400).json({message: 'role is reequire'});
+    }
+    
     await user.update({...req.body});
     const response = await User.findOne({_id: req.params.id});
     return res.json(response);

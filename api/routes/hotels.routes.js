@@ -31,6 +31,12 @@ router.post('/', async (req, res) => {
     const hotel = new Hotel(req.body);
     const response = await hotel.save();
     const { _id, name, country, city, imgUrl, description, ownerId } = response;
+    if (!name) {
+      return res.status(400).json({message: 'Name is require'});
+    }
+    if (!ownerId) {
+      return res.status(400).json({message: 'ownerId is require'});
+    }
     const owner = await User.findOne({ _id: ownerId });
     const { _id: _ownerId, email, firstName, lastName, phone, role } = owner;
     return res.json({ _id, name, country, city, imgUrl, description, owner: { _ownerId, email, firstName, lastName, phone, role } });
@@ -63,6 +69,12 @@ router.put('/:id', async (req, res) => {
     await hotel.update({...req.body});
     const response = await Hotel.findOne({_id: req.params.id});
     const { _id, name, country, city, imgUrl, description, ownerId } = response;
+    if (!name) {
+      return res.status(400).json({message: 'Name is require'});
+    }
+    if (!ownerId) {
+      return res.status(400).json({message: 'ownerId is require'});
+    }
     const owner = await Hotel.findOne({ _id: ownerId });
     const { _id: _ownerId, email, firstName, lastName, phone, role } = owner;
     return res.json({ _id, name, country, city, imgUrl, description, owner: { _ownerId, email, firstName, lastName, phone, role } });
