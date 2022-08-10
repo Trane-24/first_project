@@ -13,8 +13,8 @@ export const fetchMe = createAsyncThunk('users/Fetch me', async(_:any , thunkApi
     });
     thunkApi.dispatch(authActions.setAuthorization(true));
     return response.data;
-  } catch {
-    return thunkApi.rejectWithValue(null);
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
   }
 });
 
@@ -23,8 +23,8 @@ export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any
     const { role } = params;
     const response: any = await axios.get(`${url}?role=${role}`);
     return response.data;
-  } catch {
-    return thunkApi.rejectWithValue(null);
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
   }
 });
 
@@ -32,8 +32,8 @@ export const createUser = createAsyncThunk('users/Create user', async(user: any,
   try {
     const { data } = await axios.post(url, user);
     return data;
-  } catch {
-    return thunkApi.rejectWithValue(null);
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
   }
 });
 
@@ -41,8 +41,8 @@ export const deleteUser = createAsyncThunk('users/Delete user', async (userId: n
   try {
     const { data } = await axios.delete(`${url}/${userId}`);
     return data;
-  } catch {
-    return thunkApi.rejectWithValue(null);
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
   }
 });
 

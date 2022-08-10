@@ -15,6 +15,11 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Grid, TextField } from '@mui/material';
 // utilites
 import { isEmail, isRequired } from '../../../utilites/validation';
+import { v4 as uuid } from 'uuid';
+// actions
+import { appActions } from 'store/app/appSlice';
+
+
 
 interface Props {
   onClose: () => void;
@@ -55,8 +60,18 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
       }
 
       dispatch(updateUser(params))
+        .unwrap()
+        .then(() => dispatch(appActions.enqueueSnackbar({
+          key: uuid(),
+          message: 'User was updated',
+        })))
     } else {
-      dispatch(createUser(data));
+      dispatch(createUser(data))
+        .unwrap()
+        .then(() => dispatch(appActions.enqueueSnackbar({
+          key: uuid(),
+          message: 'User was created',
+        })))
     }
     setIsLoading(false);
     onClose();

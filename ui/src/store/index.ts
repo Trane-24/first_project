@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer from './auth/authSlice';
-import appReducer from './app/appSlice';
-import usersReducer from './users/usersSlice';
+import authReducer from 'store/auth/authSlice';
+import appReducer from 'store/app/appSlice';
+import usersReducer from 'store/users/usersSlice'
+import errorMiddleware from "middlewares/errorMiddelware";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,7 +16,7 @@ export const setupStore = () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }),
+      }).concat(errorMiddleware),
   });
 };
 

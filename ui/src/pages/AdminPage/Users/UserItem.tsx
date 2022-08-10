@@ -21,6 +21,8 @@ import {
 } from '@mui/icons-material';
 // utilites
 import { fullName } from '../../../functions';
+import { appActions } from 'store/app/appSlice';
+import { v4 as uuid } from 'uuid';
 
 interface Props {
   user: IUser;
@@ -41,7 +43,12 @@ const UserItem: React.FC<Props> = ({ user }) => {
   }
 
   const removeUser = () => {
-    dispatch(deleteUser(user._id));
+    dispatch(deleteUser(user._id))
+      .unwrap()
+      .then(() => dispatch(appActions.enqueueSnackbar({
+        key: uuid(),
+        message: 'User was deleted',
+      })))
   };
   // edite form
   const { Dialog, closeDialog, openDialog} = useDialog();

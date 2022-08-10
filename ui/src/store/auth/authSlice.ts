@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signIn } from "./authAsync";
 // services
 import StorageService from "../../services/StorageService";
 import IUser from "../../models/User";

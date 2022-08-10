@@ -11,6 +11,7 @@ import { authActions } from '../store/auth/authSlice';
 import { selectIsAuthorization } from '../store/auth/authSelectors';
 // Mui
 import { LinearProgress } from '@mui/material';
+import Notifications from 'components/Notifications';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ const App = () => {
     <Fragment>
       <Header />
       <AppRouting />
+      <Notifications />
     </Fragment>
   );
 }
