@@ -19,8 +19,6 @@ import { v4 as uuid } from 'uuid';
 // actions
 import { appActions } from 'store/app/appSlice';
 
-
-
 interface Props {
   onClose: () => void;
   user?: IUser | null;
