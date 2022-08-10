@@ -45,16 +45,16 @@ router.post('/', async (req, res) => {
   try {
     const { firstName, lastName, phone, email, role } = req.body;
     if (!firstName) {
-      return res.status(400).json({message: 'firstName is reequire'});
+      return res.status(400).json({message: 'firstName is require'});
     }
     if (!lastName) {
-      return res.status(400).json({message: 'lastName is reequire'});
+      return res.status(400).json({message: 'lastName is require'});
     }
     if (!email) {
-      return res.status(400).json({message: 'email is reequire'});
+      return res.status(400).json({message: 'email is require'});
     }
     if (!role) {
-      return res.status(400).json({message: 'role is reequire'});
+      return res.status(400).json({message: 'role is require'});
     }
     const user = new User(req.body);
     const response = await user.save();
@@ -89,18 +89,18 @@ router.put('/:id', async (req, res) => {
     const { firstName, lastName, phone, email, role } = req.body;
   
     if (!firstName) {
-      return res.status(400).json({message: 'firstName is reequire'});
+      return res.status(400).json({message: 'firstName is require'});
     }
     if (!lastName) {
-      return res.status(400).json({message: 'lastName is reequire'});
+      return res.status(400).json({message: 'lastName is require'});
     }
     if (!email) {
-      return res.status(400).json({message: 'email is reequire'});
+      return res.status(400).json({message: 'email is require'});
     }
     if (!role) {
-      return res.status(400).json({message: 'role is reequire'});
+      return res.status(400).json({message: 'role is require'});
     }
-    
+
     await user.update({...req.body});
     const response = await User.findOne({_id: req.params.id});
     return res.json(response);
