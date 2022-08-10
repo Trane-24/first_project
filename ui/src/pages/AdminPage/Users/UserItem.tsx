@@ -1,18 +1,26 @@
-import { Card, Grid } from '@material-ui/core';
-import { IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
-import { fullName } from '../../../functions';
+// hooks
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import useDialog from '../../../hooks/useDialog';
-import IUser from '../../../models/User';
+// Async
 import { deleteUser } from '../../../store/users/usersAsync';
-import UserForm from './UserForm';
+// Models
+import IUser from '../../../models/User';
+// Components
+import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
+import UserForm from './UsersForm';
+// MUI
+import {
+  IconButton, ListItemIcon, Menu, MenuItem,
+  Tooltip, Typography, Card, Grid
+} from '@mui/material';
 import {
   DeleteOutline as DeleteOutlineIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
+// utilites
+import { fullName } from '../../../functions';
 
 interface Props {
   user: IUser;
@@ -33,7 +41,7 @@ const UserItem: React.FC<Props> = ({ user }) => {
   }
 
   const removeUser = () => {
-    dispatch(deleteUser(user.id))
+    dispatch(deleteUser(user._id));
   };
   // edite form
   const { Dialog, closeDialog, openDialog} = useDialog();

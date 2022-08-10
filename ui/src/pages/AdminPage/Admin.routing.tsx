@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import UserRoles from '../../types/UserRoles';
 // Pages
-import UsersPage from './UsersPage';
+import UsersPage from './Users';
 
 const AdminRouting:React.FC = () => {
   return (
@@ -26,5 +26,5 @@ const AdminRouting:React.FC = () => {
 
 export default AdminRouting;
 
-const GuestsWraper: React.FC<any> = ({ children }) => <>{children}</>
-const OwnersWraper: React.FC<any> = ({ children }) => <>{children}</>
+const GuestsWraper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;
+const OwnersWraper: React.FC<any> = ({ children }) => <React.Fragment>{children}</React.Fragment>;

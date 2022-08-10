@@ -18,21 +18,25 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // fetch users
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.users = action.payload;
       })
+      // create user
       .addCase(createUser.fulfilled, (state, action) => {
-        state.users = [...state.users, action.payload];
+        state.users = [action.payload, ...state.users];
       })
+      // delete user
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.users = state.users.filter(user => user.id !== action.payload)
+        state.users = state.users.filter(user => user._id !== action.payload._id)
       })
+      // updatee user
       .addCase(updateUser.fulfilled, (state, action) => {
         state.users = state.users.map(user => {
-          if (user.id !== action.payload.userId) {
+          if (user._id !== action.payload._id) {
             return user;
           }
-          return action.payload.user;
+          return action.payload;
         })
       })
   }

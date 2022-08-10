@@ -2,17 +2,20 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import config from "../../config";
 
-export const signIn = createAsyncThunk('auth/signIn', async (_:any, thunkApi) => {
+const url = `${config.apiURL}/auth`;
+
+export const signIn = createAsyncThunk('auth/signIn', async (data:any, thunkApi) => {
   try {
-    await axios.get(`${config.apiURL}/login`);
+    const response = await axios.post(`${url}/login`, data);
+    return response.data;
   } catch {
     return thunkApi.rejectWithValue(null);
   }
 });
 
-export const signUp = createAsyncThunk('auth/signUp', async (params:any, thunkApi) => {
+export const signUp = createAsyncThunk('auth/signUp', async (data:any, thunkApi) => {
   try {
-    await axios.post(`${config.apiURL}/registration`, params);
+    await axios.post(`${url}/registration`, data);
   } catch {
     return thunkApi.rejectWithValue(null);
   }

@@ -1,5 +1,5 @@
 {
-  "name": "first_project",
+  "name": "ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -32,7 +32,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server": "npx json-server --watch db.json --port 5000",
     "test": "nodemon ./App/App.test.tsx"
   },
   "eslintConfig": {

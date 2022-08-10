@@ -1,13 +1,15 @@
 export default class StorageService {
-  public static getIsAuthorization():string {
-    return localStorage.getItem('isAuthorization') || '';
+  private static readonly TOKEN = 'hotels:TOKEN';
+
+  public static getToken():string {
+    return localStorage.getItem(StorageService.TOKEN) || '';
   };
 
-  public static setIsAuthorization():void {
-    localStorage.setItem('isAuthorization', 'true');
+  public static setToken(token: string):void {
+    localStorage.setItem(StorageService.TOKEN, token);
   };
 
-  public static removeIsAuthorization():void {
-    localStorage.removeItem('isAuthorization');
+  public static removeToken():void {
+    localStorage.removeItem(StorageService.TOKEN);
   };
 }

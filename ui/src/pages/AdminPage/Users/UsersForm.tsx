@@ -1,17 +1,25 @@
-import { Title } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
-import { Box, Button, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+// hooks
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import IUser from '../../../models/User';
+// Async
 import { createUser, updateUser } from '../../../store/users/usersAsync';
+// Models
+import IUser from '../../../models/User';
+// Types
 import UserRoles from '../../../types/UserRoles';
+// components
+import Title from '../../../components/Title';
+// MUI
+import { LoadingButton } from '@mui/lab';
+import { Box, Grid, TextField } from '@mui/material';
+// utilites
 import { isEmail, isRequired } from '../../../utilites/validation';
 
 interface Props {
   onClose: () => void;
-  user: IUser | null;
+  user?: IUser | null;
+  role?: UserRoles;
 }
 
 interface IForm {
@@ -19,18 +27,17 @@ interface IForm {
   lastName: string;
   email: string;
   phone?: string;
-  role: string;
+  role: UserRoles;
 }
-// role: UserRoles | string;
 
-const UserForm: React.FC<Props> = ({ onClose, user }) => {
+const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   const { handleSubmit, control, formState: {errors}} = useForm<IForm>({
     defaultValues: {
       email: user ? user.email : '',
       firstName: user ? user.firstName : '',
       lastName: user ? user.lastName : '',
       phone: user ? user.phone : '',
-      role: user ? user.role : '',
+      role: user ? user.role : role,
     }
   });
 
@@ -43,7 +50,7 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
 
     if (user) {
       const params = {
-        userId: user.id,
+        userId: user._id,
         user: data,
       }
 
@@ -57,10 +64,7 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
 
   return (
     <Box sx={{ p: 5, width: '100%'}}>
-      {/* <Title>{`${user ? 'Update' : 'Create'} user`}</Title> */}
-      <Typography variant='h6'>
-        {`${user ? 'Update' : 'Create'} user`}
-      </Typography>
+      <Title>{`${user ? 'Update' : 'Create'} user`}</Title>
 
       <form onSubmit={onSubmit} noValidate>
           <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
@@ -99,7 +103,7 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
               />
             </Grid>
             {/* email */}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <Controller
                 control={control} name="email"
                 rules={{ required: isRequired, pattern: isEmail }}
@@ -128,29 +132,6 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
                 )}
               />
             </Grid>
-            {/* role */}
-            <Grid item xs={12} md={6}>
-              <Controller
-                control={control} name="role"
-                rules={{ required: isRequired }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    select
-                    label="Role"
-                    type="role"
-                    fullWidth
-                    required
-                    error={!!errors?.role}
-                    helperText={errors?.role ? errors.role.message : null}
-                  >
-                    {Object.keys(UserRoles).map(userRole => (
-                      <MenuItem key={userRole} value={userRole.toLowerCase()} >{userRole}</MenuItem>
-                    ))}
-                  </TextField>
-                )}
-              />
-            </Grid>
           </Grid>
           <LoadingButton
             fullWidth
@@ -164,4 +145,4 @@ const UserForm: React.FC<Props> = ({ onClose, user }) => {
   );
 };
 
-export default UserForm;
+export default UsersForm;
