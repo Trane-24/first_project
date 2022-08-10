@@ -56,13 +56,14 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    await Hotel.findOneAndUpdate(
-      {_id: req.params.id},
-      {...req.body},
-    );
+    const hotel = await Hotel.findOne({ _id: req.params.id });
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+    await hotel.update({...req.body});
     const response = await Hotel.findOne({_id: req.params.id});
     const { _id, name, country, city, imgUrl, description, ownerId } = response;
-    const owner = await User.findOne({ _id: ownerId });
+    const owner = await Hotel.findOne({ _id: ownerId });
     const { _id: _ownerId, email, firstName, lastName, phone, role } = owner;
     return res.json({ _id, name, country, city, imgUrl, description, owner: { _ownerId, email, firstName, lastName, phone, role } });
   } catch (e) {

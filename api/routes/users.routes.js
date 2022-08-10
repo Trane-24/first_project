@@ -68,10 +68,11 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    await User.findOneAndUpdate(
-      {_id: req.params.id},
-      {...req.body},
-    );
+    const user = await User.findOne({ _id: req.params.id });
+    if (!user) {
+      return res.status(404).json({message: 'User not found'});
+    }
+    await user.update({...req.body});
     const response = await User.findOne({_id: req.params.id});
     return res.json(response);
   } catch (e) {
