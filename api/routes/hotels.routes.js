@@ -30,10 +30,10 @@ router.post('/', async (req, res) => {
   try {
     const hotel = new Hotel(req.body);
     const response = await hotel.save();
-    const { _id, name, country, city, ownerId } = response;
+    const { _id, name, country, city, imgUrl, ownerId } = response;
     const owner = await User.findOne({ _id: ownerId });
     const { _id: _ownerId, email, firstName, lastName, phone, role } = owner;
-    return res.json({ _id, name, country, city, owner: { _ownerId, email, firstName, lastName, phone, role } });
+    return res.json({ _id, name, country, city, imgUrl, owner: { _ownerId, email, firstName, lastName, phone, role } });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -61,10 +61,10 @@ router.put('/:id', async (req, res) => {
       {...req.body},
     );
     const response = await Hotel.findOne({_id: req.params.id});
-    const { _id, name, country, city, ownerId } = response;
+    const { _id, name, country, city, imgUrl, ownerId } = response;
     const owner = await User.findOne({ _id: ownerId });
     const { _id: _ownerId, email, firstName, lastName, phone, role } = owner;
-    return res.json({ _id, name, country, city, owner: { _ownerId, email, firstName, lastName, phone, role } });
+    return res.json({ _id, name, country, city, imgUrl, owner: { _ownerId, email, firstName, lastName, phone, role } });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
