@@ -4,11 +4,11 @@ import { signIn } from "./authAsync";
 import StorageService from "../../services/StorageService";
 
 interface IState {
-  isAuthorization: boolean;
+  isAuthorization: boolean | null;
 }
 
 const initialState: IState = {
-  isAuthorization: false,
+  isAuthorization: null,
 }
 
 const authSlice = createSlice({

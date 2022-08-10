@@ -31,7 +31,7 @@ const Drawer:FC = () => {
   const dispatch = useDispatch();
 
   const drawerOpen = useSelector(selectDrawerOpen);
-  const isAuthorization:boolean = useSelector(selectIsAuthorization);
+  const isAuthorization:boolean | null = useSelector(selectIsAuthorization);
 
   const navs:{ [key:string]:INav[] } = useMemo(() => {
     return {
