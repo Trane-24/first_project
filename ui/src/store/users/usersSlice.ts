@@ -16,16 +16,18 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-
+    removeCurrentUser: (state) => {
+      state.currentUser = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       // fetch me
+      .addCase(fetchMe.pending, (state) => {
+        state.currentUser = null;
+      })
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.currentUser = action.payload;
-      })
-      .addCase(fetchMe.rejected, (state) => {
-        state.currentUser = null;
       })
       // fetch users
       .addCase(fetchUsers.fulfilled, (state, action) => {

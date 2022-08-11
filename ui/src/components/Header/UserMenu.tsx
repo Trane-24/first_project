@@ -9,6 +9,8 @@ import { selectIsAuthorization } from 'store/auth/authSelectors';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from 'react-router-dom';
+import StorageService from 'services/StorageService';
+import { usersActions } from 'store/users/usersSlice';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
@@ -23,9 +25,12 @@ const UserMenu:React.FC = () => {
   const currentUser = useSelector(selectCurrentUser);
   console.log(currentUser)
 
-  const handleSignOut = () => {
-    dispatch(authActions.signOut());
-  };
+  const signOut = () => {
+    StorageService.removeToken();
+    dispatch(authActions.setAuthorization(false));
+    dispatch(usersActions.removeCurrentUser());
+  }
+
 
   return (
     <React.Fragment>
@@ -52,7 +57,7 @@ const UserMenu:React.FC = () => {
             Profile
           </MenuItem>
 
-          <MenuItem onClick={handleSignOut}>
+          <MenuItem onClick={signOut}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

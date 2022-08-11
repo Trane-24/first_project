@@ -1,7 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-// services
-import StorageService from "../../services/StorageService";
-import IUser from "../../models/User";
 
 interface IState {
   isAuthorization: boolean | null;
@@ -17,13 +14,6 @@ const authSlice = createSlice({
   reducers: {
     setAuthorization: (state, action) => {
       state.isAuthorization = action.payload;
-    },
-    checkIsAuthorization: (state) => {
-      state.isAuthorization = StorageService.getToken() ? true : false;
-    },
-    signOut: (state) => {
-      state.isAuthorization = false;
-      StorageService.removeToken();
     }
   }
 })

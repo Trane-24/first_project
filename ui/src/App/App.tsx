@@ -12,6 +12,7 @@ import { selectIsAuthorization } from '../store/auth/authSelectors';
 // Mui
 import { LinearProgress } from '@mui/material';
 import Notifications from 'components/Notifications';
+import { checkIsAuthorization } from 'store/auth/authAsync';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ const App = () => {
   const isAuthorization = useSelector(selectIsAuthorization);
 
   useEffect(() => {
-    dispatch(authActions.checkIsAuthorization());
+    dispatch(checkIsAuthorization({}));
 
     // eslint-disable-next-line
   }, []);
