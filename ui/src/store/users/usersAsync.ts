@@ -50,7 +50,7 @@ export const updateUser = createAsyncThunk('users/Update user', async (params: a
   try {
     const { data } = await axios.put(`${url}/${params.userId}`, params.user)
     return data;
-  } catch {
-    return thunkApi.rejectWithValue(null);
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
   }
-})
+});

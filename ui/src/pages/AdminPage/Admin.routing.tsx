@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import UserRoles from '../../types/UserRoles';
-import ProfilePage from './ProfilePage/ProfilePage';
+import ProfilePage from './ProfilePage';
 // Pages
 import UsersPage from './Users';
 
