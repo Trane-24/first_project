@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 
 const errorMiddleware = ({ dispatch }: any) => (next: any) => (action: any) => {
   const { type, payload } = action;
-  console.log(type);
+
   if (type.endsWith('/rejected')) {
     dispatch(appActions.enqueueSnackbar({
       key: uuid(),
