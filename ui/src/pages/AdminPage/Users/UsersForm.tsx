@@ -57,20 +57,20 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
 
       dispatch(updateUser(params))
         .unwrap()
-        .then(() => dispatch(appActions.enqueueSnackbar({
-          key: uuid(),
-          message: 'User was updated',
-        })))
+        .then(() => {
+          dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was updated' }))
+        })
+        .then(() => onClose())
+        .finally(() => setIsLoading(false))
     } else {
       dispatch(createUser(data))
         .unwrap()
-        .then(() => dispatch(appActions.enqueueSnackbar({
-          key: uuid(),
-          message: 'User was created',
-        })))
+        .then(() => {
+          dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was created' }))
+        })
+        .then(() => onClose())
+        .finally(() => setIsLoading(false))
     }
-    setIsLoading(false);
-    onClose();
   });
 
   return (

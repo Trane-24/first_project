@@ -56,6 +56,13 @@ router.post('/', async (req, res) => {
     if (!role) {
       return res.status(400).json({message: 'role is require'});
     }
+
+    const candidate = await User.findOne({email});
+
+    if (candidate) {
+      return res.status(400).json({message: `User with email ${email} already exist`});
+    }
+
     const user = new User(req.body);
     const response = await user.save();
     return res.json(response);
@@ -99,6 +106,14 @@ router.put('/:id', async (req, res) => {
     }
     if (!role) {
       return res.status(400).json({message: 'role is require'});
+    }
+
+    if (email !== user.email) {
+      const candidate = await User.findOne({email});
+
+      if (candidate) {
+        return res.status(400).json({message: `User with email ${email} already exist`});
+      }
     }
 
     await user.update({...req.body});
