@@ -8,8 +8,8 @@ router.get('/fetchMe',
   async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id });
-    const { _id, email, firstName, lastName, phone } = user;
-    return res.json({ _id, email, firstName, lastName, phone });
+    const { _id, email, firstName, lastName, phone, role } = user;
+    return res.json({ _id, email, firstName, lastName, phone, role });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -33,8 +33,8 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({message: 'User not found'});
     }
 
-    const { _id, email, firstName, lastName, phone } = user;
-    return res.json({ _id, email, firstName, lastName, phone });
+    const { _id, email, firstName, lastName, phone, role } = user;
+    return res.json({ _id, email, firstName, lastName, phone, role });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

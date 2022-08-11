@@ -1,16 +1,18 @@
 import React, { useRef, useState } from 'react';
-// mui
-import { IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../store/auth/authSlice';
-import { selectCurrentUser } from 'store/users/usersSelectors';
-import { MoreVert } from '@mui/icons-material';
-import { selectIsAuthorization } from 'store/auth/authSelectors';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from 'react-router-dom';
-import StorageService from 'services/StorageService';
+// Selectors
+import { selectCurrentUser } from 'store/users/usersSelectors';
+// Actions
+import { authActions } from '../../store/auth/authSlice';
 import { usersActions } from 'store/users/usersSlice';
+// Services
+import StorageService from 'services/StorageService';
+// mui
+import { Box, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
@@ -21,9 +23,7 @@ const UserMenu:React.FC = () => {
     setOpenMenu(!openMenu);
   }
 
-  const isAutthorization = useSelector(selectIsAuthorization);
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser)
 
   const signOut = () => {
     StorageService.removeToken();
@@ -31,40 +31,37 @@ const UserMenu:React.FC = () => {
     dispatch(usersActions.removeCurrentUser());
   }
 
-
   return (
     <React.Fragment>
-      {isAutthorization && <>
-      <Typography sx={{ lineHeight: '40px'}}>
-        {/* {`Welcome, ${currentUser.firstName} ${currentUser.lastName}`} */}
-      </Typography>
-        <Tooltip title="user menu" ref={menuRef}>
-          <IconButton onClick={handleToggleMenu}>
-            <MoreVert />
-          </IconButton>
-        </Tooltip>
+      <Box onClick={handleToggleMenu} sx={{ display: 'flex', gap: 0.5, alignItems: 'center', cursor: 'pointer' }}>
+        <Typography sx={{ lineHeight: '40px'}}>
+          {`Welcome, ${currentUser?.firstName} ${currentUser?.lastName}`}
+        </Typography>
+        <Box ref={menuRef}>
+          <ExpandMoreIcon />
+        </Box>
+      </Box>
 
-        <Menu
-          anchorEl={menuRef.current}
-          id="account-menu"
-          open={openMenu}
-          onClose={handleToggleMenu}
-        >
-          <MenuItem onClick={handleToggleMenu} component={NavLink} to="admin/my-profile">
-            <ListItemIcon>
-              <AccountBoxIcon />
-            </ListItemIcon>
-            Profile
-          </MenuItem>
+      <Menu
+        anchorEl={menuRef.current}
+        id="account-menu"
+        open={openMenu}
+        onClose={handleToggleMenu}
+      >
+        <MenuItem onClick={handleToggleMenu} component={NavLink} to="admin/my-profile">
+          <ListItemIcon>
+            <PersonOutlineIcon />
+          </ListItemIcon>
+          Profile
+        </MenuItem>
 
-          <MenuItem onClick={signOut}>
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            Sign out
-          </MenuItem>
-        </Menu>
-      </>}
+        <MenuItem onClick={signOut}>
+          <ListItemIcon>
+            <LogoutOutlinedIcon />
+          </ListItemIcon>
+          Sign out
+        </MenuItem>
+      </Menu>
     </React.Fragment>
   )
 }

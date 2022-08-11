@@ -43,12 +43,9 @@ const usersSlice = createSlice({
       })
       // updatee user
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.users = state.users.map(user => {
-          if (user._id !== action.payload._id) {
-            return user;
-          }
-          return action.payload;
-        })
+        state.users = action.payload._id === state.currentUser?._id
+          ? state.currentUser = action.payload
+          : state.users.map(user => user._id === action.payload._id ? action.payload : user)
       })
   }
 })

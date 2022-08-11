@@ -1,23 +1,31 @@
-import { LoadingButton } from '@mui/lab';
-import { Box, Button, Grid, TextField } from '@mui/material';
-import Title from 'components/Title';
-import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { v4 as uuid } from 'uuid';
+// hooks
+import { useAppDispatch } from 'hooks/useAppDispatch';
+// components
+import Title from 'components/Title';
+// actions
+import { appActions } from 'store/app/appSlice';
+// async
+import { updateUser } from 'store/users/usersAsync';
+// selectors
 import { selectCurrentUser } from 'store/users/usersSelectors';
+// types
+import UserRoles from 'types/UserRoles';
+// MUI
+import { LoadingButton } from '@mui/lab';
+import { Grid, Paper, TextField } from '@mui/material';
+// utilites
 import { isEmail, isRequired } from 'utilites/validation';
-
-// interface Props {
-//   user?: IUser | null;
-// }
 
 interface IForm {
   firstName: string;
   lastName: string;
   email: string;
   phone?: string;
-  _id: number;
+  role: UserRoles;
 }
 
 const ProfilePage: React.FC = () => {
@@ -25,7 +33,6 @@ const ProfilePage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
-  const cloneUser = {...currentUser}
 
   const { handleSubmit, control, formState: {errors}} = useForm<IForm>({
     defaultValues: {
@@ -33,20 +40,21 @@ const ProfilePage: React.FC = () => {
       firstName: currentUser?.firstName,
       lastName: currentUser?.lastName,
       phone: currentUser?.phone,
+      role: currentUser?.role,
     }
   });
 
   const onSubmit = handleSubmit((data: IForm) => {
-    const newUser = {...data, id: cloneUser._id, role: cloneUser.role};
-    const keys = Object.keys(cloneUser);
-    let goSubmit = true;
+    setIsLoading(true);
+    dispatch(updateUser({ userId: currentUser?._id, user: data }))
+      .unwrap()
+      .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Profile was updated' })))
+      .finally(() => setIsLoading(false))
   });
 
   return (
-    <Box sx={{ p: 5, width: '100%'}}>
+    <Paper variant="outlined" sx={{ margin: '80px auto 0', maxWidth: '600px', p: 5}}>
       <Title>Profile</Title>
-      <Button onClick={() => console.log(cloneUser)}>cloneUser</Button>
-
       <form onSubmit={onSubmit} noValidate>
           <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
             {/* firstName */}
@@ -120,9 +128,9 @@ const ProfilePage: React.FC = () => {
             type='submit'
             variant='contained'
             color='primary'
-          >{`user update`}</LoadingButton>
+          >Save</LoadingButton>
         </form>
-    </Box>
+    </Paper>
   );
 };
 

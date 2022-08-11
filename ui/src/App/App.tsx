@@ -13,11 +13,13 @@ import { selectIsAuthorization } from '../store/auth/authSelectors';
 import { LinearProgress } from '@mui/material';
 import Notifications from 'components/Notifications';
 import { checkIsAuthorization } from 'store/auth/authAsync';
+import { selectCurrentUser } from 'store/users/usersSelectors';
 
 const App = () => {
   const dispatch = useAppDispatch();
 
   const isAuthorization = useSelector(selectIsAuthorization);
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     dispatch(checkIsAuthorization({}));
@@ -25,7 +27,7 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (isAuthorization === null) return <LinearProgress />;
+  if (isAuthorization === null || (isAuthorization && !currentUser)) return <LinearProgress />;
 
   return (
     <Fragment>
