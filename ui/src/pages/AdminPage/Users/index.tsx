@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 // hooks
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 // Types
-import UserRoles from '../../../types/UserRoles';
+import UserRoles from 'types/UserRoles';
 // Async
-import { fetchUsers } from '../../../store/users/usersAsync';
+import { fetchUsers } from 'store/users/usersAsync';
 // Components
 import UsersHeader from './UsersHeader';
 import UsersList from './UsersList';

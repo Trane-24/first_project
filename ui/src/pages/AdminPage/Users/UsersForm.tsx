@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { v4 as uuid } from 'uuid';
 // hooks
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
-import { createUser, updateUser } from '../../../store/users/usersAsync';
+import { createUser, updateUser } from 'store/users/usersAsync';
 // Models
-import IUser from '../../../models/User';
+import IUser from 'models/User';
 // Types
-import UserRoles from '../../../types/UserRoles';
-// components
-import Title from '../../../components/Title';
+import UserRoles from 'types/UserRoles';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 // utilites
-import { isEmail, isRequired } from '../../../utilites/validation';
-import { v4 as uuid } from 'uuid';
+import { isEmail, isRequired } from 'utilites/validation';
 // actions
 import { appActions } from 'store/app/appSlice';
 
@@ -77,7 +75,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
 
   return (
     <Box sx={{ p: 5, width: '100%'}}>
-      <Title>{`${user ? 'Update' : 'Create'} user`}</Title>
+      <Typography variant="h5">{`${user ? 'Update' : 'Create'} user`}</Typography>
 
       <form onSubmit={onSubmit} noValidate>
           <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
@@ -146,13 +144,19 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
               />
             </Grid>
           </Grid>
-          <LoadingButton
-            fullWidth
-            loading={isLoading}
-            type='submit'
-            variant='contained'
-            color='primary'
-          >{`${user ? 'Update' : 'Create'} user`}</LoadingButton>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+            <Button
+              variant="outlined"
+              onClick={onClose}
+            >
+              Cancel
+            </Button>
+            <LoadingButton
+              loading={isLoading}
+              type='submit'
+              variant='contained'
+            >{`${user ? 'Update' : 'Create'} user`}</LoadingButton>
+          </Box>
         </form>
     </Box>
   );

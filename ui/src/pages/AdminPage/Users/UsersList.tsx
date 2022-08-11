@@ -1,15 +1,21 @@
-import { Box } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import IUser from '../../../models/User';
-import { selectUsers } from '../../../store/users/usersSelectors';
+// Models
+import IUser from 'models/User';
+// Selectors
+import { selectUsers } from 'store/users/usersSelectors';
+// Components
 import UserItem from './UserItem';
+// MUI
+import { Box } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 const UsersList:React.FC = () => {
+  const classes = useStyles();
   const users = useSelector(selectUsers);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '10px', pt: 5}}>
+    <Box className={classes.list}>
       {users.map((user: IUser) => (
         <UserItem key={user._id} user={user} />
       ))}
@@ -18,3 +24,14 @@ const UsersList:React.FC = () => {
 }
 
 export default UsersList;
+
+const useStyles = makeStyles({
+  list: {
+    padding: '0 5px',
+    boxShadow: '0 0 10px 1px rgba(0,0,0,0.2)',
+    borderRadius: '8px',
+    marginTop: '40px',
+    maxHeight: 'calc(100vh - 170px)',
+    overflowY: 'scroll'
+  }
+})
