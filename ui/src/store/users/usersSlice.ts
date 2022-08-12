@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import StorageService from "services/StorageService";
 import IUser from "../../models/User";
 import { createUser, deleteUser, fetchMe, fetchUsers, updateUser } from "./usersAsync";
 
@@ -28,6 +29,9 @@ const usersSlice = createSlice({
       })
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.currentUser = action.payload;
+      })
+      .addCase(fetchMe.rejected, () => {
+        StorageService.removeToken();
       })
       // fetch users
       .addCase(fetchUsers.fulfilled, (state, action) => {
