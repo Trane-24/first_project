@@ -6,7 +6,9 @@ const router = new Router();
 
 router.get('/', async (req, res) => {
   try {
-    const hotels = await Hotel.find({...req.query});
+    const { limit, page } = req.query;
+    const hotels = await Hotel.find({...req.query}).skip((page-1)*limit).limit(limit);
+    const total = await Hotel.find({...req.query}).count();
     const newHotels = hotels.map((hotel) => {
       const data = {};
       Object.keys(hotel._doc).map(key => {
@@ -29,7 +31,7 @@ router.get('/', async (req, res) => {
     });
 
     Promise.all(hotelsPromises).then( function (hotels){
-      return res.json(hotels);
+      return res.json({ data: hotels, total });
     });
   } catch (e) {
     console.log(e);
