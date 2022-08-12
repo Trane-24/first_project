@@ -3,6 +3,8 @@ const User = require('../models/User');
 const Hotel = require('../models/Hotel');
 const router = new Router();
 
+const objectIdRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+
 router.get('/', async (req, res) => {
   try {
     const hotels = await Hotel.find({...req.query});
@@ -52,9 +54,13 @@ router.post('/', async (req, res) => {
       return res.status(400).json({message: 'ownerId is require'});
     }
 
+    if (!objectIdRegExp.test(ownerId)) {
+      return res.status(400).json({message: 'Unccorect ownerId'});
+    }
+
     const owner = await User.findOne({ _id: ownerId });
     if (!owner) {
-      return res.status(400).json({message: 'Owner not found'});
+      return res.status(404).json({message: 'Owner not found'});
     }
 
     const hotel = new Hotel(req.body);
@@ -100,6 +106,15 @@ router.put('/:id', async (req, res) => {
     }
     if (!ownerId) {
       return res.status(400).json({message: 'ownerId is require'});
+    }
+
+    if (!objectIdRegExp.test(ownerId)) {
+      return res.status(400).json({message: 'Unccorect ownerId'});
+    }
+
+    const owner = await User.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).json({message: 'Owner not found'});
     }
     
     const hotel = await Hotel.findOne({ _id: req.params.id });
