@@ -1,9 +1,8 @@
+const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../models/User');
 const Hotel = require('../models/Hotel');
 const router = new Router();
-
-const objectIdRegExp = new RegExp("^[0-9a-fA-F]{24}$");
 
 router.get('/', async (req, res) => {
   try {
@@ -54,7 +53,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({message: 'ownerId is require'});
     }
 
-    if (!objectIdRegExp.test(ownerId)) {
+    if (!mongoose.Types.ObjectId.isValid(ownerId)) {
       return res.status(400).json({message: 'Unccorect ownerId'});
     }
 
@@ -108,7 +107,7 @@ router.put('/:id', async (req, res) => {
       return res.status(400).json({message: 'ownerId is require'});
     }
 
-    if (!objectIdRegExp.test(ownerId)) {
+    if (!mongoose.Types.ObjectId.isValid(ownerId)) {
       return res.status(400).json({message: 'Unccorect ownerId'});
     }
 
