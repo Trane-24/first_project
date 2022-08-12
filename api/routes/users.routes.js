@@ -8,8 +8,13 @@ router.get('/fetchMe',
   async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id });
-    const { _id, email, firstName, lastName, phone, role } = user;
-    return res.json({ _id, email, firstName, lastName, phone, role });
+    const data = {};
+    Object.keys(user._doc).map(key => {
+      if (user._doc[key] && key !== 'password') {
+        data[key] = user._doc[key];
+      }
+    })
+    return res.json(data);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -19,7 +24,16 @@ router.get('/fetchMe',
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({...req.query});
-    return res.json(users);
+    const newUsers = users.map((user) => {
+      const data = {};
+      Object.keys(user._doc).map(key => {
+        if (user._doc[key] && key !== 'password') {
+          data[key] = user._doc[key];
+        }
+      })
+      return data;
+    })
+    return res.json(newUsers);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -32,9 +46,13 @@ router.get('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({message: 'User not found'});
     }
-
-    const { _id, email, firstName, lastName, phone, role } = user;
-    return res.json({ _id, email, firstName, lastName, phone, role });
+    const data = {};
+    Object.keys(user._doc).map(key => {
+      if (user._doc[key] && key !== 'password') {
+        data[key] = user._doc[key];
+      }
+    })
+    return res.json(data);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -43,7 +61,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { firstName, lastName, phone, email, role } = req.body;
+    const { firstName, lastName, email, role } = req.body;
     if (!firstName) {
       return res.status(400).json({message: 'firstName is require'});
     }
@@ -65,7 +83,13 @@ router.post('/', async (req, res) => {
 
     const user = new User(req.body);
     const response = await user.save();
-    return res.json(response);
+    const data = {};
+    Object.keys(response._doc).map(key => {
+      if (response._doc[key] && key !== 'password') {
+        data[key] = response._doc[key];
+      }
+    })
+    return res.json(data);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -78,8 +102,14 @@ router.delete('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({message: 'User not found'});
     }
-    user.delete();
-    return res.json(user);
+    const response = await user.delete();
+    const data = {};
+    Object.keys(response._doc).map(key => {
+      if (response._doc[key] && key !== 'password') {
+        data[key] = response._doc[key];
+      }
+    })
+    return res.json(data);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -93,7 +123,7 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({message: 'User not found'});
     }
 
-    const { firstName, lastName, phone, email, role } = req.body;
+    const { firstName, lastName, email, role } = req.body;
   
     if (!firstName) {
       return res.status(400).json({message: 'firstName is require'});
@@ -118,7 +148,13 @@ router.put('/:id', async (req, res) => {
 
     await user.update({...req.body});
     const response = await User.findOne({_id: req.params.id});
-    return res.json(response);
+    const data = {};
+    Object.keys(response._doc).map(key => {
+      if (response._doc[key] && key !== 'password') {
+        data[key] = response._doc[key];
+      }
+    })
+    return res.json(data);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
