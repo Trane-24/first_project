@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../models/User');
 const Hotel = require('../models/Hotel');
@@ -6,105 +7,45 @@ const router = new Router();
 
 router.get('/', async (req, res) => {
   try {
-    const reservations = await Reservation.find({...req.query});
-    return res.json(reservations);
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
+    const { limit, page } = req.query;
+    const reservations = await Reservation.find({...req.query}).skip((page-1)*limit).limit(limit);
+    const total = await Reservation.find({...req.query}).count();
+    const newReservations = reservations.map((reservation) => {
+      const data = {};
+      Object.keys(reservation._doc).map(key => {
+        if (reservation._doc[key]) {
+          data[key] = reservation._doc[key];
+        }
+      })
+      return data;
+    })
+    const reservationsPromises = newReservations.map(async(reservation) => {
+      const guest = await User.findOne({ _id: reservation.guestId });
+      const guestData = {};
+      Object.keys(guest._doc).map(key => {
+        if (guest._doc[key] && key !== 'password') {
+          guestData[key] = guest._doc[key];
+        }
+      })
+      const hotel = await Hotel.findOne({ _id: reservation.hotelId });
+      const owner = await User.findOne({ _id: hotel.ownerId });
+      const hotelData = {};
+      Object.keys(hotel._doc).map(async (key) => {
+        if (hotel._doc[key]) {
+          if (key === 'ownerId') {
+            hotelData['owner'] = owner;
+          } else {
+            hotelData[key] = hotel._doc[key];
+          }
+        }
+      })
+      const { guestId, hotelId, ...nextData } = reservation;
+      return { ...nextData, guest: guestData, hotel: hotelData }
+    });
 
-router.get('/:id', async (req, res) => {
-  try {
-    const reservation = await Reservation.findOne({_id: req.params.id});
-    if (!reservation) {
-      return res.status(404).json({message: 'Reservation not found'});
-    }
-    return res.json(reservation);
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.post('/', async (req, res) => {
-  try {
-    const { startDate, endDate, guestId, hotelId, notes } = req.body;
-    if (!startDate) {
-      return res.status(400).json({message: 'startDate is require'});
-    }
-    if (!endDate) {
-      return res.status(400).json({message: 'endDate is require'});
-    }
-    if (!guestId) {
-      return res.status(400).json({message: 'guestId is require'});
-    }
-    if (!hotelId) {
-      return res.status(400).json({message: 'ownerId is require'});
-    }
-    const reservation = new Reservation(req.body);
-    const response = await reservation.save();
-    if (response) {
-      const { _id, startDate, endDate, hotelId, guestId, notes } = response;
-      const guest = await User.findOne({ _id: guestId });
-      const hotel = await Hotel.findOne({ _id: hotelId });
-      const { _id: id, name, ownerId, country, city, description, imgUrl } = hotel;
-      const owner = await User.findOne({ _id: ownerId });
-
-      return res.json({ _id, startDate, endDate, guest, notes, hotel: { _id: id, name, owner, country, city, description, imgUrl } });
-    }
-    return res.json(response);
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.delete('/:id', async (req, res) => {
-  try {
-    const reservation = await Reservation.findOne({_id: req.params.id});
-    if (!reservation) {
-      return res.status(404).json({message: 'Hotel not found'});
-    }
-    reservation.delete();
-    return res.json(reservation);
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.put('/:id', async (req, res) => {
-  try {
-    const reservation = await Reservation.findOne({ _id: req.params.id });
-    if (!reservation) {
-      return res.status(404).json({message: 'Reservation not found'});
-    }
-    const { startDate, endDate, guestId, hotelId, notes } = req.body;
-    if (!startDate) {
-      return res.status(400).json({message: 'startDate is require'});
-    }
-    if (!endDate) {
-      return res.status(400).json({message: 'endDate is require'});
-    }
-    if (!guestId) {
-      return res.status(400).json({message: 'guestId is require'});
-    }
-    if (!hotelId) {
-      return res.status(400).json({message: 'ownerId is require'});
-    }
-    await reservation.update({...req.body})
-    const response = await Reservation.findOne({ _id: req.params.id });
-    if (response) {
-      const { _id, startDate, endDate, hotelId, guestId, notes } = response;
-      const guest = await User.findOne({ _id: guestId });
-      const hotel = await Hotel.findOne({ _id: hotelId });
-      const { _id: id, name, ownerId, country, city, description, imgUrl } = hotel;
-      const owner = await User.findOne({ _id: ownerId });
-
-      return res.json({ _id, startDate, endDate, guest, notes, hotel: { _id: id, name, owner, country, city, description, imgUrl } });
-    }
-    return res.json(response);
+    Promise.all(reservationsPromises).then( function (reservations){
+      return res.json({ data: reservations, total });
+    });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
