@@ -39,7 +39,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Need to update DTO (add owner)
 router.get('/:id', async (req, res) => {
   try {
     const hotel = await Hotel.findOne({_id: req.params.id});
