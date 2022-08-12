@@ -23,7 +23,9 @@ router.get('/fetchMe',
 
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find({...req.query});
+    const { limit, page } = req.query;
+    const users = await User.find({...req.query}).skip((page-1)*limit).limit(limit);
+    const total = await User.find({...req.query}).count();
     const newUsers = users.map((user) => {
       const data = {};
       Object.keys(user._doc).map(key => {
@@ -33,7 +35,7 @@ router.get('/', async (req, res) => {
       })
       return data;
     })
-    return res.json(newUsers);
+    return res.json({ data: newUsers, total });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
