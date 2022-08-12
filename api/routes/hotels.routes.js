@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../models/User');
 const Hotel = require('../models/Hotel');
+const Reservation = require('../models/Reservation');
 const router = new Router();
 
 router.get('/', async (req, res) => {
@@ -119,6 +120,10 @@ router.delete('/:id', async (req, res) => {
     const hotel = await Hotel.findOne({_id: req.params.id});
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
+    }
+    const reservation = await Reservation.findOne({ hotelId: hotel.id });
+    if (reservation) {
+      return res.status(400).json({message: 'Hotel can\'t be deleted as there are reservation assigned'});
     }
     await hotel.delete();
     return res.json({ message: 'Hotel was successfully deleted' });

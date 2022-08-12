@@ -1,5 +1,7 @@
 const Router = require('express');
 const User = require('../models/User');
+const Hotel = require('../models/Hotel');
+const Reservation = require('../models/Reservation');
 const router = new Router();
 const authMiddleware = require('../middlewares/auth.middleware');
 
@@ -103,6 +105,14 @@ router.delete('/:id', async (req, res) => {
     const user = await User.findOne({_id: req.params.id});
     if (!user) {
       return res.status(404).json({message: 'User not found'});
+    }
+    const reservation = await Reservation.findOne({ guestId: user.id });
+    if (reservation) {
+      return res.status(400).json({message: 'User can\'t be deleted as there are reservation assigned'});
+    }
+    const hotel = await Hotel.findOne({ ownerId: user.id });
+    if (hotel) {
+      return res.status(400).json({message: 'User can\'t be deleted as there are hotel assigned'});
     }
     const response = await user.delete();
     const data = {};
