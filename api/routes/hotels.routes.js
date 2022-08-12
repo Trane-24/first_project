@@ -16,23 +16,49 @@ router.get('/', async (req, res) => {
       })
       return data;
     })
-    return res.json(newHotels);
+    const hotelsPromises = newHotels.map(async(hotel) => {
+      const owner = await User.findOne({ _id: hotel.ownerId });
+      const data = {};
+      Object.keys(owner._doc).map(key => {
+        if (owner._doc[key] && key !== 'password') {
+          data[key] = owner._doc[key];
+        }
+      })
+      const { ownerId, ...nextData } = hotel;
+      return { ...nextData, owner: data }
+    });
+
+    Promise.all(hotelsPromises).then( function (hotels){
+      return res.json(hotels);
+    });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
   }
 });
 
+// Need to update DTO (add owner)
 router.get('/:id', async (req, res) => {
   try {
     const hotel = await Hotel.findOne({_id: req.params.id});
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
+    const owner = await User.findOne({ _id: hotel.ownerId });
     const data = {};
     Object.keys(hotel._doc).map(key => {
       if (hotel._doc[key]) {
-        data[key] = hotel._doc[key];
+        if (key === 'ownerId') {
+          const ownerData = {};
+          Object.keys(owner._doc).map(key => {
+            if (owner._doc[key] && key !== 'password') {
+              ownerData[key] = owner._doc[key];
+            }
+          })
+          data['owner'] = ownerData;
+        } else {
+          data[key] = hotel._doc[key];
+        }
       }
     })
     return res.json(data);
@@ -66,8 +92,18 @@ router.post('/', async (req, res) => {
     const response = await hotel.save();
     const data = {};
     Object.keys(response._doc).map(key => {
-      if (response._doc[key] && key !== 'password') {
-        data[key] = response._doc[key];
+      if (response._doc[key]) {
+        if (key === 'ownerId') {
+          const ownerData = {};
+          Object.keys(owner._doc).map(key => {
+            if (owner._doc[key] && key !== 'password') {
+              ownerData[key] = owner._doc[key];
+            }
+          })
+          data['owner'] = ownerData;
+        } else {
+          data[key] = response._doc[key];
+        }
       }
     })
     return res.json(data);
@@ -83,14 +119,8 @@ router.delete('/:id', async (req, res) => {
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
-    const response = await hotel.delete();
-    const data = {};
-    Object.keys(response._doc).map(key => {
-      if (response._doc[key] && key !== 'password') {
-        data[key] = response._doc[key];
-      }
-    })
-    return res.json(data);
+    await hotel.delete();
+    return res.json({ message: 'Hotel was successfully deleted' });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -124,8 +154,18 @@ router.put('/:id', async (req, res) => {
     const response = await Hotel.findOne({_id: req.params.id});
     const data = {};
     Object.keys(response._doc).map(key => {
-      if (response._doc[key] && key !== 'password') {
-        data[key] = response._doc[key];
+      if (response._doc[key]) {
+        if (key === 'ownerId') {
+          const ownerData = {};
+          Object.keys(owner._doc).map(key => {
+            if (owner._doc[key] && key !== 'password') {
+              ownerData[key] = owner._doc[key];
+            }
+          })
+          data['owner'] = ownerData;
+        } else {
+          data[key] = response._doc[key];
+        }
       }
     })
     return res.json(data);
