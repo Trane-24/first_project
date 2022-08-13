@@ -6,7 +6,7 @@ import config from "../../config";
 
 const url = `${config.apiURL}/users`;
 
-export const fetchMe = createAsyncThunk('users/Fetch me', async(_:any , thunkApi) => {
+export const fetchMe = createAsyncThunk('users/Fetch me', async (_:any , thunkApi) => {
   try {
     const response: any = await axios.get(`${url}/fetchMe`, {
       headers: {Authorization: `Barrer ${StorageService.getToken()}`}

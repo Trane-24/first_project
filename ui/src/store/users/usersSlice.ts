@@ -6,11 +6,13 @@ import { createUser, deleteUser, fetchMe, fetchUsers, updateUser } from "./users
 interface IState {
   currentUser: IUser | null;
   users: IUser[];
+  total: number | null;
 }
 
 const initialState: IState = {
   currentUser: null,
   users: [],
+  total: null,
 }
 
 const usersSlice = createSlice({
@@ -35,7 +37,8 @@ const usersSlice = createSlice({
       })
       // fetch users
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.users = action.payload;
+        state.users = action.payload.data;
+        state.total = action.payload.pages;
       })
       // create user
       .addCase(createUser.fulfilled, (state, action) => {

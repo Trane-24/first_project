@@ -16,9 +16,9 @@ const UsersList:React.FC = () => {
 
   return (
     <Box className={classes.list}>
-      {users.map((user: IUser) => (
-        <UserItem key={user._id} user={user} />
-      ))}
+      {users.map((user: IUser) => {
+        return <UserItem key={user._id} user={user} />
+      })}
     </Box>
   )
 }
