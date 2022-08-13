@@ -1,9 +1,11 @@
 const Router = require('express');
+const bcrypt = require('bcryptjs')
 const User = require('../models/User');
 const Hotel = require('../models/Hotel');
 const Reservation = require('../models/Reservation');
 const router = new Router();
 const authMiddleware = require('../middlewares/auth.middleware');
+const { check, validationResult } = require('express-validator');
 
 router.get('/fetchMe',
   authMiddleware,
@@ -63,8 +65,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/',
+  [
+    check('email', 'Uncorrecct email').isEmail(),
+  ],
+  async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(400).json({message: 'E-mail is not valid', errors})
+    }
+
     const { firstName, lastName, email, role } = req.body;
     if (!firstName) {
       return res.status(400).json({message: 'firstName is require'});
@@ -128,8 +139,20 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id',
+  [
+    check('email', 'Uncorrecct email').isEmail(),
+    check('password', 'Password must be longer than 8 symbol').isLength({min:8}),
+  ],
+  async (req, res) => {
   try {
+    if (req.body.password) {
+      const errors = validationResult(req);
+      if(!errors.isEmpty()) {
+        return res.status(400).json({message: 'Uncorrect request', errors})
+      }
+    }
+
     const user = await User.findOne({ _id: req.params.id });
     if (!user) {
       return res.status(404).json({message: 'User not found'});
@@ -158,7 +181,12 @@ router.put('/:id', async (req, res) => {
       }
     }
 
-    await user.update({...req.body});
+    const newData = {
+      ...req.body,
+      password: req.body.password ? await bcrypt.hash(req.body.password, 8) : user.password
+    }
+    await user.update({...newData});
+
     const response = await User.findOne({_id: req.params.id});
     const data = {};
     Object.keys(response._doc).map(key => {
