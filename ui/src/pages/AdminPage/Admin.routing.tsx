@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import UserRoles from '../../types/UserRoles';
 // Pages
 import UsersPage from './Users';
-import HotelsPage from './HotelsPage';
 import ProfilePage from './ProfilePage';
 
 const AdminRouting:React.FC = () => {
@@ -26,8 +25,6 @@ const AdminRouting:React.FC = () => {
           <UsersPage role={UserRoles.Guest} />
         </GuestsWrapper>
       } />
-
-      <Route path="hotels" element={<HotelsPage />} />
 
       <Route path="my-profile" element={<ProfilePage />} />
 

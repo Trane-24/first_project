@@ -34,11 +34,11 @@ const UserMenu:React.FC = () => {
   return (
     <React.Fragment>
       <Box onClick={handleToggleMenu} sx={{ display: 'flex', gap: 0.5, alignItems: 'center', cursor: 'pointer' }}>
-        <Typography sx={{ lineHeight: '40px'}}>
+        <Typography sx={{ color: '#fff' }}>
           {`Welcome, ${currentUser?.firstName} ${currentUser?.lastName}`}
         </Typography>
         <Box ref={menuRef}>
-          <ExpandMoreIcon />
+          <ExpandMoreIcon sx={{ color: '#fff' }} />
         </Box>
       </Box>
 
