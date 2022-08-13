@@ -1,5 +1,5 @@
 const config = {
-  apiURL: 'http://localhost:5000/api',
+  apiURL: 'https://enigmatic-dusk-45240.herokuapp.com/api',
 }
 
 export default config;
