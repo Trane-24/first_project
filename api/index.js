@@ -6,7 +6,7 @@ const usersRouter = require('./routes/users.routes');
 const hotelsRouter = require('./routes/hotels.routes');
 const reservationsRouter = require('./routes/reservations.routes');
 const app = express();
-const PORT = config.get('serverPort');
+const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
 
 app.use(corsMiddleware)
