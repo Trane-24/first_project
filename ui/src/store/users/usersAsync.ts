@@ -24,6 +24,7 @@ export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any
     const response: any = await axios.get(`${url}?role=${role}`);
     return response.data;
   } catch (e: any) {
+    thunkApi.dispatch(authActions.setAuthorization(false));
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
