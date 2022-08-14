@@ -14,6 +14,7 @@ export const fetchMe = createAsyncThunk('users/Fetch me', async (_:any , thunkAp
     thunkApi.dispatch(authActions.setAuthorization(true));
     return response.data;
   } catch (e: any) {
+    thunkApi.dispatch(authActions.setAuthorization(false));
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
@@ -24,7 +25,6 @@ export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any
     const response: any = await axios.get(`${url}?role=${role}`);
     return response.data;
   } catch (e: any) {
-    thunkApi.dispatch(authActions.setAuthorization(false));
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
