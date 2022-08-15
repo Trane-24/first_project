@@ -21,9 +21,16 @@ export const fetchMe = createAsyncThunk('users/Fetch me', async (_:any , thunkAp
 
 export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any , thunkApi) => {
   try {
-    const { role } = params;
-    const response: any = await axios.get(`${url}?role=${role}`);
-    return response.data;
+    const nextParams = new URLSearchParams();
+
+    Object.keys(params).forEach((key: string) => {
+      if (params[key]) {
+        nextParams.append(key, params[key])
+      }
+    })
+
+    const { data } = await axios.get(`${url}?${nextParams}`);
+    return data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
   }
@@ -40,8 +47,8 @@ export const createUser = createAsyncThunk('users/Create user', async(user: any,
 
 export const deleteUser = createAsyncThunk('users/Delete user', async (userId: number, thunkApi) => {
   try {
-    const { data } = await axios.delete(`${url}/${userId}`);
-    return data;
+    await axios.delete(`${url}/${userId}`);
+    return userId;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
   }

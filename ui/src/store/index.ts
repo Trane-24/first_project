@@ -2,15 +2,16 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // Store
 import authReducer from 'store/auth/authSlice';
 import appReducer from 'store/app/appSlice';
-import usersReducer from 'store/users/usersSlice'
+import usersReducer from 'store/users/usersSlice';
+// import hotelsReducer from 'store/hotels/hotelsSlice';
 // middlewares
 import errorMiddleware from "middlewares/errorMiddelware";
-import signInMiddleware from "middlewares/signInMeddelware";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   app: appReducer,
   users: usersReducer,
+  // hotels: hotelsReducer,
 });
 
 export const setupStore = () => {
@@ -19,7 +20,7 @@ export const setupStore = () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }).concat(errorMiddleware).concat(signInMiddleware),
+      }).concat(errorMiddleware)
   });
 };
 

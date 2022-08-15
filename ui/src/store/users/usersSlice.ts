@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import StorageService from "services/StorageService";
 import IUser from "../../models/User";
 import { createUser, deleteUser, fetchMe, fetchUsers, updateUser } from "./usersAsync";
@@ -7,12 +7,17 @@ interface IState {
   currentUser: IUser | null;
   users: IUser[] | null;
   total: number;
+  params: any;
 }
 
 const initialState: IState = {
   currentUser: null,
   users: null,
   total: 0,
+  params: {
+    limit: 20,
+    page: 1,
+  }
 }
 
 const usersSlice = createSlice({
@@ -22,6 +27,9 @@ const usersSlice = createSlice({
     removeCurrentUser: (state) => {
       state.currentUser = null;
     },
+    setInitialField: (state, action: PayloadAction<keyof IState>) => {
+      state[action.payload] = initialState[action.payload]
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -36,9 +44,12 @@ const usersSlice = createSlice({
         StorageService.removeToken();
       })
       // fetch users
+      .addCase(fetchUsers.pending, (state, action) => {
+        state.params = action.meta.arg;
+      })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.users = action.payload.data;
-        state.total = action.payload.pages;
+        state.total = action.payload.total;
       })
       // create user
       .addCase(createUser.fulfilled, (state, action) => {
@@ -46,7 +57,7 @@ const usersSlice = createSlice({
       })
       // delete user
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.users = state.users ? state.users.filter(user => user._id !== action.payload._id) : null;
+        state.users = state.users ? state.users.filter(user => user._id !== action.payload) : null;
       })
       // update user
       .addCase(updateUser.fulfilled, (state, action) => {
