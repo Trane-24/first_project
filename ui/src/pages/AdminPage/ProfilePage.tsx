@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // components
 import Title from 'components/Title';
+import Phone from 'components/Phone';
 // actions
 import { appActions } from 'store/app/appSlice';
 // async
@@ -45,8 +46,12 @@ const ProfilePage: React.FC = () => {
   });
 
   const onSubmit = handleSubmit((data: IForm) => {
+    const { phone, ...nextData } = data;
+    const newData: any = { ...nextData };
+    if (phone) newData['phone'] = `+${phone}`;
+
     setIsLoading(true);
-    dispatch(updateUser({ userId: currentUser?._id, user: data }))
+    dispatch(updateUser({ userId: currentUser?._id, user: newData }))
       .unwrap()
       .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Profile was updated' })))
       .finally(() => setIsLoading(false))
@@ -65,7 +70,8 @@ const ProfilePage: React.FC = () => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label='First name'
+                    label="First name"
+                    margin="normal"
                     fullWidth
                     required
                     error={!!errors?.firstName}
@@ -82,7 +88,8 @@ const ProfilePage: React.FC = () => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label='Last name'
+                    label="Last name"
+                    margin="normal"
                     fullWidth
                     required
                     error={!!errors?.lastName}
@@ -100,6 +107,7 @@ const ProfilePage: React.FC = () => {
                   <TextField
                     {...field}
                     label="Email"
+                    margin="normal"
                     fullWidth
                     required
                     error={!!errors?.email}
@@ -112,12 +120,8 @@ const ProfilePage: React.FC = () => {
             <Grid item xs={12} md={6}>
               <Controller
                 control={control} name="phone"
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label='Cell phone'
-                    fullWidth
-                  />
+                render={({ field: { onChange, value } }) => (
+                  <Phone value={value || ''} onChange={onChange} label="Phone" />
                 )}
               />
             </Grid>
