@@ -138,18 +138,18 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
 
             <Menu
               anchorEl={menuRef.current}
-              id="hotel-menu"
+              id={`hotel-${hotel._id}-menu`}
               open={openMenu}
               onClose={handleOpenMenu}
             >
-              <MenuItem onClick={handleOpenEditModal}>
+              <MenuItem component="div" onClick={handleOpenEditModal}>
                 <ListItem>
                   <EditIcon fontSize="small"/>
                 </ListItem>
                 Edit
               </MenuItem>
 
-              <MenuItem onClick={handleOpenDeleteModal} >
+              <MenuItem component="div" onClick={handleOpenDeleteModal} >
                 <ListItem>
                   <DeleteOutlineIcon />
                 </ListItem>

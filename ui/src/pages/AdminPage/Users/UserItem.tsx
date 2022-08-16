@@ -93,7 +93,7 @@ const UserItem: React.FC<Props> = ({ user }) => {
           </Grid>
 
           <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Tooltip title="user menu" ref={menuRef}>
+            <Tooltip title="User menu" ref={menuRef}>
               <IconButton onClick={handleOpenMenu}>
                 <MoreVertIcon />
               </IconButton>
@@ -103,18 +103,18 @@ const UserItem: React.FC<Props> = ({ user }) => {
 
         <Menu
           anchorEl={menuRef.current}
-          id="account-menu"
+          id={`user-${user._id}-menu`}
           open={openMenu}
           onClose={handleOpenMenu}
         >
-          <MenuItem onClick={handleOpenEditModal}>
+          <MenuItem component="div" onClick={handleOpenEditModal}>
             <ListItemIcon>
               <EditIcon fontSize='small'/>
             </ListItemIcon>
             Edit
           </MenuItem>
 
-          <MenuItem onClick={handleOpenDeleteModal}>
+          <MenuItem component="div" onClick={handleOpenDeleteModal}>
             <ListItemIcon>
               <DeleteOutlineIcon />
             </ListItemIcon>

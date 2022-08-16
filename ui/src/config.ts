@@ -8,7 +8,7 @@ interface IConfig {
 const config:IConfig = {
   'development': {
     production: false,
-    apiURL: 'http://localhost:5000/api',
+    apiURL: 'https://enigmatic-dusk-45240.herokuapp.com/api',
   },
   'qa': {
     production: false,
