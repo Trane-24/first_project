@@ -28,6 +28,8 @@ const HotelList:React.FC = () => {
     dispatch(fetchHotels({}))
       .unwrap()
       .finally(() => setIsLoading(false));
+
+    // eslint-disable-next-line
   }, []);
 
   if (isLoading) return <LinearProgress />
