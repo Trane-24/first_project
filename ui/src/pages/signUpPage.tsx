@@ -5,15 +5,17 @@ import { NavLink } from 'react-router-dom';
 import { signUp } from '../store/auth/authAsync';
 // components
 import Title from '../components/Title';
+import Phone from 'components/Phone';
 // hooks
 import { useAppDispatch } from '../hooks/useAppDispatch';
+// types
+import UserRoles from 'types/UserRoles';
 // mui
 import { makeStyles } from '@mui/styles';
 import { LoadingButton } from '@mui/lab';
 import { TextField, Grid, Box, Paper, Button, Typography } from '@mui/material';
 // utilites
 import { isEmail, isPassword, isRequired } from '../utilites/validation';
-import UserRoles from 'types/UserRoles';
 
 interface IForm {
   role: UserRoles;
@@ -28,7 +30,7 @@ const SignUpPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const [isLoading, setIsLoadin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSingUp, setIsSingUp] = useState(false);
 
   const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
@@ -43,13 +45,15 @@ const SignUpPage: React.FC = () => {
   });
 
   const onSubmit = handleSubmit((data: IForm) => {
-    console.log(data);
-    setIsLoadin(true);
+    const { phone, ...nextData } = data;
+    const newData: any = { ...nextData };
+    if (phone) newData['phone'] = `+${phone}`;
 
-    dispatch(signUp(data))
+    setIsLoading(true);
+    dispatch(signUp(newData))
       .unwrap()
       .then(() => setIsSingUp(true))
-      .finally(() => setIsLoadin(false));
+      .finally(() => setIsLoading(false));
   });
 
   if (isSingUp) {
@@ -71,6 +75,23 @@ const SignUpPage: React.FC = () => {
         <Title>Sign Up</Title>
         <form onSubmit={onSubmit} noValidate>
           <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
+            {/* email */}
+            <Grid item xs={12}>
+              <Controller
+                control={control} name="email"
+                rules={{ required: isRequired, pattern: isEmail }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Email"
+                    fullWidth
+                    required
+                    error={!!errors?.email}
+                    helperText={errors?.email ? errors.email.message : null}
+                  />
+                )}
+              />
+            </Grid>
             {/* firstName */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -105,38 +126,17 @@ const SignUpPage: React.FC = () => {
                 )}
               />
             </Grid>
-            {/* email */}
+            {/* phone */}
             <Grid item xs={12}>
               <Controller
-                control={control} name="email"
-                rules={{ required: isRequired, pattern: isEmail }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Email"
-                    fullWidth
-                    required
-                    error={!!errors?.email}
-                    helperText={errors?.email ? errors.email.message : null}
-                  />
-                )}
-              />
-            </Grid>
-            {/* phone */}
-            <Grid item xs={12} md={6}>
-              <Controller
                 control={control} name="phone"
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label='Cell phone'
-                    fullWidth
-                  />
+                render={({ field: { value, onChange } }) => (
+                  <Phone value={value || ''} onChange={onChange} label="Phone" margin="none" />
                 )}
               />
             </Grid>
             {/* password */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <Controller
                 control={control} name="password"
                 rules={{  required: isRequired, pattern: isPassword }}

@@ -27,9 +27,11 @@ router.get('/fetchMe',
 
 router.get('/', async (req, res) => {
   try {
-    const { limit, page } = req.query;
-    const users = await User.find({...req.query}).skip((page-1)*limit).limit(limit);
-    const total = await User.find({...req.query}).count();
+    const { limit, page, search } = req.query;
+    const regex = new RegExp(search, 'gi');
+    const params = { ...req.query, $or: [ {firstName:{'$regex': regex}}, {lastName:{'$regex': regex}} ] };
+    const users = await User.find(params).skip((page-1)*limit).limit(limit);
+    const total = await User.find(params).count();
     const newUsers = users.map((user) => {
       const data = {};
       Object.keys(user._doc).map(key => {

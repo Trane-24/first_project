@@ -5,17 +5,19 @@ import { v4 as uuid } from 'uuid';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
 import { createUser, updateUser } from 'store/users/usersAsync';
+// actions
+import { appActions } from 'store/app/appSlice';
 // Models
 import IUser from 'models/User';
 // Types
 import UserRoles from 'types/UserRoles';
+// Components
+import Phone from 'components/Phone';
 // MUI
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 // utilites
 import { isEmail, isRequired } from 'utilites/validation';
-// actions
-import { appActions } from 'store/app/appSlice';
 
 interface Props {
   onClose: () => void;
@@ -47,15 +49,13 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = handleSubmit((data: IForm) => {
+    const { phone, ...nextData } = data;
+    const newData: any = { ...nextData };
+    if (phone) newData['phone'] = `+${phone}`;
+
     setIsLoading(true);
-
     if (user) {
-      const params = {
-        userId: user._id,
-        user: data,
-      }
-
-      dispatch(updateUser(params))
+      dispatch(updateUser({ userId: user._id, user: newData }))
         .unwrap()
         .then(() => {
           dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was updated' }))
@@ -63,7 +63,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
         .then(() => onClose())
         .finally(() => setIsLoading(false))
     } else {
-      dispatch(createUser(data))
+      dispatch(createUser(newData))
         .unwrap()
         .then(() => {
           dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was created' }))
@@ -79,6 +79,23 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
 
       <form onSubmit={onSubmit} noValidate>
           <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
+            {/* email */}
+            <Grid item xs={12}>
+              <Controller
+                control={control} name="email"
+                rules={{ required: isRequired, pattern: isEmail }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Email"
+                    fullWidth
+                    required
+                    error={!!errors?.email}
+                    helperText={errors?.email ? errors.email.message : null}
+                  />
+                )}
+              />
+            </Grid>
             {/* firstName */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -87,7 +104,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label='First name'
+                    label="First name"
                     fullWidth
                     required
                     error={!!errors?.firstName}
@@ -104,7 +121,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label='Last name'
+                    label="Last name"
                     fullWidth
                     required
                     error={!!errors?.lastName}
@@ -113,33 +130,12 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
                 )}
               />
             </Grid>
-            {/* email */}
-            <Grid item xs={12} md={6}>
-              <Controller
-                control={control} name="email"
-                rules={{ required: isRequired, pattern: isEmail }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Email"
-                    fullWidth
-                    required
-                    error={!!errors?.email}
-                    helperText={errors?.email ? errors.email.message : null}
-                  />
-                )}
-              />
-            </Grid>
             {/* phone */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <Controller
                 control={control} name="phone"
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label='Cell phone'
-                    fullWidth
-                  />
+                render={({ field: { value, onChange } }) => (
+                  <Phone value={value || ''} onChange={onChange} label="Phone" margin="none" />
                 )}
               />
             </Grid>
