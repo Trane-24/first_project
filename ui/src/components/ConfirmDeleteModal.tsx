@@ -15,8 +15,8 @@ const ConfirmDeleteModal: React.FC<Props> = ({
   onClose,
   remove
 }) => {
-  const handleRemove =() => {
-    console.log('delete user')
+  const handleRemove = () => {
+    console.log(`delete ${title}`)
     remove();
     onClose();
   }

@@ -1,10 +1,12 @@
 import IUser from "./User";
 
 interface IHotel {
-  id: number;
+  _id: string;
   name: string;
-  country: string,
-  city: string;
+  country?: string;
+  city?: string;
+  imgUrl?: string;
+  description?: string;
   owner: IUser;
 }
 
