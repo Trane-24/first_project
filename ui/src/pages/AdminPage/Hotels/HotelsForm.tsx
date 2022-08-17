@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
@@ -16,7 +16,7 @@ import { appActions } from "store/app/appSlice";
 import { selectParams as selectUsersParams, selectUsers } from "store/users/usersSelectors";
 // Mui
 import { LoadingButton } from "@mui/lab";
-import { Autocomplete, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce } from "@mui/material";
 // untiles
 import { isRequired } from "utilites/validation";
 
@@ -41,6 +41,8 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
   const usersParams = useSelector(selectUsersParams);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingInp, setIsLoadingInp] = useState(false);
+  const [queryValue, setQueryValue] = useState('');
 
   const { handleSubmit, control, formState: {errors} } = useForm<IForm>({
     defaultValues: {
@@ -52,6 +54,14 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
       ownerId: hotel?.owner || null,
     }
   });
+
+  const handleQueryValue = (e: any) => {
+    setQueryValue(e.target.value)
+  };
+
+  const debouncedChangeHandler = useCallback(
+    debounce(handleQueryValue, 1000)
+  , []);
 
   const onSubmit = handleSubmit((data: IForm) => {
     setIsLoading(true);
@@ -76,9 +86,10 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
   });
 
   useEffect(() => {
-    dispatch(fetchUsers({ ...usersParams, role: 'owner' }));
-    // eslint-disable-next-line
-  }, [])
+    dispatch(fetchUsers({ ...usersParams, role: 'owner', search: queryValue }))
+      .unwrap()
+      .finally(() => setIsLoadingInp(false))
+  }, [queryValue])
 
   return (
     <Box sx={{p: 5, width: '100%'}}>
@@ -118,10 +129,10 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
                   onChange={(_, owner: IUser | null) => onChange(owner)}
                   value={value || null}
                   getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                  filterOptions={(options) => options}
-                  // loadingText
-                  // loading
-                  // noOptionsText
+                  // filterOptions={(options) => options}
+                  loadingText='Please wait'
+                  loading={isLoadingInp}
+                  noOptionsText='Dont have owners'
                   renderOption={(props, option) => (
                     <li {...props} key={option._id} >
                       {`${option.firstName} ${option.lastName}`}
@@ -134,7 +145,10 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
                       required
                       error={Boolean(errors.ownerId)}
                       helperText={errors.ownerId ? `${errors.ownerId.message}` : ''}
-                      // onChange
+                      onChange={(e) => {
+                        setIsLoadingInp(true);
+                        debouncedChangeHandler(e)
+                      }}
                     />
                   )}
                 />

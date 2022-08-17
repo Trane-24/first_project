@@ -106,6 +106,7 @@ const UserItem: React.FC<Props> = ({ user }) => {
           id={`user-${user._id}-menu`}
           open={openMenu}
           onClose={handleOpenMenu}
+          sx={{ display: 'flex', justifyContent: 'flex-start'}}
         >
           <MenuItem component="div" onClick={handleOpenEditModal}>
             <ListItemIcon>

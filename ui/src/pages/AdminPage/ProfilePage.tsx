@@ -48,7 +48,7 @@ const ProfilePage: React.FC = () => {
   const onSubmit = handleSubmit((data: IForm) => {
     const { phone, ...nextData } = data;
     const newData: any = { ...nextData };
-    if (phone) newData['phone'] = `+${phone}`;
+    if (phone) newData['phone'] = phone;
 
     setIsLoading(true);
     dispatch(updateUser({ userId: currentUser?._id, user: newData }))
