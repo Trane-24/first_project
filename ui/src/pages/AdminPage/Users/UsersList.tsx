@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
 import { fetchUsers } from 'store/users/usersAsync';
+// Actions
+import { usersActions } from 'store/users/usersSlice';
 // Models
 import IUser from 'models/User';
 // Types
@@ -13,9 +15,8 @@ import { selectParams, selectTotal, selectUsers } from 'store/users/usersSelecto
 // Components
 import UserItem from './UserItem';
 // MUI
-import { Box, LinearProgress, Pagination, TablePagination } from '@mui/material';
+import { Box, LinearProgress, TablePagination } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { usersActions } from 'store/users/usersSlice';
 
 type Props = {
   role: UserRoles,
@@ -23,14 +24,13 @@ type Props = {
 
 const UsersList:React.FC<Props> = ({ role }) => {
   const classes = useStyles();
-  //dispatch
   const dispatch = useAppDispatch();
 
+  // state
   const users = useSelector(selectUsers);
   const params = useSelector(selectParams);
   const total = useSelector(selectTotal);
-
-  // state
+  
   const [isLoading, setIsLoading] = useState(false);
   const [stateParams, setStateParams] = useState(params);
 
@@ -71,14 +71,15 @@ const UsersList:React.FC<Props> = ({ role }) => {
   if (!users) return null;
 
   return (
-    <React.Fragment>
-      <Box className={classes.list}>
+    <Box className={classes.list}>
+      <Box className={classes.items}>
         {users.map((user: IUser) => (
           <UserItem key={user._id} user={user} />
         ))}
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Box>
         <TablePagination
+          className={classes.pagination}
           component="div"
           count={total}
           page={stateParams.page - 1}
@@ -88,7 +89,7 @@ const UsersList:React.FC<Props> = ({ role }) => {
           rowsPerPageOptions={[20, 50, 100]}
         />
       </Box>
-    </React.Fragment>
+    </Box>
   )
 }
 
@@ -96,11 +97,21 @@ export default UsersList;
 
 const useStyles = makeStyles({
   list: {
-    padding: '0 5px',
-    boxShadow: '0 0 10px 1px rgba(0,0,0,0.2)',
-    borderRadius: '8px',
-    marginTop: '40px',
-    maxHeight: 'calc(100vh - 224px)',
-    overflowY: 'scroll'
-  }
+    marginTop: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '4px',
+    boxShadow: '0px 0px 0px 1px #E0E0E0',
+    overflow: 'hidden',
+  },
+  items: {
+    maxHeight: 'calc(100vh - 196px)',
+    overflowY: 'scroll',
+    '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 204px)',
+    },
+  },
+  pagination: {
+    boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
+  },
 })
+// maxHeight: 'calc(100vh - 224px)',

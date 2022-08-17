@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 // hooks
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import useDialog from '../../../hooks/useDialog';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import useDialog from 'hooks/useDialog';
 // Async
-import { deleteUser } from '../../../store/users/usersAsync';
+import { deleteUser } from 'store/users/usersAsync';
 // Acions
 import { appActions } from 'store/app/appSlice';
 // Models
-import IUser from '../../../models/User';
+import IUser from 'models/User';
 // Components
-import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
+import ConfirmDeleteModal from 'components/ConfirmDeleteModal';
 import UserForm from './UsersForm';
 // MUI
 import { makeStyles } from '@mui/styles';
@@ -24,7 +24,7 @@ import {
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
 // utilites
-import { fullName } from 'utilites/getString';
+import { formatPhone, getFullName } from 'utilites/getString';
 
 interface Props {
   user: IUser;
@@ -78,18 +78,18 @@ const UserItem: React.FC<Props> = ({ user }) => {
       <Card className={classes.card}>
         <Grid container>
           <Grid item xs={4}>
-            <Typography sx={{ fontSize: '0.8rem', color: 'gray' }}>Name</Typography>
-            <Typography>{fullName(user.firstName, user.lastName)}</Typography>
+            <Typography className={classes.title}>Name</Typography>
+            <Typography className={classes.text}>{getFullName(user.firstName, user.lastName)}</Typography>
           </Grid>
 
           <Grid item xs={4}>
-            <Typography sx={{ fontSize: '0.8rem', color: 'gray' }}>E-mail</Typography>
-            <Typography>{user.email}</Typography>
+            <Typography className={classes.title}>E-mail</Typography>
+            <Typography className={classes.text}>{user.email}</Typography>
           </Grid>
 
           <Grid item xs={3}>
-            <Typography sx={{ fontSize: '0.8rem', color: 'gray' }}>Phone</Typography>
-            <Typography>{user.phone ? user.phone : 'Not found'}</Typography>
+            <Typography className={classes.title}>Phone</Typography>
+            <Typography className={classes.text}>{user.phone ? formatPhone(user.phone) : ''}</Typography>
           </Grid>
 
           <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -131,8 +131,21 @@ export default UserItem;
 
 const useStyles = makeStyles({
   card: {
-    boxShadow: '0px 0px 4px 1px rgba(0,0,0,0.08)',
-    padding: '10px',
-    margin: '5px 0',
-  }
+    padding: '12px',
+    borderRadius: 0,
+    borderBottom: '1px solid #eee',
+    width: '100%',
+  },
+  title: {
+    fontSize: '12px',
+    lineHeight: '166%',
+    letterSpacing: '0.4px',
+    color: 'rgba(0, 0, 0, 0.6)',
+  },
+  text: {
+    fontSize: '14px',
+    lineHeight: '143%',
+    letterSpacing: '0.17px',
+    color: 'rgba(0, 0, 0, 0.87)',
+  },
 });
