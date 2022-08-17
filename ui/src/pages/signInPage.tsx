@@ -9,7 +9,9 @@ import Title from '../components/Title';
 // mui
 import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
-import { TextField, Grid, Box, Paper } from '@mui/material';
+import { TextField, Grid, Box, Paper, Button } from '@mui/material';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 // utilites
 import { isEmail, isPassword, isRequired } from '../utilites/validation';
 
@@ -23,6 +25,9 @@ const SignInPage: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handeShowPassword = () => setShowPassword(!showPassword);
 
   const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
@@ -62,7 +67,7 @@ const SignInPage: React.FC = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ position: 'relative'}}>
               <Controller
                 control={control} name="password"
                 rules={{  required: isRequired, pattern: isPassword }}
@@ -70,7 +75,7 @@ const SignInPage: React.FC = () => {
                   <TextField
                     {...field}
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="password"
                     fullWidth
                     required
@@ -79,6 +84,15 @@ const SignInPage: React.FC = () => {
                   />
                 )}
               />
+                <Button
+                  sx={{ position: 'absolute', right: '0', height: '56px'}}
+                  onClick={handeShowPassword}
+                >
+                  {showPassword
+                    ? <VisibilityOffOutlinedIcon />
+                    : <VisibilityOutlinedIcon />
+                  }
+                </Button>
             </Grid>
           </Grid>
           <LoadingButton
