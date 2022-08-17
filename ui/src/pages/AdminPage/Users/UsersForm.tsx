@@ -49,13 +49,9 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = handleSubmit((data: IForm) => {
-    const { phone, ...nextData } = data;
-    const newData: any = { ...nextData };
-    if (phone) newData['phone'] = phone;
-
     setIsLoading(true);
     if (user) {
-      dispatch(updateUser({ userId: user._id, user: newData }))
+      dispatch(updateUser({ userId: user._id, user: data }))
         .unwrap()
         .then(() => {
           dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was updated' }))
@@ -63,7 +59,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
         .then(() => onClose())
         .finally(() => setIsLoading(false))
     } else {
-      dispatch(createUser(newData))
+      dispatch(createUser(data))
         .unwrap()
         .then(() => {
           dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was created' }))
