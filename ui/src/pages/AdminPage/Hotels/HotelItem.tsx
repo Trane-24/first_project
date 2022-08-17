@@ -20,7 +20,6 @@ import {
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
-// import hotelImg from '../../../img/hotel.png';
 
 type Props = {
   hotel: IHotel,
@@ -86,22 +85,17 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
         <HotelsForm onClose={closeDialog} hotel={hotel}/>
       </Dialog>
 
-      <Accordion>
+      <Accordion disableGutters={true}>
         <AccordionSummary
         sx={{
+          userSelect: 'text',
           backgroundColor: isActive ? '#ededed' : '#fff',
         }}
         onClick={handleIsActive}
-      >
-          {/* <Card> */}
+        >
             <Grid container sx={{ display: 'flex', alignItems: 'center'}}>
               <Grid item xs={3}>
-                <Typography
-                  sx={{
-                    fontSize: isActive ? '1.3rem' : '1.2rem',
-                    textShadow: isActive ? '1px 1px 2px grey' : '',
-                }}
-                >
+                <Typography className={classes.hotelName}>
                   {hotel.name}
                 </Typography>
               </Grid>
@@ -150,23 +144,22 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
               id={`hotel-${hotel._id}-menu`}
               open={openMenu}
               onClose={handleOpenMenu}
-              sx={{ display: 'flex', justifyContent: 'flex-end'}}
+              className={classes.menu}
             >
               <MenuItem component="div" onClick={handleOpenEditModal}>
-                <ListItem>
+                <ListItem className={classes.listItem}>
                   <EditIcon fontSize="small"/>
                 </ListItem>
                 Edit
               </MenuItem>
 
               <MenuItem component="div" onClick={handleOpenDeleteModal} >
-                <ListItem>
+                <ListItem className={classes.listItem}>
                   <DeleteOutlineIcon />
                 </ListItem>
                 Delete
               </MenuItem>
             </Menu>
-          {/* </Card> */}
         </AccordionSummary>
 
         <AccordionDetails
@@ -177,14 +170,22 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
           }}
         >
           <Box sx={{ width: '100%'}}>
-            <Divider sx={{ mb: 1}} className={classes.subtitle} >Description</Divider>
+            <Divider sx={{ mb: 1}} />
             <Box sx={{ display: 'flex', gap: 2}}>
               <img
                 style={{ height: '200px', }}
-                src={hotel.imgUrl ? hotel.imgUrl : require('../../../img/hotel.png')}
+                src={hotel.imgUrl
+                  ? hotel.imgUrl
+                  : require('../../../img/hotel-no-available.png')
+                }
                 alt={hotel.name}
               />
-                <Typography>{hotel.description ? hotel.description : '-'}</Typography>
+                <Box>
+                  <Typography className={classes.subtitle} >
+                    Description
+                  </Typography>
+                  <Typography>{hotel.description ? hotel.description : '-'}</Typography>
+                </Box>
             </Box>
           </Box>
         </AccordionDetails>
@@ -196,8 +197,20 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
 export default HotelItem;
 
 const useStyle = makeStyles({
+  hotelName: {
+    fontWeight: '600'
+  },
+  listItem: {
+    margin: 0,
+    padding: 0,
+    width: '36px',
+  },
+  menu: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
   subtitle: {
     fontSize: '0.8rem',
     color: 'gray',
   }
-})
+});
