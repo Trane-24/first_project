@@ -55,12 +55,12 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
     }
   });
 
-  const handleQueryValue = (e: any) => {
+  const changeQueryValue = (e: any) => {
     setQueryValue(e.target.value)
   };
 
   const debouncedChangeHandler = useCallback(
-    debounce(handleQueryValue, 1000)
+    debounce(changeQueryValue, 1000)
   , []);
 
   const onSubmit = handleSubmit((data: IForm) => {

@@ -65,8 +65,8 @@ const HotelList:React.FC = () => {
   if (!hotels) return null;
 
   return (
-    <React.Fragment>
-      <Box className={classes.list}>
+    <Box className={classes.list}>
+      <Box className={classes.items}>
         {hotels.map((hotel: IHotel) => (
           <HotelItem key={hotel._id} hotel={hotel} />
         ))}
@@ -74,6 +74,7 @@ const HotelList:React.FC = () => {
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <TablePagination
+          className={classes.pagination}
           component="div"
           count={total}
           page={stateParams.page - 1}
@@ -83,7 +84,7 @@ const HotelList:React.FC = () => {
           rowsPerPageOptions={[20, 50, 100]}
         />
       </Box>
-    </React.Fragment>
+    </Box>
   )
 }
 
@@ -91,11 +92,20 @@ export default HotelList;
 
 const useStyles = makeStyles({
   list: {
-    padding: '0 0px',
-    boxShadow: '0 0 10px 1px rgba(0,0,0,0.2)',
-    borderRadius: '8px',
-    marginTop: '40px',
-    maxHeight: 'calc(100vh - 224px)',
-    overflowY: 'scroll'
-  }
+    marginTop: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '4px',
+    boxShadow: '0px 0px 0px 1px #E0E0E0',
+    overflow: 'hidden',
+  },
+  items: {
+    maxHeight: 'calc(100vh - 196px)',
+    overflowY: 'scroll',
+    '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 216px)',
+    },
+  },
+  pagination: {
+    boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
+  },
 })

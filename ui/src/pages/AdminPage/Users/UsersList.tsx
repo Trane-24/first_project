@@ -34,6 +34,8 @@ const UsersList:React.FC<Props> = ({ role }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [stateParams, setStateParams] = useState(params);
 
+  console.log(stateParams);
+
   const handleChangePage = (_: any, value: any) => {
     setStateParams({
       ...stateParams,
@@ -63,7 +65,6 @@ const UsersList:React.FC<Props> = ({ role }) => {
     return () => {
       dispatch(usersActions.setInitialField('params'));
     }
-
     // eslint-disable-next-line
   }, [])
 
@@ -107,7 +108,7 @@ const useStyles = makeStyles({
     maxHeight: 'calc(100vh - 196px)',
     overflowY: 'scroll',
     '@media (min-width: 600px)': {
-      maxHeight: 'calc(100vh - 204px)',
+      maxHeight: 'calc(100vh - 216px)',
     },
   },
   pagination: {
