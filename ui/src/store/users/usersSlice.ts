@@ -17,6 +17,7 @@ const initialState: IState = {
   params: {
     limit: 20,
     page: 1,
+    search: '',
   }
 }
 
@@ -29,6 +30,9 @@ const usersSlice = createSlice({
     },
     setInitialField: (state, action: PayloadAction<keyof IState>) => {
       state[action.payload] = initialState[action.payload]
+    },
+    setQueryValue: (state, action) => {
+      state.params = {...state.params, search: action.payload };
     }
   },
   extraReducers: (builder) => {
