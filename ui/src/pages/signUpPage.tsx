@@ -14,6 +14,8 @@ import UserRoles from 'types/UserRoles';
 import { makeStyles } from '@mui/styles';
 import { LoadingButton } from '@mui/lab';
 import { TextField, Grid, Box, Paper, Button, Typography } from '@mui/material';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 // utilites
 import { isEmail, isPassword, isRequired } from '../utilites/validation';
 
@@ -32,6 +34,9 @@ const SignUpPage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSingUp, setIsSingUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handeShowPassword = () => setShowPassword(!showPassword);
 
   const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
@@ -136,7 +141,7 @@ const SignUpPage: React.FC = () => {
               />
             </Grid>
             {/* password */}
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ position: 'relative'}}>
               <Controller
                 control={control} name="password"
                 rules={{  required: isRequired, pattern: isPassword }}
@@ -144,7 +149,7 @@ const SignUpPage: React.FC = () => {
                   <TextField
                     {...field}
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     fullWidth
                     required
                     error={!!errors?.password}
@@ -152,6 +157,15 @@ const SignUpPage: React.FC = () => {
                   />
                 )}
               />
+              <Button
+                sx={{ position: 'absolute', right: '0', height: '56px'}}
+                onClick={handeShowPassword}
+              >
+                {showPassword
+                  ? <VisibilityOffOutlinedIcon />
+                  : <VisibilityOutlinedIcon />
+                }
+              </Button>
             </Grid>
           </Grid>
           <LoadingButton

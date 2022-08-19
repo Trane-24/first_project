@@ -84,15 +84,15 @@ const SignInPage: React.FC = () => {
                   />
                 )}
               />
-                <Button
-                  sx={{ position: 'absolute', right: '0', height: '56px'}}
-                  onClick={handeShowPassword}
-                >
-                  {showPassword
-                    ? <VisibilityOffOutlinedIcon />
-                    : <VisibilityOutlinedIcon />
-                  }
-                </Button>
+              <Button
+                sx={{ position: 'absolute', right: '0', height: '56px'}}
+                onClick={handeShowPassword}
+              >
+                {showPassword
+                  ? <VisibilityOffOutlinedIcon />
+                  : <VisibilityOutlinedIcon />
+                }
+              </Button>
             </Grid>
           </Grid>
           <LoadingButton
