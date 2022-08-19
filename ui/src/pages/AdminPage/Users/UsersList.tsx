@@ -115,4 +115,3 @@ const useStyles = makeStyles({
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
 })
-// maxHeight: 'calc(100vh - 224px)',

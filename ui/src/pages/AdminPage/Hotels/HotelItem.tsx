@@ -13,7 +13,10 @@ import IHotel from "models/Hotel";
 import ConfirmDeleteModal from "components/ConfirmDeleteModal";
 import HotelsForm from "./HotelsForm";
 // MUI
-import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, Grid, IconButton, ListItem, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import {
+  Accordion, AccordionDetails, AccordionSummary, Divider,
+  Grid, IconButton, Menu, MenuItem, Tooltip, Typography
+} from "@mui/material";
 import {
   DeleteOutline as DeleteOutlineIcon,
   Edit as EditIcon,
@@ -28,6 +31,9 @@ type Props = {
 const HotelItem:React.FC<Props> = ({ hotel }) => {
   const classes = useStyle();
   const dispatch = useAppDispatch();
+
+  const imgUrl = hotel.imgUrl || '/images/hotel-no-available.png';
+
   // menu
   const menuRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
@@ -93,101 +99,65 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
         }}
         onClick={handleIsActive}
         >
-            <Grid container sx={{ display: 'flex', alignItems: 'center'}}>
-              <Grid item xs={3}>
-                <Typography className={classes.hotelName}>
-                  {hotel.name}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={3}>
-                <Typography className={classes.subtitle} >
-                  Country
-                </Typography>
-
-                <Typography>
-                  {hotel.country ? hotel.country : '-'}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={2}>
-                <Typography className={classes.subtitle} >
-                  City
-                </Typography>
-
-                <Typography>
-                  {hotel.city ? hotel.city : '-'}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={3}>
-                <Typography className={classes.subtitle} >
-                  Owner
-                </Typography>
-
-                <Typography>
-                  {`${hotel.owner.firstName} ${hotel.owner.lastName}`}
-                </Typography>
-              </Grid>
-
-              <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
-                <Tooltip title="hotel menu" ref={menuRef}>
-                  <IconButton onClick={handleOpenMenu}>
-                    <MoreVertIcon />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={3} alignSelf="center">
+              <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotel.name}</Typography>
             </Grid>
+            <Grid item xs={3}>
+              <Typography className={classes.title}>Country</Typography>
+              <Typography>{hotel.country ? hotel.country : '-'}</Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography className={classes.title}>City</Typography>
+              <Typography>{hotel.city ? hotel.city : '-'}</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography className={classes.title}>Owner</Typography>
+              <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
+            </Grid>
+            <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
+              <Tooltip title="hotel menu" ref={menuRef}>
+                <IconButton onClick={handleOpenMenu}>
+                  <MoreVertIcon />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={menuRef.current}
+                id={`hotel-${hotel._id}-menu`}
+                open={openMenu}
+                onClose={handleOpenMenu}
+              >
+                <MenuItem component="div" onClick={handleOpenEditModal} sx={{ display: 'flex', gap: 1.5 }}>
+                  <EditIcon fontSize="small" />
+                  Edit
+                </MenuItem>
 
-            <Menu
-              anchorEl={menuRef.current}
-              id={`hotel-${hotel._id}-menu`}
-              open={openMenu}
-              onClose={handleOpenMenu}
-              className={classes.menu}
-            >
-              <MenuItem component="div" onClick={handleOpenEditModal}>
-                <ListItem className={classes.listItem}>
-                  <EditIcon fontSize="small"/>
-                </ListItem>
-                Edit
-              </MenuItem>
-
-              <MenuItem component="div" onClick={handleOpenDeleteModal} >
-                <ListItem className={classes.listItem}>
+                <MenuItem component="div" onClick={handleOpenDeleteModal} sx={{ display: 'flex', gap: 1 }}>
                   <DeleteOutlineIcon />
-                </ListItem>
-                Delete
-              </MenuItem>
-            </Menu>
+                  Delete
+                </MenuItem>
+              </Menu>
+            </Grid>
+          </Grid>
         </AccordionSummary>
 
         <AccordionDetails
-          sx={{
-            display: 'flex',
-            gap: 2,
-            backgroundColor: isActive ? '#ededed' : '#fff',
-          }}
+          sx={{ backgroundColor: isActive ? '#ededed' : '#fff' }}
         >
-          <Box sx={{ width: '100%'}}>
-            <Divider sx={{ mb: 1}} />
-            <Box sx={{ display: 'flex', gap: 2}}>
+          <Divider sx={{ mb: 3 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
               <img
-                style={{ height: '200px', }}
-                src={hotel.imgUrl
-                  ? hotel.imgUrl
-                  : require('../../../img/hotel-no-available.png')
-                }
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                src={imgUrl}
                 alt={hotel.name}
               />
-                <Box>
-                  <Typography className={classes.subtitle} >
-                    Description
-                  </Typography>
-                  <Typography>{hotel.description ? hotel.description : '-'}</Typography>
-                </Box>
-            </Box>
-          </Box>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography className={classes.title}>Description</Typography>
+              <Typography className={classes.text}>{hotel.description || '-'}</Typography>
+            </Grid>
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </React.Fragment>
@@ -197,20 +167,22 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
 export default HotelItem;
 
 const useStyle = makeStyles({
-  hotelName: {
-    fontWeight: '600'
+  card: {
+    padding: '12px',
+    borderRadius: 0,
+    borderBottom: '1px solid #eee',
+    width: '100%',
   },
-  listItem: {
-    margin: 0,
-    padding: 0,
-    width: '36px',
+  title: {
+    fontSize: '12px',
+    lineHeight: '166%',
+    letterSpacing: '0.4px',
+    color: 'rgba(0, 0, 0, 0.6)',
   },
-  menu: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+  text: {
+    fontSize: '14px',
+    lineHeight: '143%',
+    letterSpacing: '0.17px',
+    color: 'rgba(0, 0, 0, 0.87)',
   },
-  subtitle: {
-    fontSize: '0.8rem',
-    color: 'gray',
-  }
 });

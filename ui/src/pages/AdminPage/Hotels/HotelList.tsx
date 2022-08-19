@@ -71,8 +71,7 @@ const HotelList:React.FC = () => {
           <HotelItem key={hotel._id} hotel={hotel} />
         ))}
       </Box>
-
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Box>
         <TablePagination
           className={classes.pagination}
           component="div"
@@ -99,13 +98,14 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 196px)',
+    maxHeight: 'calc(100vh - 202px)',
     overflowY: 'scroll',
     '@media (min-width: 600px)': {
-      maxHeight: 'calc(100vh - 216px)',
+      maxHeight: 'calc(100vh - 222px)',
     },
   },
   pagination: {
+    marginTop: '6px',
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
 })
