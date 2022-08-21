@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // Types
 import UserRoles from 'types/UserRoles';
 // Components
@@ -9,10 +9,18 @@ interface Props {
 }
 
 const UsersPage: React.FC<Props> = ({ role }) => {
+  const [loaded, setLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, [])
+
+  if (!loaded) return null;
+
   return (
     <React.Fragment>
       <UsersHeader role={role} />
-      <UsersList role={role} />
+      <UsersList />
     </React.Fragment>
   );
 };

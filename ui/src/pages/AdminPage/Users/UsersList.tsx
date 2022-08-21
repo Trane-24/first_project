@@ -4,12 +4,8 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
 import { fetchUsers } from 'store/users/usersAsync';
-// Actions
-import { usersActions } from 'store/users/usersSlice';
 // Models
 import IUser from 'models/User';
-// Types
-import UserRoles from 'types/UserRoles';
 // Selectors
 import { selectParams, selectTotal, selectUsers } from 'store/users/usersSelectors';
 // Components
@@ -18,11 +14,7 @@ import UserItem from './UserItem';
 import { Box, LinearProgress, TablePagination } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-type Props = {
-  role: UserRoles,
-}
-
-const UsersList:React.FC<Props> = ({ role }) => {
+const UsersList:React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
@@ -30,43 +22,33 @@ const UsersList:React.FC<Props> = ({ role }) => {
   const users = useSelector(selectUsers);
   const params = useSelector(selectParams);
   const total = useSelector(selectTotal);
-  
-  const [isLoading, setIsLoading] = useState(false);
-  const [stateParams, setStateParams] = useState(params);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  console.log(stateParams);
+  const [page, setPage] = useState<number>(params.page);
+  const [limit, setLimit] = useState<number>(params.limit);
+
+  // When we change params from outside, page don't changed
+  useEffect(() => {
+    setPage(params.page)
+  }, [params.page]);
 
   const handleChangePage = (_: any, value: any) => {
-    setStateParams({
-      ...stateParams,
-      page: value + 1,
-    })
+    setIsLoading(true);
+    setPage(value + 1);
+    dispatch(fetchUsers({ ...params, page: value + 1 }))
+      .unwrap()
+      .finally(() => setIsLoading(false))
   };
 
   const handleChangeLimit = (event:any) => {
-    const { value } = event.target;
-    setStateParams({
-      ...stateParams,
-      limit: value,
-      page: 1,
-    })
-  }
-
-  useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchUsers({ ...stateParams, role}))
+    const { value } = event.target;
+    setLimit(value);
+    setPage(1);
+    dispatch(fetchUsers({ ...params, limit: value, page: 1 }))
       .unwrap()
       .finally(() => setIsLoading(false))
-
-    // eslint-disable-next-line
-  }, [stateParams])
-
-  useEffect(() => {
-    return () => {
-      dispatch(usersActions.setInitialField('params'));
-    }
-    // eslint-disable-next-line
-  }, [])
+  }
 
   if (isLoading) return <LinearProgress />;
   if (!users) return null;
@@ -83,9 +65,9 @@ const UsersList:React.FC<Props> = ({ role }) => {
           className={classes.pagination}
           component="div"
           count={total}
-          page={stateParams.page - 1}
+          page={page - 1}
           onPageChange={handleChangePage}
-          rowsPerPage={stateParams.limit}
+          rowsPerPage={limit}
           onRowsPerPageChange={handleChangeLimit}
           rowsPerPageOptions={[20, 50, 100]}
         />

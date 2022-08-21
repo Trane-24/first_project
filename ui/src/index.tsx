@@ -16,7 +16,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // With StrictMode request is duplicated
+  // <React.StrictMode> 
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
@@ -28,5 +29,5 @@ root.render(
         </Provider>
       </ThemeProvider>
     </StyledEngineProvider>
-  </React.StrictMode>
+  // </React.StrictMode> 
 );

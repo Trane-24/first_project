@@ -49,6 +49,7 @@ const usersSlice = createSlice({
       })
       // fetch users
       .addCase(fetchUsers.pending, (state, action) => {
+        state.users = null;
         state.params = action.meta.arg;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {

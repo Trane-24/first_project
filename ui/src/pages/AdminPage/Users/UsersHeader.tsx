@@ -22,22 +22,41 @@ type Props = {
 const UsersHeader:React.FC<Props> = ({ role }) => {
   // dispatch
   const dispatch = useAppDispatch();
-  // State
-  const [queryValue, setQueryValue] = useState('');
   // Selectors
   const params = useSelector(selectParams);
+  // State
+  const [search, setSearch] = useState('');
+  const [stateParams, setStateParams] = useState(params);
   //Dialog
   const { Dialog, openDialog, closeDialog } = useDialog();
 
-  const changeQueryValue = (value: string) => setQueryValue(value);
+  const handleChangeSearch = (e: any) => {
+    const { value } = e.target
+    setSearch(value);
+    debouncedChangeHandler(value);
+  };
 
+  // eslint-disable-next-line
   const debouncedChangeHandler = useCallback(
-    debounce(changeQueryValue, 1000)
+    debounce((value: string) => {
+      setStateParams({
+        ...stateParams,
+        search: value
+      })
+    }, 1000)
   , []);
 
   useEffect(() => {
-    dispatch(fetchUsers({ ...params, search: queryValue}))
-  }, [queryValue]);
+    dispatch(fetchUsers({ ...stateParams, role }));
+    // eslint-disable-next-line
+  }, [stateParams])
+
+  useEffect(() => {
+    return () => {
+      dispatch(usersActions.setInitialField('params'));
+    }
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <React.Fragment>
@@ -49,17 +68,15 @@ const UsersHeader:React.FC<Props> = ({ role }) => {
         <Typography variant='h5'>
           {`${capitalizeFirstLetter(role)}s`}
         </Typography>
-        <Box sx={{ display: 'flex' ,  alignItems: 'center', gap: 2}}>
+        <Box sx={{ display: 'flex', gap: 2}}>
           <TextField
-            sx={{ height: '100%', position: 'relative', bottom: '6px'}}
-            variant="standard"
-            label="Search by name"
-            placeholder='...'
-            onChange={(e) => {
-              debouncedChangeHandler(e.target.value);
-            }}
+            size="small"
+            label="Search"
+            placeholder="Search by name"
+            value={search}
+            onChange={handleChangeSearch}
           />
-          <Button variant="contained" onClick={openDialog}>
+          <Button sx={{ height: '40px' }} variant="contained" onClick={openDialog}>
             {`Create ${role}`}
           </Button>
         </Box>
