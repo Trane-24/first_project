@@ -9,6 +9,6 @@ export const isEmail = {
 }
 
 export const isPassword = {
-  value: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/,
-  message: 'Minimum 6 characters, at least one letter and one number'
+  value: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/,
+  message: 'Minimum 8 characters, at least one letter and one number'
 }

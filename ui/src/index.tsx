@@ -6,6 +6,8 @@ import { SnackbarProvider } from 'notistack';
 import { setupStore } from './store';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import App from './App/App';
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs as DateAdapter } from '@mui/x-date-pickers/AdapterDayjs'
 // styles
 import theme from './theme'
 import './index.css';
@@ -22,9 +24,11 @@ root.render(
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <SnackbarProvider maxSnack={5}>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
+            <LocalizationProvider dateAdapter={DateAdapter}>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </LocalizationProvider>
           </SnackbarProvider>
         </Provider>
       </ThemeProvider>

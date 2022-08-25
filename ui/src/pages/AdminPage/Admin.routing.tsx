@@ -5,6 +5,7 @@ import UserRoles from '../../types/UserRoles';
 import UsersPage from './Users';
 import ProfilePage from './ProfilePage';
 import HotelsPage from './Hotels';
+import ReservationPage from './Reservations';
 
 const AdminRouting:React.FC = () => {
   return (
@@ -26,6 +27,8 @@ const AdminRouting:React.FC = () => {
           <UsersPage role={UserRoles.Guest} />
         </GuestsWrapper>
       } />
+
+      <Route path='reservations' element={<ReservationPage />}/>
 
       <Route path="hotels" element={<HotelsPage />} />
 

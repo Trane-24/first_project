@@ -1,0 +1,4 @@
+import { RootState } from "store";
+
+export const selectReservations = (state: RootState) => state.reservations.reservations;
+export const selectTotal = (state: RootState) => state.reservations.total;

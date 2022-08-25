@@ -2,9 +2,10 @@ import IHotel from "./Hotel";
 import IUser from "./User";
 
 interface IReservation {
-  id: number;
+  _id: string;
   startDate: string;
   endDate: string,
+  notes: string,
   hotel: IHotel;
   guest: IUser;
 }

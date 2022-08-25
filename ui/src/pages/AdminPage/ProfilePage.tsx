@@ -34,6 +34,7 @@ const ProfilePage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
+  console.log(currentUser)
 
   const { handleSubmit, control, formState: {errors}} = useForm<IForm>({
     defaultValues: {

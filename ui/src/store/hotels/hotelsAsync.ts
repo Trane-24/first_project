@@ -14,7 +14,7 @@ export const fetchHotels = createAsyncThunk('hotels/Fetch hotels', async (params
       }
     })
 
-    const response = await axios.get(url);
+    const response = await axios.get(`${url}?${nextParams}`);
     return response.data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
