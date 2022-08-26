@@ -32,8 +32,6 @@ interface IForm {
 }
 
 const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
-  console.log(reservation)
-
   const dispatch = useAppDispatch();
   const users = useSelector(selectUsers);
   const hotels = useSelector(selectHotels);
@@ -57,7 +55,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
 
   const changeQueryValue = (e: any) => {
     const { name, value } = e.target;
-    console.log(name);
+
     switch (name) {
       case 'guestId':
         setValueGuest(value);
@@ -166,8 +164,8 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                       label="End date"
                       fullWidth
                       required
-                      error={!!errors?.startDate}
-                      helperText={errors?.startDate ? errors.startDate.message : null}
+                      error={!!errors?.endDate}
+                      helperText={errors?.endDate ? errors.endDate.message : null}
                     />
                   )}
                 />
@@ -188,8 +186,8 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                   label="Notes"
                   fullWidth
                   required
-                  error={!!errors?.startDate}
-                  helperText={errors?.startDate ? errors.startDate.message : null}
+                  error={!!errors?.notes}
+                  helperText={errors?.notes ? errors.notes.message : null}
                 />
               )}
             />
