@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, ObjectId } = require('mongoose');
 
 const Hotel = new Schema({
   name: { type: String, require: true },
@@ -6,7 +6,7 @@ const Hotel = new Schema({
   city: { type: String },
   imgUrl: { type: String },
   description: { type: String },
-  ownerId: { type: String, require: true },
+  owner: { type: ObjectId, ref: 'User' },
 });
 
 module.exports = model('Hotel', Hotel);

@@ -8,32 +8,10 @@ const router = new Router();
 router.get('/', async (req, res) => {
   try {
     const { limit, page } = req.query;
-    const hotels = await Hotel.find({...req.query}).skip((page-1)*limit).limit(limit);
     const total = await Hotel.find({...req.query}).count();
-    const newHotels = hotels.map((hotel) => {
-      const data = {};
-      Object.keys(hotel._doc).map(key => {
-        if (hotel._doc[key]) {
-          data[key] = hotel._doc[key];
-        }
-      })
-      return data;
-    })
-    const hotelsPromises = newHotels.map(async(hotel) => {
-      const owner = await User.findOne({ _id: hotel.ownerId });
-      const data = {};
-      Object.keys(owner._doc).map(key => {
-        if (owner._doc[key] && key !== 'password') {
-          data[key] = owner._doc[key];
-        }
-      })
-      const { ownerId, ...nextData } = hotel;
-      return { ...nextData, owner: data }
-    });
+    const hotels = await Hotel.find({...req.query}).skip((page-1)*limit).limit(limit).populate('owner', 'email firstName lastName phone role');
 
-    Promise.all(hotelsPromises).then( function (hotels){
-      return res.json({ data: hotels, total });
-    });
+    return res.json({ data: hotels, total });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -42,28 +20,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const hotel = await Hotel.findOne({_id: req.params.id});
+    const hotel = await Hotel.findOne({_id: req.params.id}).populate('owner', 'email firstName lastName phone role');
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
-    const owner = await User.findOne({ _id: hotel.ownerId });
-    const data = {};
-    Object.keys(hotel._doc).map(key => {
-      if (hotel._doc[key]) {
-        if (key === 'ownerId') {
-          const ownerData = {};
-          Object.keys(owner._doc).map(key => {
-            if (owner._doc[key] && key !== 'password') {
-              ownerData[key] = owner._doc[key];
-            }
-          })
-          data['owner'] = ownerData;
-        } else {
-          data[key] = hotel._doc[key];
-        }
-      }
-    })
-    return res.json(data);
+    return res.json(hotel);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -90,25 +51,12 @@ router.post('/', async (req, res) => {
       return res.status(404).json({message: 'Owner not found'});
     }
 
-    const hotel = new Hotel(req.body);
-    const response = await hotel.save();
-    const data = {};
-    Object.keys(response._doc).map(key => {
-      if (response._doc[key]) {
-        if (key === 'ownerId') {
-          const ownerData = {};
-          Object.keys(owner._doc).map(key => {
-            if (owner._doc[key] && key !== 'password') {
-              ownerData[key] = owner._doc[key];
-            }
-          })
-          data['owner'] = ownerData;
-        } else {
-          data[key] = response._doc[key];
-        }
-      }
-    })
-    return res.json(data);
+    const hotel = new Hotel({
+      ...req.body,
+      owner: req.body.ownerId
+    });
+    const response = await (await hotel.save()).populate('owner', 'email firstName lastName phone role');
+    return res.json(response);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -157,24 +105,8 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({message: 'Hotel not found'});
     }
     await hotel.update({...req.body});
-    const response = await Hotel.findOne({_id: req.params.id});
-    const data = {};
-    Object.keys(response._doc).map(key => {
-      if (response._doc[key]) {
-        if (key === 'ownerId') {
-          const ownerData = {};
-          Object.keys(owner._doc).map(key => {
-            if (owner._doc[key] && key !== 'password') {
-              ownerData[key] = owner._doc[key];
-            }
-          })
-          data['owner'] = ownerData;
-        } else {
-          data[key] = response._doc[key];
-        }
-      }
-    })
-    return res.json(data);
+    const response = await (await Hotel.findOne({_id: req.params.id})).populate('owner', 'email firstName lastName phone role');
+    return res.json(response);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
