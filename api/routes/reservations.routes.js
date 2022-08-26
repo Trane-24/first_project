@@ -77,11 +77,12 @@ router.post('/', async (req, res) => {
       guest: req.body.guestId,
       hotel: req.body.hotelId,
     });
-    const response = await reservation.save()
-      .populate({ path: 'hotel', populate: { path: 'owner' } })
-      .populate('guest')
+
+    return reservation.save()
+      .then(data => data.populate({ path: 'hotel', populate: { path: 'owner' } }))
+      .then(data => data.populate('guest'))
+      .then(data => res.json(data))
   
-    return res.json(response);
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
