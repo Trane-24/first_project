@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
@@ -17,9 +17,11 @@ import { selectCurrentUser } from 'store/users/usersSelectors';
 import UserRoles from 'types/UserRoles';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Grid, Paper, TextField } from '@mui/material';
+import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
 // utilites
-import { isEmail, isRequired } from 'utilites/validation';
+import { isEmail, isMatch, isRequired } from 'utilites/validation';
+import {isPassword} from '../../utilites/validation';
+import MessageInfo from 'components/MessageInfo';
 
 interface IForm {
   firstName: string;
@@ -27,6 +29,8 @@ interface IForm {
   email: string;
   phone?: string;
   role: UserRoles;
+  newPassword?: string;
+  confirmPassword?: string;
 }
 
 const ProfilePage: React.FC = () => {
@@ -34,22 +38,68 @@ const ProfilePage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser)
 
-  const { handleSubmit, control, formState: {errors}} = useForm<IForm>({
+  const { handleSubmit, watch, control, formState: {errors}} = useForm<IForm>({
     defaultValues: {
       email: currentUser?.email,
       firstName: currentUser?.firstName,
       lastName: currentUser?.lastName,
       phone: currentUser?.phone,
       role: currentUser?.role,
+      newPassword: '',
+      confirmPassword: '',
     }
   });
 
+  const newPass = watch('newPassword');
+  const confirmPass = watch('confirmPassword');
+
+  const passwordIsEmpty = useMemo(() => {
+    return !newPass && !confirmPass;
+  }, [newPass, confirmPass]);
+
+  const newPassIsTrue = useMemo(() => {
+    return newPass === confirmPass;
+  }, [newPass, confirmPass]);
+
+  const passwordHas8Characters = useMemo(() => {
+    return newPass ? newPass?.length >= 8 : false;
+  },[newPass]);
+
+  const passwordHas1UpperChar = useMemo(() => {
+    return newPass ? newPass.replace(/[^A-Z]/g, '').length > 0 : false;
+  }, [newPass]);
+
+  const passwrdHas1SpecialChar = useMemo(() => {
+    const isSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPass || '');
+    return newPass ? isSpecial : false;
+  }, [newPass]);
+
+  const passwordIsCorrect = useMemo(() => {
+    return passwordHas8Characters && passwordHas1UpperChar && passwrdHas1SpecialChar;
+  }, [newPass]);
+  
+  useEffect(() => {
+    console.log(passwordIsCorrect)
+  }, [passwordIsCorrect])
+
   const onSubmit = handleSubmit((data: IForm) => {
+    if (!passwordIsCorrect && newPass) {
+      return;
+    }
+
     const { phone, ...nextData } = data;
-    const newData: any = { ...nextData };
+    const newData: any = { 
+      firstName: nextData.firstName,
+      lastName: nextData.lastName,
+      email: nextData.email,
+      role: nextData.role,
+     };
+
     if (phone) newData['phone'] = phone;
+    if (!passwordIsEmpty && newPassIsTrue) {
+      newData['password'] = newPass;
+    }
 
     setIsLoading(true);
     dispatch(updateUser({ userId: currentUser?._id, user: newData }))
@@ -125,6 +175,74 @@ const ProfilePage: React.FC = () => {
                   <Phone value={value || ''} onChange={onChange} label="Phone" />
                 )}
               />
+            </Grid>
+
+            {/* newPassword */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                control={control} name="newPassword"
+                rules={{ required: { ...isRequired, value: !!confirmPass } }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id='new-password'
+                    autoComplete="new-password"
+                    type="password"
+                    label="New password"
+                    margin="normal"
+                    fullWidth
+                    required={!!confirmPass}
+                    error={!passwordIsCorrect && !!newPass}
+                    helperText={errors?.newPassword && !!newPass ? errors.newPassword.message : null}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* confirmPassword */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                control={control} name="confirmPassword"
+                rules={{
+                  required: { ...isRequired, value: !!newPass },
+                  validate: (val: string | undefined) => isMatch(val, newPass, 'Password doesn\'t match')
+                 }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id='confirm-password'
+                    type="password"
+                    label="Confirm password"
+                    margin="normal"
+                    fullWidth
+                    required={!!newPass}
+                    error={!!errors?.confirmPassword && !!newPass}
+                    helperText={errors?.confirmPassword && !!confirmPass ? errors.confirmPassword.message : null}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+
+              <MessageInfo
+                value={newPass}
+                isDone={passwordHas8Characters}
+                message={'Must be 8 or more characters in length.'}
+              />
+
+              <MessageInfo
+                value={newPass}
+                isDone={passwordHas1UpperChar}
+                message={'Must contain 1 or more uppercase and lowecase characters.'}
+              />
+
+              <MessageInfo
+                value={newPass}
+                isDone={passwrdHas1SpecialChar}
+                message={'Must contain 1 or more special characters.'}
+              />
+
             </Grid>
           </Grid>
           <LoadingButton
