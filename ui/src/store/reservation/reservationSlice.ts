@@ -39,7 +39,7 @@ const reservationSlice = createSlice({
     // create reservation
     .addCase(createReservation.fulfilled, (state, action) => {
       state.reservations = state.reservations
-        ? [...state.reservations, action.payload]
+        ? [action.payload, ...state.reservations]
         : [action.payload]
     })
     // update reservation

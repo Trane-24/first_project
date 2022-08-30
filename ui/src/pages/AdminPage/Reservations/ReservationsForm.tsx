@@ -104,7 +104,6 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
         .then(() => onClose())
         .finally(() => setIsLoading(false))
      }
-
   });
 
   useEffect(() => {
@@ -135,6 +134,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
               render={({ field }) => (
                 <MobileDatePicker
                   { ...field }
+                  disablePast
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -158,6 +158,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
               render={({ field }) => (
                 <MobileDatePicker
                   { ...field }
+                  disablePast
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -259,8 +260,8 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                       name="hotelId"
                       label="Hotel"
                       required
-                      error={Boolean(errors.guestId)}
-                      helperText={errors.guestId ? `${errors.guestId.message}` : ''}
+                      error={Boolean(errors.hotelId)}
+                      helperText={errors.hotelId ? `${errors.hotelId.message}` : ''}
                       onChange={(e) => {
                         setIsLoadingHotels(true);
                         debouncedChangeHandler(e);
