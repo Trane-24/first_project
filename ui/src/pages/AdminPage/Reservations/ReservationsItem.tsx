@@ -1,4 +1,4 @@
-import { Card, Grid, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Box, Card, Divider, Grid, IconButton, Link, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ConfirmDeleteModal from 'components/ConfirmDeleteModal';
 import { useAppDispatch } from 'hooks/useAppDispatch';
@@ -14,6 +14,9 @@ import {
 import { deleteReservation } from 'store/reservation/reservationAsunc';
 import { appActions } from 'store/app/appSlice';
 import { v4 as uuid } from 'uuid';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
   reservation: IReservation;
@@ -51,6 +54,18 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
   // edite form
   const {Dialog, openDialog, closeDialog} = useDialog();
 
+  const {
+    Dialog: DialogGuest,
+    openDialog: openDialogGuest,
+    closeDialog: closeDialogGuest
+  } = useDialog();
+
+  const {
+    Dialog: DialogHotel,
+    openDialog: openDialogHotel,
+    closeDialog: closeDialogHotel
+  } = useDialog();
+
   const handleOpenEditModal = () => {
     openDialog();
     setOpenMenu(false);
@@ -68,6 +83,40 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
       <Dialog>
         <ReservationForm onClose={closeDialog} reservation={reservation} />
       </Dialog>
+
+      <DialogGuest>
+        <Box sx={{ p: 2}}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant='h5'>
+              {`${reservation.guest.firstName} ${reservation.guest.lastName}`}
+            </Typography>
+            <Box onClick={closeDialogGuest} sx={{ cursor: 'pointer'}}>
+              <CloseIcon />
+            </Box>
+          </Box>
+          <Divider sx={{ pb: 1, mb: 2}}/>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2}}>
+            <Box sx={{ display: 'flex', gap: 2}}>
+              <EmailOutlinedIcon />
+              <Link href={`mailto:${reservation.guest.email}`}>{reservation.guest.email}</Link>
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 2}}>
+              <LocalPhoneOutlinedIcon />
+              {reservation.guest.phone ? (
+                <Link href={`tel:${reservation.guest.phone}`}>{reservation.guest.phone}</Link>
+              ) : (
+                <Typography>Not phone</Typography>
+              )}
+              
+            </Box>
+          </Box>
+        </Box>
+      </DialogGuest>
+
+      <DialogHotel>
+        <p>Dialog Hotel</p>
+      </DialogHotel>
 
       <Card className={classes.card}>
         <Grid container>
@@ -102,18 +151,18 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
             <Typography className={classes.title}>
               Guest
             </Typography>
-            <Typography className={classes.text}>
-              {`${reservation.guest.firstName} ${reservation.guest.lastName}`}
-            </Typography>
+            <Link className={classes.text} onClick={openDialogGuest} sx={{ cursor: 'pointer'}} underline="hover">
+              <Typography>{`${reservation.guest.firstName} ${reservation.guest.lastName}`}</Typography>
+            </Link>
           </Grid>
 
           <Grid item xs={2}>
             <Typography className={classes.title}>
               Hotel
             </Typography>
-            <Typography className={classes.text}>
-              {reservation.hotel.name}
-            </Typography>
+            <Link className={classes.text} onClick={openDialogHotel} sx={{ cursor: 'pointer', fontSize: '14px'}} underline="hover">
+              <Typography>{reservation.hotel.name}</Typography>
+            </Link>
           </Grid>
 
           <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>

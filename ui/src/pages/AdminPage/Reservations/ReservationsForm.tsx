@@ -43,7 +43,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
   const [valueGuest, setValueGuest] = useState('');
   const [valueHotel, setValueHotel] = useState('');
 
-  const {handleSubmit, control, formState: {errors}} = useForm<IForm>({
+  const {handleSubmit, watch, control, formState: {errors}} = useForm<IForm>({
     defaultValues: {
       startDate: reservation ? reservation.startDate : '',
       endDate: reservation ? reservation.endDate : '',
@@ -52,6 +52,11 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       hotelId: reservation ? reservation.hotel : null,
     }
   });
+
+  const startDate = watch('startDate');
+  const endDate = watch('endDate');
+
+  console.log(dayjs(startDate).add(1, 'day'))
 
   const changeQueryValue = (e: any) => {
     const { name, value } = e.target;
@@ -135,6 +140,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                 <MobileDatePicker
                   { ...field }
                   disablePast
+                  maxDate={dayjs(endDate).add(-1, 'day')}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -159,6 +165,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                 <MobileDatePicker
                   { ...field }
                   disablePast
+                  minDate={dayjs(startDate).add(1, 'day')}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -186,7 +193,6 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                   rows={3}
                   label="Notes"
                   fullWidth
-                  required
                   error={!!errors?.notes}
                   helperText={errors?.notes ? errors.notes.message : null}
                 />
