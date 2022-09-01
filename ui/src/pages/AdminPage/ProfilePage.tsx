@@ -20,7 +20,6 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
 // utilites
 import { isEmail, isMatch, isRequired } from 'utilites/validation';
-import {isPassword} from '../../utilites/validation';
 import MessageInfo from 'components/MessageInfo';
 
 interface IForm {
@@ -39,7 +38,7 @@ const ProfilePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
 
-  const { handleSubmit, watch, control, formState: {errors}} = useForm<IForm>({
+  const { handleSubmit, watch, control, resetField, formState: {errors}} = useForm<IForm>({
     defaultValues: {
       email: currentUser?.email,
       firstName: currentUser?.firstName,
@@ -104,6 +103,10 @@ const ProfilePage: React.FC = () => {
     setIsLoading(true);
     dispatch(updateUser({ userId: currentUser?._id, user: newData }))
       .unwrap()
+      .then(() => {
+        resetField('newPassword');
+        resetField('confirmPassword');
+      })
       .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Profile was updated' })))
       .finally(() => setIsLoading(false))
   });
@@ -216,8 +219,8 @@ const ProfilePage: React.FC = () => {
                     margin="normal"
                     fullWidth
                     required={!!newPass}
-                    error={!!errors?.confirmPassword && !!newPass}
-                    helperText={errors?.confirmPassword && !!confirmPass ? errors.confirmPassword.message : null}
+                    error={!!errors?.confirmPassword}
+                    helperText={errors?.confirmPassword ? errors.confirmPassword.message : null}
                   />
                 )}
               />
