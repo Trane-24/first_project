@@ -119,11 +119,11 @@ router.delete('/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({message: 'User not found'});
     }
-    const reservation = await Reservation.findOne({ guestId: user.id });
+    const reservation = await Reservation.findOne({ guest: user.id });
     if (reservation) {
       return res.status(400).json({message: 'User can\'t be deleted as there are reservation assigned'});
     }
-    const hotel = await Hotel.findOne({ ownerId: user.id });
+    const hotel = await Hotel.findOne({ owner: user.id });
     if (hotel) {
       return res.status(400).json({message: 'User can\'t be deleted as there are hotel assigned'});
     }
