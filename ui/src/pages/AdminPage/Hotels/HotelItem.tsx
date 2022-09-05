@@ -145,7 +145,7 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
         <AccordionDetails
           sx={{ backgroundColor: isActive ? '#ededed' : '#fff' }}
         >
-          <Divider sx={{ mb: 3 }} />
+          <Divider sx={{ mb: 2 }} />
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <img
@@ -168,12 +168,6 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
 export default HotelItem;
 
 const useStyle = makeStyles({
-  card: {
-    padding: '12px',
-    borderRadius: 0,
-    borderBottom: '1px solid #eee',
-    width: '100%',
-  },
   title: {
     fontSize: '12px',
     lineHeight: '166%',
