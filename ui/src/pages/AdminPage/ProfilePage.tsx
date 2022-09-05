@@ -17,10 +17,12 @@ import { selectCurrentUser } from 'store/users/usersSelectors';
 import UserRoles from 'types/UserRoles';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 // utilites
 import { isEmail, isMatch, isRequired } from 'utilites/validation';
 import MessageInfo from 'components/MessageInfo';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 interface IForm {
   firstName: string;
@@ -34,6 +36,12 @@ interface IForm {
 
 const ProfilePage: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const handeShowPassword = () => setShowPassword(!showPassword);
+  const handeShowPassword2 = () => setShowPassword2(!showPassword2);
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
@@ -181,7 +189,7 @@ const ProfilePage: React.FC = () => {
             </Grid>
 
             {/* newPassword */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ position: 'relative'}}>
               <Controller
                 control={control} name="newPassword"
                 rules={{ required: { ...isRequired, value: !!confirmPass } }}
@@ -190,7 +198,7 @@ const ProfilePage: React.FC = () => {
                     {...field}
                     id='new-password'
                     autoComplete="new-password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     label="New password"
                     margin="normal"
                     fullWidth
@@ -200,10 +208,19 @@ const ProfilePage: React.FC = () => {
                   />
                 )}
               />
+              <Button
+                sx={{ position: 'absolute', right: '0', top: '32px', height: '56px'}}
+                onClick={handeShowPassword}
+              >
+                {showPassword
+                  ? <VisibilityOffOutlinedIcon />
+                  : <VisibilityOutlinedIcon />
+                }
+              </Button>
             </Grid>
 
             {/* confirmPassword */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ position: 'relative'}}>
               <Controller
                 control={control} name="confirmPassword"
                 rules={{
@@ -214,7 +231,7 @@ const ProfilePage: React.FC = () => {
                   <TextField
                     {...field}
                     id='confirm-password'
-                    type="password"
+                    type={showPassword2 ? "text" : "password"}
                     label="Confirm password"
                     margin="normal"
                     fullWidth
@@ -224,6 +241,15 @@ const ProfilePage: React.FC = () => {
                   />
                 )}
               />
+              <Button
+                sx={{ position: 'absolute', right: '0', top: '32px', height: '56px'}}
+                onClick={handeShowPassword2}
+              >
+                {showPassword2
+                  ? <VisibilityOffOutlinedIcon />
+                  : <VisibilityOutlinedIcon />
+                }
+              </Button>
             </Grid>
 
             <Grid item xs={12}>

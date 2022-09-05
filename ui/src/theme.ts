@@ -58,7 +58,14 @@ const theme = createTheme({
           borderRadius: '4px'
         }
       }
-    }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontSize: '14px',
+        },
+      }
+    },
   },
 });
 
