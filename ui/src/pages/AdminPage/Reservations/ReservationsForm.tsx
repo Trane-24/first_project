@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import IReservation from "models/Reservation";
 import IUser from "models/User";
-import React, { useCallback, useEffect, useState }  from "react";
+import React, { useCallback, useEffect, useMemo, useState }  from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { appActions } from "store/app/appSlice";
@@ -43,7 +43,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
   const [valueGuest, setValueGuest] = useState('');
   const [valueHotel, setValueHotel] = useState('');
 
-  const {handleSubmit, watch, control, formState: {errors}} = useForm<IForm>({
+  const {handleSubmit, watch, control, formState: {errors}, setValue} = useForm<IForm>({
     defaultValues: {
       startDate: reservation ? reservation.startDate : '',
       endDate: reservation ? reservation.endDate : '',
@@ -56,7 +56,9 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
   const startDate = watch('startDate');
   const endDate = watch('endDate');
 
-  console.log(dayjs(startDate).add(1, 'day'))
+  const needUpdateData = useMemo(() => {
+    return startDate >= endDate;
+  }, [startDate]);
 
   const changeQueryValue = (e: any) => {
     const { name, value } = e.target;
@@ -123,6 +125,14 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       .finally(() => setIsLoadingHotels(false))
   }, [valueHotel]);
 
+  useEffect(() => {
+    const newStartDate = dayjs(startDate).format('YYYY-MM-DD');
+    const newEndDate = dayjs(endDate).format('YYYY-MM-DD');
+    if (newStartDate >= newEndDate && !!endDate) {
+      setValue('endDate', dayjs(startDate).add(1, 'day').format('YYYY-MM-DD'));
+    }
+  }, [startDate, endDate])
+
   return (
     <Box sx={{p: 5, width: '100%'}}>
       <Typography variant="h5">
@@ -140,7 +150,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                 <MobileDatePicker
                   { ...field }
                   disablePast
-                  maxDate={dayjs(endDate).add(-1, 'day')}
+                  // maxDate={dayjs(endDate).subtract(1, 'day')}
                   renderInput={(params) => (
                     <TextField
                       {...params}
