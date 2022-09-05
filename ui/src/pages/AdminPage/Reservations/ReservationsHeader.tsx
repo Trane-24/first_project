@@ -1,8 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import useDialog from "hooks/useDialog";
-import React, { useEffect }  from "react";
-import { fetchReservation } from "store/reservation/reservationAsunc";
+import React from "react";
 import ReservationForm from "./ReservationsForm";
 // Components
 
@@ -10,10 +9,6 @@ const ReservationHeader: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const {Dialog, openDialog, closeDialog} = useDialog();
-
-  useEffect(() => {
-    dispatch(fetchReservation({}))
-  }, [])
 
   return (
     <React.Fragment>

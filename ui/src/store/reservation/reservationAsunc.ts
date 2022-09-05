@@ -6,9 +6,17 @@ import IReservation from "models/Reservation";
 const url = `${config.apiURL}/reservations`;
 
 // fetch reservations
-export const fetchReservation = createAsyncThunk('reservations/Fetch reservation', async (_: any, thunkApi) => {
+export const fetchReservation = createAsyncThunk('reservations/Fetch reservation', async (params: any, thunkApi) => {
   try {
-    const { data } = await axios.get(url);
+    const nextParams = new URLSearchParams();
+
+    Object.keys(params).forEach((key: string) => {
+      if (params[key]) {
+        nextParams.append(key, params[key]);
+      }
+    })
+
+    const { data } = await axios.get(`${url}?${nextParams}`);
     return data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data)

@@ -57,7 +57,6 @@ const HotelList:React.FC = () => {
     return () => {
       dispatch(hotelsActions.setInitialField('params'));
     }
-
     // eslint-disable-next-line
   }, [])
 

@@ -97,7 +97,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
     const oneYear = start[0] === end[0];
 
     if (oneMonth && oneYear) {
-      return `${dayjs(startDate).format('MMM DD')} - ${end[2]}, ${end[0]}`
+      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('DD, YYYY')}`
     } else if (!oneMonth) {
       return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('MMM DD, YYYY')}`
     }
