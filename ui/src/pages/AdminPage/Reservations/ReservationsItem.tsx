@@ -97,13 +97,13 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
     const oneYear = start[0] === end[0];
 
     if (oneMonth && oneYear) {
-      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('DD, YYYY')}`
-    } else if (!oneMonth) {
-      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('MMM DD, YYYY')}`
+      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('DD, YYYY')}`;
+    } else if (!oneMonth && oneYear) {
+      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('MMM DD, YYYY')}`;
+    } else {
+      return `${dayjs(startDate).format('MMM DD, YYYY')} - ${dayjs(endDate).format('MMM DD, YYYY')}`;
     }
-
-    return `${dayjs(startDate).format('MMM DD YYYY')} - ${dayjs(endDate).format('MMM DD YYYY')}`
-  }
+  };
 
   return (
     <React.Fragment>

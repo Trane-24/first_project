@@ -29,7 +29,7 @@ const ConfirmDeleteModal: React.FC<Props> = ({
           {`Are you sure want to delete ${title}`}
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1.5, pt: 3}}>
-          <Button variant="outlined" onClick={onClose} >Cancel</Button>
+          <Button variant="outlined" onClick={onClose}>Cancel</Button>
           <Button variant="contained" color="error" onClick={handleRemove}>Delete</Button>
         </Box>
       </Box>
