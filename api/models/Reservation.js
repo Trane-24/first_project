@@ -5,7 +5,8 @@ const Reservation = new Schema({
   guest: { type: ObjectId, ref: 'User' },
   startDate: { type: String, require: true },
   endDate: { type: String, require: true },
-  notes: { type: String }
+  notes: { type: String },
+  status: { type: String, enum: ['pending', 'rejected', 'completed'], default: 'pending' }
 });
 
 module.exports = model('Reservation', Reservation);
