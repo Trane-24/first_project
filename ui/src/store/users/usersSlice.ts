@@ -59,10 +59,12 @@ const usersSlice = createSlice({
       // create user
       .addCase(createUser.fulfilled, (state, action) => {
         state.users = state.users ? [action.payload, ...state.users] : [action.payload];
+        state.total = state.total + 1;
       })
       // delete user
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.users = state.users ? state.users.filter(user => user._id !== action.payload) : null;
+        state.total = state.total - 1;
       })
       // update user
       .addCase(updateUser.fulfilled, (state, action) => {

@@ -13,6 +13,7 @@ const ReservationList: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
+  
 
   const reservations = useSelector(selectReservations);
   const params = useSelector(selectParams);
@@ -42,6 +43,7 @@ const ReservationList: React.FC = () => {
     dispatch(fetchReservation({...stateParams}))
       .unwrap()
       .finally(() => setIsLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateParams]);
 
   if (isLoading) return <LinearProgress />
@@ -49,12 +51,12 @@ const ReservationList: React.FC = () => {
 
   return (
     <Box className={classes.list}>
-    <Box className={classes.items}>
-      {reservations?.map((reservation: any) => (
-        <ReservationsItem reservation={reservation} key={reservation._id} />
-      ))}
-    </Box>
-    <Box>
+      <Box className={classes.items}>
+        {reservations?.map((reservation: any) => (
+          <ReservationsItem reservation={reservation} key={reservation._id} />
+        ))}
+      </Box>
+      <Box>
         <TablePagination
           className={classes.pagination}
           component="div"

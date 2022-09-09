@@ -1,9 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Dialog as MuiDialog } from '@mui/material';
-
-interface Props {
-  children: any,
-}
+import { Dialog as MuiDialog, DialogProps } from '@mui/material';
 
 const useDialog = () => {
   const [open, setOpen] = useState(false);
@@ -13,7 +9,7 @@ const useDialog = () => {
   const closeDialog = () => setOpen(false);
 
   const Dialog = useMemo(() => {
-    const DialogComponent: React.FC<Props> = ({ children, ...props}) => {
+    const DialogComponent: React.FC<Omit<DialogProps, 'onClose' | 'open'>> = ({ children, ...props}) => {
       return (
         <MuiDialog
           {...props}

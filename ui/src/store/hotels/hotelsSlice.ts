@@ -37,13 +37,15 @@ const hotelsSlice = createSlice({
     })
     // create hotel
     .addCase(createHotel.fulfilled, (state, action) => {
-      state.hotels = state.hotels ? [action.payload, ...state.hotels] : [action.payload]
+      state.hotels = state.hotels ? [action.payload, ...state.hotels] : [action.payload];
+      state.total = state.total + 1;
     })
     // delete hotel
     .addCase(deleteHotel.fulfilled, (state, action) => {
       state.hotels = state.hotels
         ? state.hotels.filter(hotel => hotel._id !== action.payload)
         : null;
+      state.total = state.total - 1;
     })
     // update hotel
     .addCase(updateHote.fulfilled, (state, action) => {

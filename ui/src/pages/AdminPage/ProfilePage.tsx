@@ -85,10 +85,6 @@ const ProfilePage: React.FC = () => {
   const passwordIsCorrect = useMemo(() => {
     return passwordHas8Characters && passwordHas1UpperChar && passwrdHas1SpecialChar;
   }, [newPass]);
-  
-  useEffect(() => {
-    console.log(passwordIsCorrect)
-  }, [passwordIsCorrect])
 
   const onSubmit = handleSubmit((data: IForm) => {
     if (!passwordIsCorrect && newPass) {
@@ -192,7 +188,7 @@ const ProfilePage: React.FC = () => {
             <Grid item xs={12} md={6} sx={{ position: 'relative'}}>
               <Controller
                 control={control} name="newPassword"
-                rules={{ required: { ...isRequired, value: !!confirmPass } }}
+                rules={{ required: {...isRequired, value: !!confirmPass} }}
                 render={({ field }) => (
                   <TextField
                     {...field}
@@ -203,8 +199,8 @@ const ProfilePage: React.FC = () => {
                     margin="normal"
                     fullWidth
                     required={!!confirmPass}
-                    error={!passwordIsCorrect && !!newPass}
-                    helperText={errors?.newPassword && !!newPass ? errors.newPassword.message : null}
+                    error={!!errors?.newPassword || (!!newPass && !passwordIsCorrect)}
+                    helperText={errors?.newPassword ? errors.newPassword.message : null}
                   />
                 )}
               />

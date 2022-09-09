@@ -29,7 +29,6 @@ type Props = {
 }
 
 const HotelItem:React.FC<Props> = ({ hotel }) => {
-  console.log(hotel)
   const classes = useStyle();
   const dispatch = useAppDispatch();
 

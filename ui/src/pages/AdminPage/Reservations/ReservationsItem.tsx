@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Card, Divider, Grid, IconButton, Link, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, Grid, IconButton, Link, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ConfirmDeleteModal from 'components/ConfirmDeleteModal';
 import { useAppDispatch } from 'hooks/useAppDispatch';
@@ -14,11 +14,12 @@ import {
 import { deleteReservation } from 'store/reservation/reservationAsunc';
 import { appActions } from 'store/app/appSlice';
 import { v4 as uuid } from 'uuid';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import CloseIcon from '@mui/icons-material/Close';
-import HelpCenterOutlinedIcon from '@mui/icons-material/HelpCenterOutlined';
 import dayjs from 'dayjs';
+import UserInfo from '../Users/UserInfo';
+import ReservationStatus from 'types/ReservationStatus';
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
   reservation: IReservation;
@@ -51,6 +52,11 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
     openDialogGuest();
   }
 
+  const handleOpenOwnerModal = (e: any) => {
+    e.stopPropagation();
+    openDialogOwner();
+  }
+
   const handleCloseModal = () => {
     setOpenDeleteModal(false);
     setOpenMenu(false);
@@ -75,6 +81,12 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
   } = useDialog();
 
   const {
+    Dialog: DialogOwner,
+    openDialog: openDialogOwner,
+    closeDialog: closeDialogOwner,
+  } = useDialog();
+
+  const {
     Dialog: DialogHotel,
     openDialog: openDialogHotel,
     closeDialog: closeDialogHotel
@@ -86,7 +98,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
     setOpenMenu(false);
   };
   
-  const {hotel} = reservation;
+  const {hotel, guest} = reservation;
   const imgUrl = hotel.imgUrl || '/images/hotel-no-available.png';
 
   const showCorrectDate = (startDate: string, endDate: string) => {
@@ -105,6 +117,53 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
     }
   };
 
+  const createStatus = (status: ReservationStatus) => {
+    const styleDefault = {
+      display:'flex',
+      alignItems: 'center',
+      gap: 1,
+      width: 'max-content',
+      padding: '2px 10px',
+      borderRadius: '15px',
+    }
+
+    switch(status) {
+      case ReservationStatus.Submitted:
+        return (
+          <Box sx={{
+            ...styleDefault,
+            color: '#3D98BF',
+            backgroundColor: '#E9F5F8',
+          }}>
+            <DoneIcon fontSize='small'/>
+            Submitted
+          </Box>
+        )
+        case ReservationStatus.Completed:
+        return (
+          <Box sx={{
+            ...styleDefault,
+            color: '#2E7D31',
+            backgroundColor: '#E6EFE6',
+          }}>
+            <DoneAllIcon fontSize='small'/>
+            Completed
+          </Box>
+        )
+        case ReservationStatus.Cancelled:
+        return (
+          <Box sx={{
+            ...styleDefault,
+            color: '#D32F30',
+            backgroundColor: '#FAE6E6',
+          }}>
+            <CloseIcon fontSize='small'/>
+            Cancelled
+          </Box>
+        )
+    }
+  }
+
   return (
     <React.Fragment>
       <ConfirmDeleteModal
@@ -119,41 +178,15 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
       </Dialog>
 
       <DialogGuest>
-        <Box sx={{ p: 2}}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant='h5'>
-              {`${reservation.guest.firstName} ${reservation.guest.lastName}`}
-            </Typography>
-            <Box onClick={closeDialogGuest} sx={{ cursor: 'pointer'}}>
-              <CloseIcon />
-            </Box>
-          </Box>
-          <Divider sx={{ pb: 1, mb: 2}}/>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2}}>
-            <Box sx={{ display: 'flex', gap: 2}}>
-              <EmailOutlinedIcon />
-              <Typography>
-                <Link href={`mailto:${reservation.guest.email}`}>{reservation.guest.email}</Link>
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'flex', gap: 2}}>
-              <LocalPhoneOutlinedIcon />
-              {reservation.guest.phone ? (
-                <Typography>
-                  <Link href={`tel:${reservation.guest.phone}`}>{reservation.guest.phone}</Link>
-                </Typography>
-              ) : (
-                <Typography>Not phone</Typography>
-              )}
-              
-            </Box>
-          </Box>
-        </Box>
+        <UserInfo user={guest} close={closeDialogGuest} />
       </DialogGuest>
 
-      <DialogHotel>
-        <Box sx={{ p: 2}}>
+      <DialogOwner >
+        <UserInfo user={hotel.owner} close={closeDialogOwner} />
+      </DialogOwner>
+
+      <DialogHotel maxWidth="md">
+        <Box sx={{ p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={3} alignSelf="center">
               <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotel.name}</Typography>
@@ -171,7 +204,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
             <Grid item xs={1}>
-              <Box onClick={closeDialogHotel} sx={{ cursor: 'pointer'}}>
+              <Box onClick={closeDialogHotel} sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'flex-end'}}>
                 <CloseIcon />
               </Box>
             </Grid>
@@ -211,17 +244,20 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 <Typography className={classes.text}>
                   {showCorrectDate(reservation.startDate, reservation.endDate)}
                 </Typography>
+                {createStatus(reservation.status)}
               </Grid>
 
               <Grid item xs={2}>
                 <Typography className={classes.title}>
                   Owner
                 </Typography>
-                <Typography className={classes.text}>
-                  {reservation.hotel.owner.firstName}
-                  {' '}
-                  {reservation.hotel.owner.lastName}
-                </Typography>
+                <Link className={classes.link} onClick={handleOpenOwnerModal} sx={{ cursor: 'pointer'}} underline="hover">
+                  <Typography color='primary' >
+                    {reservation.hotel.owner.firstName}
+                    {' '}
+                    {reservation.hotel.owner.lastName}
+                  </Typography>
+                </Link>
               </Grid>
 
               <Grid item xs={2}>
@@ -287,8 +323,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1}}
                 underline='hover'
               >
-                  Hotel info
-                <HelpCenterOutlinedIcon />
+                View hotel details
               </Link>
             </Grid>
           </Grid>

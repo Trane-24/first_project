@@ -26,6 +26,9 @@ const reservationSlice = createSlice({
   extraReducers: (builder) => {
     builder
     // fetch reservation
+    .addCase(fetchReservation.pending, (state, action) => {
+      state.params = action.meta.arg;
+    })
     .addCase(fetchReservation.fulfilled, (state, action) => {
       state.reservations = action.payload.data;
       state.total = action.payload.total;
@@ -35,12 +38,16 @@ const reservationSlice = createSlice({
       state.reservations = state.reservations
         ? state.reservations.filter((res: IReservation) => res._id !== action.payload)
         : null;
+      state.total = state.total - 1;
     })
     // create reservation
     .addCase(createReservation.fulfilled, (state, action) => {
-      state.reservations = state.reservations
-        ? [action.payload, ...state.reservations]
-        : [action.payload]
+      if (!state.params.status || state.params.status === action.payload.status) {
+        state.reservations = state.reservations
+          ? [action.payload, ...state.reservations]
+          : [action.payload];
+          state.total = state.total + 1
+      }
     })
     // update reservation
     .addCase(updateReservation.fulfilled, (state, action) => {

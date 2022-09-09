@@ -1,11 +1,11 @@
 import { LoadingButton } from "@mui/lab";
-import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce, MenuItem } from "@mui/material";
 import { MobileDatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import IReservation from "models/Reservation";
 import IUser from "models/User";
-import React, { useCallback, useEffect, useMemo, useState }  from "react";
+import React, { useCallback, useEffect, useState }  from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { appActions } from "store/app/appSlice";
@@ -14,6 +14,7 @@ import { selectHotels } from "store/hotels/hotelsSelectors";
 import { createReservation, updateReservation } from "store/reservation/reservationAsunc";
 import { fetchUsers } from "store/users/usersAsync";
 import { selectUsers } from "store/users/usersSelectors";
+import ReservationStatus from "types/ReservationStatus";
 import { isRequired } from "utilites/validation";
 import { v4 as uuid } from "uuid";
 // Components
@@ -29,6 +30,7 @@ interface IForm {
   notes?: string;
   guestId: any;
   hotelId: any;
+  status: ReservationStatus;
 }
 
 const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
@@ -50,15 +52,12 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       notes: reservation ? reservation.notes : '',
       guestId: reservation ? reservation.guest : null,
       hotelId: reservation ? reservation.hotel : null,
+      status: reservation ? reservation.status :  ReservationStatus.Completed,
     }
   });
 
   const startDate = watch('startDate');
   const endDate = watch('endDate');
-
-  const needUpdateData = useMemo(() => {
-    return startDate >= endDate;
-  }, [startDate]);
 
   const changeQueryValue = (e: any) => {
     const { name, value } = e.target;
@@ -75,6 +74,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedChangeHandler = useCallback(
     debounce(changeQueryValue, 1000)
   , []);
@@ -88,6 +88,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       endDate: dayjs(data.endDate).format('YYYY-MM-DD'),
       guestId: data.guestId._id,
       hotelId: data.hotelId._id,
+      status: data.status,
     };
 
      if (reservation) {
@@ -117,12 +118,14 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     dispatch(fetchUsers({ role: 'guest', search: valueGuest}))
       .unwrap()
       .finally(() => setIsLoadingGuests(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueGuest]);
 
   useEffect(() => {
     dispatch(fetchHotels({ search: valueHotel }))
       .unwrap()
       .finally(() => setIsLoadingHotels(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueHotel]);
 
   useEffect(() => {
@@ -131,6 +134,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     if (newStartDate >= newEndDate && !!endDate) {
       setValue('endDate', dayjs(startDate).add(1, 'day').format('YYYY-MM-DD'));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, endDate])
 
   return (
@@ -150,7 +154,6 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                 <MobileDatePicker
                   { ...field }
                   disablePast
-                  // maxDate={dayjs(endDate).subtract(1, 'day')}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -195,7 +198,6 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
           <Grid item xs={12}>
             <Controller
               control={control} name="notes"
-              // rules={{ required: isRequired}}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -209,6 +211,32 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
               )}
             />
           </Grid>
+
+          {/* status */}
+          {reservation && (
+            <Grid item xs={12}>
+            <Controller
+              control={control} name="status"
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  select
+                  multiline
+                  label="Status"
+                  fullWidth
+                  error={!!errors?.notes}
+                >
+                  {Object.entries(ReservationStatus).map((status) => {
+                    const [title, value] = status;
+
+                    return (<MenuItem key={value} value={value} >{title}</MenuItem>)
+                  })}
+                </TextField>
+              )}
+            />
+          </Grid>
+          )}
+          
           {/* guestId */}
           <Grid item xs={12}>
             <Controller
