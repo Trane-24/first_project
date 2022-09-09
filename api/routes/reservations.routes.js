@@ -76,6 +76,7 @@ router.post('/', async (req, res) => {
       ...req.body,
       guest: req.body.guestId,
       hotel: req.body.hotelId,
+      status: 'pending',
     });
 
     return reservation.save()
