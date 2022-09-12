@@ -3,13 +3,16 @@ const Router = require('express');
 const User = require('../models/User');
 const Hotel = require('../models/Hotel');
 const Reservation = require('../models/Reservation');
+const Asset = require('../models/Asset');
 const router = new Router();
 
 router.get('/', async (req, res) => {
   try {
     const { limit, page } = req.query;
-    const total = await Hotel.find({...req.query}).count();
-    const hotels = await Hotel.find({...req.query}).skip((page-1)*limit).limit(limit).populate('owner', 'email firstName lastName phone role');
+    const params = { ...req.query };
+    const total = await Hotel.find(params).count();
+    const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
+      .populate('owner', 'email firstName lastName phone role').populate('img', 'path');
 
     return res.json({ data: hotels, total });
   } catch (e) {
@@ -20,7 +23,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const hotel = await Hotel.findOne({_id: req.params.id}).populate('owner', 'email firstName lastName phone role');
+    const hotel = await Hotel.findOne({_id: req.params.id}).populate('owner', 'email firstName lastName phone role').populate('img', 'path');
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
@@ -33,7 +36,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { name, ownerId } = req.body;
+    const { name, ownerId, imgId } = req.body;
 
     if (!name) {
       return res.status(400).json({message: 'Name is require'});
@@ -45,18 +48,30 @@ router.post('/', async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(ownerId)) {
       return res.status(400).json({message: 'Unccorect ownerId'});
     }
+    if (!mongoose.Types.ObjectId.isValid(imgId)) {
+      return res.status(400).json({message: 'Unccorect imgId'});
+    }
 
     const owner = await User.findOne({ _id: ownerId });
+    const img = await Asset.findOne({ _id: imgId });
+
     if (!owner) {
       return res.status(404).json({message: 'Owner not found'});
+    }
+    if (!img) {
+      return res.status(404).json({message: 'Image not found'});
     }
 
     const hotel = new Hotel({
       ...req.body,
-      owner: req.body.ownerId
+      owner: req.body.ownerId,
+      img: req.body.imgId
     });
-    const response = await (await hotel.save()).populate('owner', 'email firstName lastName phone role');
-    return res.json(response);
+
+    return hotel.save()
+      .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate('img', 'path'))
+      .then(data => res.json(data)) 
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -105,8 +120,11 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({message: 'Hotel not found'});
     }
     await hotel.update({...req.body});
-    const response = await (await Hotel.findOne({_id: req.params.id})).populate('owner', 'email firstName lastName phone role');
-    return res.json(response);
+    
+    return Hotel.findOne({_id: req.params.id})
+      .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate('img', 'path'))
+      .then(data => res.json(data)) 
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

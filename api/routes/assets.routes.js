@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, 'assets/')
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`)
+    cb(null, `${Date.now()}-${file.originalname.replace(' ', '')}`)
   }
 });
 const upload = multer({
@@ -19,7 +19,7 @@ const upload = multer({
 
 router.get('', async (req, res) => {
   try {
-    const assets = await Asset.sort({ _id: -1 });
+    const assets = await Asset.find().sort({ _id: -1 });
     return res.json(assets);
   } catch (e) {
     console.log(e);
@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', authMiddleware, upload.single('file'), async (req, res) => {
   try {
-    const asset = new Asset({ ...req.file, group: req.body.group })
+    const asset = new Asset({ ...req.file })
     const response = await asset.save();
     return res.json(response)
   } catch (e) {
