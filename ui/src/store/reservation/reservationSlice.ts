@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IReservation from "models/Reservation";
 import { createReservation, deleteReservation, fetchReservation, updateReservation } from "./reservationAsunc";
 
@@ -21,7 +21,9 @@ const reservationSlice = createSlice({
   name: 'reservation',
   initialState,
   reducers: {
-
+    setInitialField: (state, action: PayloadAction<keyof IState>) => {
+      state[action.payload] = initialState[action.payload]
+    }
   },
   extraReducers: (builder) => {
     builder

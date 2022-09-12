@@ -1,13 +1,20 @@
-import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
-import { useAppDispatch } from "hooks/useAppDispatch";
-import useDialog from "hooks/useDialog";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+// Hooks
+import { useAppDispatch } from "hooks/useAppDispatch";
+import useDialog from "hooks/useDialog";
+// Store
+import { reservationAction } from "store/reservation/reservationSlice";
+// Async
 import { fetchReservation } from "store/reservation/reservationAsunc";
+// Selectors
 import { selectParams } from "store/reservation/reservationSelectors";
+// Type
 import ReservationStatus from "types/ReservationStatus";
-import ReservationForm from "./ReservationsForm";
+// MUI
+import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 // Components
+import ReservationForm from "./ReservationsForm";
 
 const ReservationHeader: React.FC = () => {
   // dispath
@@ -16,7 +23,7 @@ const ReservationHeader: React.FC = () => {
   const params = useSelector(selectParams);
   // State
   const [status, setStatus] = useState('');
-  const [stateParams, setStateParams] = useState(params)
+  const [stateParams, setStateParams] = useState(params);
   // Dialog
   const {Dialog, openDialog, closeDialog} = useDialog();
 
@@ -27,13 +34,20 @@ const ReservationHeader: React.FC = () => {
     setStateParams({
       ...stateParams,
       status: value !== 'all' ? value : '',
+      page: 1,
     })
   };
 
   useEffect(() => {
     dispatch(fetchReservation({ ...stateParams}))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stateParams])
+  }, [stateParams]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(reservationAction.setInitialField('params'));
+    }
+  }, []);
 
   return (
     <React.Fragment>

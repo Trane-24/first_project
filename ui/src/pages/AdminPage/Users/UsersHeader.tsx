@@ -1,6 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 // hooks
 import useDialog from 'hooks/useDialog';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+// Store
+import { usersActions } from 'store/users/usersSlice';
+import { selectParams } from 'store/users/usersSelectors';
+// Async
+import { fetchUsers } from 'store/users/usersAsync';
 // Types
 import UserRoles from 'types/UserRoles';
 // Components
@@ -9,11 +16,6 @@ import UsersForm from './UsersForm';
 import { Box, Button, TextField, Typography, debounce } from '@mui/material';
 // utilites
 import { capitalizeFirstLetter } from 'utilites/getString';
-import { useAppDispatch } from 'hooks/useAppDispatch';
-import { usersActions } from 'store/users/usersSlice';
-import { fetchUsers } from 'store/users/usersAsync';
-import { useSelector } from 'react-redux';
-import { selectParams } from 'store/users/usersSelectors';
 
 type Props = {
   role: UserRoles

@@ -13,38 +13,34 @@ const ReservationList: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
-  
 
   const reservations = useSelector(selectReservations);
   const params = useSelector(selectParams);
   const total = useSelector(selectTotal);
 
-  const [stateParams, setStateParams] = useState(params);
+  const [page, setPage] = useState<number>(params.page);
+  const [limit, setLimit] = useState<number>(params.limit);
 
   const handleChangePage = (_: any, value: any) => {
-    setStateParams({
-      ...stateParams,
-      page: value + 1,
-    })
+    setIsLoading(true);
+    setPage(value + 1)
+    dispatch(fetchReservation({ ...params, page: value + 1 }))
+      .unwrap()
+      .finally(() => setIsLoading(false))
   };
 
   const handleChangeLimit = (event:any) => {
     const { value } = event.target;
-    setStateParams({
-      ...stateParams,
-      limit: value,
-      page: 1,
-    })
+    setLimit(value);
+    setPage(1);
+    dispatch(fetchReservation({ ...params, limitm: value, page: 1 }))
+      .unwrap()
+      .finally(() => setIsLoading(false))
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
-    dispatch(fetchReservation({...stateParams}))
-      .unwrap()
-      .finally(() => setIsLoading(false));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stateParams]);
+    setPage(params.page)
+  }, [params.page]);
 
   if (isLoading) return <LinearProgress />
   if (!reservations) return null;
@@ -61,9 +57,9 @@ const ReservationList: React.FC = () => {
           className={classes.pagination}
           component="div"
           count={total}
-          page={stateParams.page - 1}
+          page={page - 1}
           onPageChange={handleChangePage}
-          rowsPerPage={stateParams.limit}
+          rowsPerPage={limit}
           onRowsPerPageChange={handleChangeLimit}
           rowsPerPageOptions={[20, 50, 100]}
         />

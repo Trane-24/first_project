@@ -199,8 +199,10 @@ const ProfilePage: React.FC = () => {
                     margin="normal"
                     fullWidth
                     required={!!confirmPass}
-                    error={!!errors?.newPassword || (!!newPass && !passwordIsCorrect)}
-                    helperText={errors?.newPassword ? errors.newPassword.message : null}
+                    error={Boolean(errors.newPassword && confirmPass !== '')}
+                    helperText={errors.newPassword && confirmPass !== '' && errors.newPassword.type === 'required'
+                      ? errors.newPassword.message : ''
+                    }
                   />
                 )}
               />
@@ -232,8 +234,10 @@ const ProfilePage: React.FC = () => {
                     margin="normal"
                     fullWidth
                     required={!!newPass}
-                    error={!!errors?.confirmPassword}
-                    helperText={errors?.confirmPassword ? errors.confirmPassword.message : null}
+                    error={Boolean(errors.confirmPassword && newPass !== '')}
+                    helperText={errors.confirmPassword && newPass !== '' && errors.confirmPassword.type === 'required'
+                      ? errors.confirmPassword.message : ''
+                    }
                   />
                 )}
               />
