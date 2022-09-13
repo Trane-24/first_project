@@ -17,31 +17,31 @@ const upload = multer({
   storage,
 });
 
-router.get('', async (req, res) => {
-  try {
-    const assets = await Asset.find().sort({ _id: -1 });
-    return res.json(assets);
-  } catch (e) {
-    console.log(e);
-    res.send({ message: 'Server error' });
-  }
-});
+// router.get('', async (req, res) => {
+//   try {
+//     const assets = await Asset.find().sort({ _id: -1 });
+//     return res.json(assets);
+//   } catch (e) {
+//     console.log(e);
+//     res.send({ message: 'Server error' });
+//   }
+// });
 
-router.get('/:id', async (req, res) => {
-  try {
-    const assets = await Asset.find({ _id: req.params.id });
-    return res.json(assets);
-  } catch (e) {
-    console.log(e);
-    res.send({ message: 'Server error' });
-  }
-});
+// router.get('/:id', async (req, res) => {
+//   try {
+//     const assets = await Asset.find({ _id: req.params.id });
+//     return res.json(assets);
+//   } catch (e) {
+//     console.log(e);
+//     res.send({ message: 'Server error' });
+//   }
+// });
 
 router.post('/', authMiddleware, upload.single('file'), async (req, res) => {
   try {
     const asset = new Asset({ ...req.file })
-    const response = await asset.save();
-    return res.json(response)
+    return asset.save()
+      .then(data => res.json(data._id))
   } catch (e) {
     console.log(e);
     res.send({ message: 'Server error' });

@@ -11,6 +11,7 @@ const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
 
 app.use(corsMiddleware)
+app.use('/assets', express.static('assets'));
 app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
