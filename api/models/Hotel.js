@@ -4,7 +4,7 @@ const Hotel = new Schema({
   name: { type: String, require: true },
   country: { type: String },
   city: { type: String },
-  img: { type: ObjectId, ref: 'Asset' },
+  images: [{ type: ObjectId, ref: 'Asset' }],
   description: { type: String },
   owner: { type: ObjectId, ref: 'User' },
 });
