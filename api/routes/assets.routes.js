@@ -37,11 +37,13 @@ const upload = multer({
 //   }
 // });
 
-router.post('/', authMiddleware, upload.single('file'), async (req, res) => {
+router.post('/', authMiddleware, upload.array('files'), async (req, res) => {
   try {
-    const asset = new Asset({ ...req.file })
-    return asset.save()
-      .then(data => res.json(data._id))
+    const promises = [];
+    req.files.map((file) => {
+      promises.push(new Asset(file).save())
+    })
+    return Promise.all(promises).then((data) => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({ message: 'Server error' });
