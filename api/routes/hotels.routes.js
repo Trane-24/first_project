@@ -5,8 +5,9 @@ const Hotel = require('../models/Hotel');
 const Reservation = require('../models/Reservation');
 const Asset = require('../models/Asset');
 const router = new Router();
+const authMiddleware = require('../middlewares/auth.middleware');
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   try {
     const { limit, page } = req.query;
     const params = { ...req.query };
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const hotel = await Hotel.findOne({_id: req.params.id}).populate('owner', 'email firstName lastName phone role').populate('img', 'path');
     if (!hotel) {
@@ -34,7 +35,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
     const { name, ownerId, imgId } = req.body;
 
@@ -78,7 +79,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const hotel = await Hotel.findOne({_id: req.params.id});
     if (!hotel) {
@@ -96,7 +97,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const { name, ownerId } = req.body;
     if (!name) {

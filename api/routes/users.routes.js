@@ -25,7 +25,7 @@ router.get('/fetchMe',
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   try {
     const { limit, page, search } = req.query;
     const regex = new RegExp(search, 'gi');
@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({_id: req.params.id});
     if (!user) {
@@ -68,6 +68,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/',
+  authMiddleware,
   [
     check('email', 'Uncorrecct email').isEmail(),
   ],
@@ -113,7 +114,7 @@ router.post('/',
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({_id: req.params.id});
     if (!user) {
@@ -142,6 +143,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.put('/:id',
+  authMiddleware,
   [
     check('email', 'Uncorrecct email').isEmail(),
     check('password', 'Password must be longer than 8 symbol').isLength({min:8}),

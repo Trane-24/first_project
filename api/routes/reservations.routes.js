@@ -4,8 +4,9 @@ const User = require('../models/User');
 const Hotel = require('../models/Hotel');
 const Reservation = require('../models/Reservation');
 const router = new Router();
+const authMiddleware = require('../middlewares/auth.middleware');
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   try {
     const { limit, page } = req.query;
     const params = {...req.query};
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const reservation = await Reservation.findOne({_id: req.params.id})
       .populate({ path: 'hotel', populate: { path: 'owner' } })
@@ -38,7 +39,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
     const { startDate, endDate, guestId, hotelId } = req.body;
 
@@ -90,7 +91,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const reservation = await Reservation.findOne({_id: req.params.id});
     if (!reservation) {
@@ -104,7 +105,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const { startDate, endDate, guestId, hotelId } = req.body;
 
