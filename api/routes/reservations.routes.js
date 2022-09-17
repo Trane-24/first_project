@@ -13,6 +13,7 @@ router.get('/', authMiddleware, async (req, res) => {
     const total = await Reservation.find(params).count();
     const reservations = await Reservation.find(params).skip((page-1)*limit).limit(limit)
       .populate({ path: 'hotel', populate: { path: 'owner' } })
+      .populate({ path: 'hotel', populate: { path: 'images' } })
       .populate('guest')
 
     return res.json({ data: reservations, total });
@@ -26,6 +27,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const reservation = await Reservation.findOne({_id: req.params.id})
       .populate({ path: 'hotel', populate: { path: 'owner' } })
+      .populate({ path: 'hotel', populate: { path: 'images' } })
       .populate('guest')
 
     if (!reservation) {
@@ -82,6 +84,7 @@ router.post('/', authMiddleware, async (req, res) => {
 
     return reservation.save()
       .then(data => data.populate({ path: 'hotel', populate: { path: 'owner' } }))
+      .then(data => data.populate({ path: 'hotel', populate: { path: 'images' } }))
       .then(data => data.populate('guest'))
       .then(data => res.json(data))
   
@@ -140,6 +143,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
     });
     const response = await Reservation.findOne({_id: req.params.id})
       .populate({ path: 'hotel', populate: { path: 'owner' } })
+      .populate({ path: 'hotel', populate: { path: 'images' } })
       .populate('guest')
 
     return res.json(response);
