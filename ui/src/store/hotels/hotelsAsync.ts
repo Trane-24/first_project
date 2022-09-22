@@ -1,6 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import config from "config";
+import IAsset from "models/Asset";
+import IHotel from "models/Hotel";
+import { RootState } from "store";
+import AssetsAsync from "store/assets/assetsAsync";
+import { selectFile } from "store/assets/assetsSelectors";
+import myAxios from "utilites/myAxios";
 
 const url = `${config.apiURL}/hotels`;
 // fetch hotels
@@ -14,25 +19,33 @@ export const fetchHotels = createAsyncThunk('hotels/Fetch hotels', async (params
       }
     })
 
-    const response = await axios.get(`${url}?${nextParams}`);
+    const response = await myAxios.get(url, nextParams);
     return response.data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
 // create hotel
-export const createHotel = createAsyncThunk('hotels/Create hotel', async (hotel: any, thunkApi) => {
+export const createHotel = createAsyncThunk('hotels/Create hotel', async (data: Omit<IHotel, '_id'>, thunkApi) => {
   try {
-    const { data } = await axios.post(url, hotel);
-    return data;
+    const nextData: any = { ...data };
+
+    const { payload: images } : any = await thunkApi.dispatch(AssetsAsync.validateAssets({}));
+
+    if (images.length) {
+      nextData['imagesIds'] = images.map((asset: IAsset) => asset._id);
+    }
+    
+    const { data: hotel } = await myAxios.post(url, nextData);
+    return hotel;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
 // delete hotel
-export const deleteHotel = createAsyncThunk('hotels/Delete hotel',async (hotelId: string, thunkApi) => {
+export const deleteHotel = createAsyncThunk('hotels/Delete hotel', async (hotelId: string, thunkApi) => {
   try {
-    await axios.delete(`${url}/${hotelId}`);
+    await myAxios.delete(url,hotelId);
     return hotelId;
   } catch(e: any) {
     return thunkApi.rejectWithValue(e.response.data);
@@ -41,7 +54,16 @@ export const deleteHotel = createAsyncThunk('hotels/Delete hotel',async (hotelId
 // update hotel
 export const updateHote = createAsyncThunk('hotes/Update hotel', async (params: any, thunkApi) => {
   try {
-    const { data } = await axios.put(`${url}/${params.hotelId}`, params.hotel)
+    const { hotelId, hotel } = params;
+    const nextData: any = { ...hotel };
+
+    const { payload: images } : any = await thunkApi.dispatch(AssetsAsync.validateAssets({}));
+
+    if (images.length) {
+      nextData['imagesIds'] = images.map((asset: IAsset) => asset._id);
+    }
+
+    const { data } = await myAxios.put(url, hotelId, nextData)
     return data;
   } catch(e: any) {
     return thunkApi.rejectWithValue(e.response.data)

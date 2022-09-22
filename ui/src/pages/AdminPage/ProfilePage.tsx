@@ -199,7 +199,7 @@ const ProfilePage: React.FC = () => {
                     margin="normal"
                     fullWidth
                     required={!!confirmPass}
-                    error={Boolean(errors.newPassword && confirmPass !== '')}
+                    error={Boolean((errors.newPassword && confirmPass !== '') || (!passwordIsCorrect && newPass !== '' ))}
                     helperText={errors.newPassword && confirmPass !== '' && errors.newPassword.type === 'required'
                       ? errors.newPassword.message : ''
                     }

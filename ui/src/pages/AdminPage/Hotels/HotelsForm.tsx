@@ -19,6 +19,10 @@ import { LoadingButton } from "@mui/lab";
 import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce } from "@mui/material";
 // untiles
 import { isRequired } from "utilites/validation";
+import Uploader from "components/Uploader";
+import { selectAssets, selectFile } from "store/assets/assetsSelectors";
+import AssetsAsync from "store/assets/assetsAsync";
+import { assetsActions } from "store/assets/assetsSlice";
 
 interface Props {
   onClose: () => void;
@@ -29,16 +33,16 @@ interface IForm {
   name: string;
   country?: string;
   city?: string;
-  imgUrl?: string;
   description?: string;
   ownerId: any;
 }
 
-const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
+const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
   const dispatch = useAppDispatch();
 
   const users = useSelector(selectUsers);
   const usersParams = useSelector(selectUsersParams);
+  // const files = useSelector(selectFile);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingInp, setIsLoadingInp] = useState(false);
@@ -49,7 +53,6 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
       name: hotel?.name ? hotel.name : '',
       country: hotel?.country ? hotel.country : '',
       city: hotel?.city ? hotel.city : '',
-      imgUrl: hotel?.imgUrl ? hotel.imgUrl : '',
       description: hotel?.description ? hotel.description : '',
       ownerId: hotel?.owner || null,
     }
@@ -68,7 +71,7 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
     const nextData:any = { 
       ...data,
       ownerId: data.ownerId._id,
-     };
+    };
 
     if (hotel) {
       dispatch(updateHote({ hotelId: hotel._id, hotel: nextData }))
@@ -89,7 +92,7 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
     dispatch(fetchUsers({ ...usersParams, role: 'owner', search: queryValue }))
       .unwrap()
       .finally(() => setIsLoadingInp(false))
-  }, [queryValue])
+  }, [queryValue]);
 
   return (
     <Box sx={{p: 5, width: '100%'}}>
@@ -129,7 +132,6 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
                   onChange={(_, owner: IUser | null) => onChange(owner)}
                   value={value || null}
                   getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                  // filterOptions={(options) => options}
                   loadingText='Please wait'
                   loading={isLoadingInp}
                   noOptionsText='Dont have owners'
@@ -181,19 +183,6 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
               )}
             />
           </Grid>
-          {/* images url */}
-          <Grid item xs={12}>
-            <Controller
-              control={control} name="imgUrl"
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Images url"
-                  fullWidth
-                />
-              )}
-            />
-          </Grid>
           {/* description */}
           <Grid item xs={12}>
             <Controller
@@ -208,6 +197,9 @@ const HotelsForm: React.FC<Props> = ({ onClose, hotel }) => {
                 />
               )}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <Uploader assets={hotel?.images}/>
           </Grid>
         </Grid>
 

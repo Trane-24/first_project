@@ -20,6 +20,7 @@ import ReservationStatus from 'types/ReservationStatus';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import CloseIcon from '@mui/icons-material/Close';
+import HotelItem from '../Hotels/HotelItem';
 
 interface Props {
   reservation: IReservation;
@@ -89,7 +90,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
   const {
     Dialog: DialogHotel,
     openDialog: openDialogHotel,
-    closeDialog: closeDialogHotel
+    closeDialog: closeDialogHotel,
   } = useDialog();
 
   const handleOpenEditModal = (e: any) => {
@@ -99,7 +100,6 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
   };
   
   const {hotel, guest} = reservation;
-  const imgUrl = hotel.imgUrl || '/images/hotel-no-available.png';
 
   const showCorrectDate = (startDate: string, endDate: string) => {
     const start = startDate.split('-');
@@ -186,42 +186,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
       </DialogOwner>
 
       <DialogHotel maxWidth="md">
-        <Box sx={{ p: 2 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={3} alignSelf="center">
-              <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotel.name}</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography className={classes.title}>Country</Typography>
-              <Typography>{hotel.country ? hotel.country : '-'}</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography className={classes.title}>City</Typography>
-              <Typography>{hotel.city ? hotel.city : '-'}</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography className={classes.title}>Owner</Typography>
-              <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
-            </Grid>
-            <Grid item xs={1}>
-              <Box onClick={closeDialogHotel} sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'flex-end'}}>
-                <CloseIcon />
-              </Box>
-            </Grid>
-            
-            <Grid item xs={3}>
-              <img
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                src={imgUrl}
-                alt={hotel.name}
-              />
-            </Grid>
-            <Grid item xs={8}>
-              <Typography className={classes.title}>Description</Typography>
-              <Typography className={classes.text}>{hotel.description || '-'}</Typography>
-            </Grid>
-          </Grid>
-        </Box>
+        <HotelItem hotel={reservation.hotel} onClose={closeDialogHotel}/>
       </DialogHotel>
 
       <Accordion disableGutters>

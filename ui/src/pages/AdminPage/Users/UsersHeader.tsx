@@ -5,7 +5,7 @@ import useDialog from 'hooks/useDialog';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Store
 import { usersActions } from 'store/users/usersSlice';
-import { selectParams } from 'store/users/usersSelectors';
+import { selectParams, selectUsers } from 'store/users/usersSelectors';
 // Async
 import { fetchUsers } from 'store/users/usersAsync';
 // Types
@@ -26,6 +26,7 @@ const UsersHeader:React.FC<Props> = ({ role }) => {
   const dispatch = useAppDispatch();
   // Selectors
   const params = useSelector(selectParams);
+  const users = useSelector(selectUsers);
   // State
   const [search, setSearch] = useState('');
   const [stateParams, setStateParams] = useState(params);
@@ -60,6 +61,8 @@ const UsersHeader:React.FC<Props> = ({ role }) => {
     // eslint-disable-next-line
   }, [])
 
+  const inputIsVisible = Boolean(users?.length || params.search);
+
   return (
     <React.Fragment>
       <Dialog>
@@ -70,14 +73,16 @@ const UsersHeader:React.FC<Props> = ({ role }) => {
         <Typography variant='h5'>
           {`${capitalizeFirstLetter(role)}s`}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2}}>
-          <TextField
-            size="small"
-            label="Search"
-            placeholder="Search by name"
-            value={search}
-            onChange={handleChangeSearch}
-          />
+        <Box sx={{ display: 'flex', gap: 2}} >
+          {inputIsVisible && (
+            <TextField
+              size="small"
+              label="Search"
+              placeholder="Search by name"
+              value={search}
+              onChange={handleChangeSearch}
+            />
+          )}
           <Button sx={{ height: '40px' }} variant="contained" onClick={openDialog}>
             {`Create ${role}`}
           </Button>

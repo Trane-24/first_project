@@ -98,7 +98,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       }))
         .then(() => dispatch(appActions.enqueueSnackbar({
           key: uuid(),
-          message: 'Updated reservation'
+          message: 'Reservation was updated'
         })))
         .then(() => onClose())
         .finally(() => setIsLoading(false))
@@ -107,7 +107,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
         .unwrap()
         .then(() => dispatch(appActions.enqueueSnackbar({
           key: uuid(),
-          message: 'Added reservation'
+          message: 'Reservation was created'
         })))
         .then(() => onClose())
         .finally(() => setIsLoading(false))
@@ -236,7 +236,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
             />
           </Grid>
           )}
-          
+
           {/* guestId */}
           <Grid item xs={12}>
             <Controller

@@ -15,9 +15,15 @@ const HotelHeader:React.FC = () => {
         <HotelsForm onClose={closeDialog} />
       </Dialog>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '48px'}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <Typography variant='h5'>Hotels</Typography>
-        <Button variant='contained' onClick={openDialog}>Create hotel</Button>
+        <Button
+          sx={{ height: '40px' }}
+          variant='contained'
+          onClick={openDialog}
+        >
+          Create hotel
+        </Button>
       </Box>
     </React.Fragment>
   );

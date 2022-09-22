@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { v4 as uuid } from "uuid";
 // hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
@@ -14,7 +14,7 @@ import ConfirmDeleteModal from "components/ConfirmDeleteModal";
 import HotelsForm from "./HotelsForm";
 // MUI
 import {
-  Accordion, AccordionDetails, AccordionSummary, Divider,
+  Accordion, AccordionDetails, AccordionSummary, Box, Divider,
   Grid, IconButton, Menu, MenuItem, Tooltip, Typography
 } from "@mui/material";
 import {
@@ -23,16 +23,29 @@ import {
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
+import config from "config";
+import { useLocation } from "react-router-dom";
+import CloseIcon from '@mui/icons-material/Close';
+import { assetsActions } from "store/assets/assetsSlice";
+import AssetsAsync from "store/assets/assetsAsync";
 
 type Props = {
   hotel: IHotel,
+  onClose?: () => void;
 }
 
-const HotelItem:React.FC<Props> = ({ hotel }) => {
+const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
   const classes = useStyle();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
-  const imgUrl = hotel.imgUrl || '/images/hotel-no-available.png';
+  const page = location.pathname.split('/')[2];
+
+  const isHotels = useMemo(() => {
+    return page === 'hotels';
+  }, [page]);
+
+  const imgUrl = hotel.images?.length !== 0 ? `${config.serverURL}/${hotel.images[0].path}` : '/images/hotel-no-available.png';
 
   // menu
   const menuRef = useRef();
@@ -52,20 +65,20 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
 
     setOpenDeleteModal(!openDeleteModal);
     setOpenMenu(false);
-  }
+  };
 
   const handleCloseModal = () => {
     setOpenDeleteModal(false);
     setOpenMenu(false);
-  }
+  };
 
   const removeHotel = () => {
-
     dispatch(deleteHotel(hotel._id))
       .unwrap()
+      .then(() => dispatch(AssetsAsync.deleteAsset(hotel.images[0]._id)))
       .then(() => dispatch(appActions.enqueueSnackbar({
         key: uuid(),
-        message: 'Hotel was deleted'
+        message: 'Hotel was deleted',
       })))
   };
   // edite form
@@ -91,7 +104,7 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
         <HotelsForm onClose={closeDialog} hotel={hotel}/>
       </Dialog>
 
-      <Accordion disableGutters={true}>
+      <Accordion disableGutters={true} defaultExpanded={isHotels ? false : true}>
         <AccordionSummary
         sx={{
           userSelect: 'text',
@@ -115,29 +128,37 @@ const HotelItem:React.FC<Props> = ({ hotel }) => {
               <Typography className={classes.title}>Owner</Typography>
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
-            <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
-              <Tooltip title="hotel menu" ref={menuRef}>
-                <IconButton onClick={handleOpenMenu}>
-                  <MoreVertIcon />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                anchorEl={menuRef.current}
-                id={`hotel-${hotel._id}-menu`}
-                open={openMenu}
-                onClose={handleOpenMenu}
-              >
-                <MenuItem component="div" onClick={handleOpenEditModal} sx={{ display: 'flex', gap: 1.5 }}>
-                  <EditIcon fontSize="small" />
-                  Edit
-                </MenuItem>
+            {isHotels ? (
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
+                <Tooltip title="hotel menu" ref={menuRef}>
+                  <IconButton onClick={handleOpenMenu}>
+                    <MoreVertIcon />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  anchorEl={menuRef.current}
+                  id={`hotel-${hotel._id}-menu`}
+                  open={openMenu}
+                  onClose={handleOpenMenu}
+                >
+                  <MenuItem component="div" onClick={handleOpenEditModal} sx={{ display: 'flex', gap: 1.5 }}>
+                    <EditIcon fontSize="small" />
+                    Edit
+                  </MenuItem>
 
-                <MenuItem component="div" onClick={handleOpenDeleteModal} sx={{ display: 'flex', gap: 1 }}>
-                  <DeleteOutlineIcon />
-                  Delete
-                </MenuItem>
-              </Menu>
-            </Grid>
+                  <MenuItem component="div" onClick={handleOpenDeleteModal} sx={{ display: 'flex', gap: 1 }}>
+                    <DeleteOutlineIcon />
+                    Delete
+                  </MenuItem>
+                </Menu>
+              </Grid>
+            ) : (
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
+                <Box onClick={onClose} sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'flex-end'}}>
+                  <CloseIcon />
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </AccordionSummary>
 

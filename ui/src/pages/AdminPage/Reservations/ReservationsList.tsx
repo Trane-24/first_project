@@ -47,23 +47,36 @@ const ReservationList: React.FC = () => {
 
   return (
     <Box className={classes.list}>
-      <Box className={classes.items}>
-        {reservations?.map((reservation: any) => (
-          <ReservationsItem reservation={reservation} key={reservation._id} />
-        ))}
-      </Box>
-      <Box>
-        <TablePagination
-          className={classes.pagination}
-          component="div"
-          count={total}
-          page={page - 1}
-          onPageChange={handleChangePage}
-          rowsPerPage={limit}
-          onRowsPerPageChange={handleChangeLimit}
-          rowsPerPageOptions={[20, 50, 100]}
-        />
-      </Box>
+
+      {reservations.length ? <>
+        <Box className={classes.items}>
+          {reservations?.map((reservation: any) => (
+            <ReservationsItem reservation={reservation} key={reservation._id} />
+          ))}
+        </Box>
+
+        <Box>
+          <TablePagination
+            className={classes.pagination}
+            component="div"
+            count={total}
+            page={page - 1}
+            onPageChange={handleChangePage}
+            rowsPerPage={limit}
+            onRowsPerPageChange={handleChangeLimit}
+            rowsPerPageOptions={[20, 50, 100]}
+          />
+        </Box>
+      </> : (
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+          <p style={{ position: 'absolute'}}>List is empty</p>
+          <img
+            className={classes.image}
+            src="/images/list_is_empty.jpg"
+            alt="reservation_is_empty"
+          />
+        </div>
+      )}
   </Box>
   )
 };
@@ -89,4 +102,11 @@ const useStyles = makeStyles({
     marginTop: '6px',
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
+  image: {
+    // objectFit: 'contain',
+    maxHeight: 'calc(100vh - 202px)',
+    '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 222px)',
+    },
+  }
 })

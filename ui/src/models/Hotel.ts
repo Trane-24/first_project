@@ -1,3 +1,4 @@
+import IAsset from "./Asset";
 import IUser from "./User";
 
 interface IHotel {
@@ -5,7 +6,7 @@ interface IHotel {
   name: string;
   country?: string;
   city?: string;
-  imgUrl?: string;
+  images: IAsset[];
   description?: string;
   owner: IUser;
 }

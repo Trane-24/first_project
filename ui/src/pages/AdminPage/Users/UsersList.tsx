@@ -55,23 +55,41 @@ const UsersList:React.FC = () => {
 
   return (
     <Box className={classes.list}>
-      <Box className={classes.items}>
-        {users.map((user: IUser) => (
-          <UserItem key={user._id} user={user} />
-        ))}
-      </Box>
-      <Box>
-        <TablePagination
-          className={classes.pagination}
-          component="div"
-          count={total}
-          page={page - 1}
-          onPageChange={handleChangePage}
-          rowsPerPage={limit}
-          onRowsPerPageChange={handleChangeLimit}
-          rowsPerPageOptions={[20, 50, 100]}
-        />
-      </Box>
+      {users.length ? (
+        <Box>
+          <Box className={classes.items}>
+            {users.map((user: IUser) => (
+              <UserItem key={user._id} user={user} />
+            ))}
+          </Box>
+          <Box>
+            <TablePagination
+              className={classes.pagination}
+              component="div"
+              count={total}
+              page={page - 1}
+              onPageChange={handleChangePage}
+              rowsPerPage={limit}
+              onRowsPerPageChange={handleChangeLimit}
+              rowsPerPageOptions={[20, 50, 100]}
+            />
+          </Box>
+        </Box>
+      ) : (
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+          {params.search ? (
+            <p style={{ position: 'absolute'}}>No users found for the specified search keyword</p>
+          ) : (
+            <p style={{ position: 'absolute'}}>List is empty</p>
+          )}
+          <img
+            className={classes.image}
+            src="/images/list_is_empty.jpg"
+            alt="reservation_is_empty"
+          />
+        </div>
+      )}
+      
     </Box>
   )
 }
@@ -96,4 +114,11 @@ const useStyles = makeStyles({
   pagination: {
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
+  image: {
+    // objectFit: 'contain',
+    maxHeight: 'calc(100vh - 202px)',
+    '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 222px)',
+    },
+  }
 })

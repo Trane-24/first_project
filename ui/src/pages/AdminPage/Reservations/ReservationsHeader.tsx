@@ -55,7 +55,7 @@ const ReservationHeader: React.FC = () => {
       <ReservationForm onClose={closeDialog}/>
     </Dialog>
 
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '48px'}}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
       
       <Typography variant='h5'>Reservations</Typography>
       <Box sx={{ display: 'flex', gap: 2}}>
