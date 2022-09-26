@@ -52,7 +52,7 @@ const SignUpPage: React.FC = () => {
   const onSubmit = handleSubmit((data: IForm) => {
     const { phone, ...nextData } = data;
     const newData: any = { ...nextData };
-    if (phone) newData['phone'] = `+${phone}`;
+    if (phone) newData['phone'] = `${phone}`;
 
     setIsLoading(true);
     dispatch(signUp(newData))

@@ -33,7 +33,6 @@ const AssetsAsync = {
     if (assetsIdsToDelete.length) {
       result = result.filter(asset => !assetsIdsToDelete.includes(asset._id));
     }
-
     return result;
   }),
   deleteAsset: createAsyncThunk('asset/deleteAsset', async (id: string, thunkApi) => {

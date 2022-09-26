@@ -21,10 +21,13 @@ import {
 import {
   DeleteOutline as DeleteOutlineIcon,
   Edit as EditIcon,
+  HomeWorkOutlined,
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 // utilites
 import { formatPhone, getFullName } from 'utilites/getString';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface Props {
   user: IUser;
@@ -33,6 +36,10 @@ interface Props {
 const UserItem: React.FC<Props> = ({ user }) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const activePage = location.pathname.split('/')[2];
 
   //menu
   const menuRef = useRef();
@@ -114,6 +121,24 @@ const UserItem: React.FC<Props> = ({ user }) => {
             </ListItemIcon>
             Edit
           </MenuItem>
+
+          {activePage === 'guests' && (
+            <MenuItem component="div" onClick={() => navigate(`/admin/guests/${user._id}/reservations`)}>
+              <ListItemIcon>
+                <AppRegistrationIcon fontSize='small'/>
+              </ListItemIcon>
+              Reservations
+            </MenuItem>
+          )}
+
+          {activePage === 'owners' && (
+            <MenuItem component="div" onClick={() => navigate(`/admin/owners/${user._id}/hotels`)}>
+              <ListItemIcon>
+                <HomeWorkOutlined fontSize='small'/>
+              </ListItemIcon>
+              Hotels
+            </MenuItem>
+          )}
 
           <MenuItem component="div" onClick={handleOpenDeleteModal}>
             <ListItemIcon>

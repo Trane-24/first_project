@@ -6,6 +6,8 @@ import UsersPage from './Users';
 import ProfilePage from './ProfilePage';
 import HotelsPage from './Hotels';
 import ReservationPage from './Reservations';
+import UserReservations from './Users/UserReservations';
+import UserHotels from './Users/UserHotels';
 
 const AdminRouting:React.FC = () => {
   return (
@@ -16,17 +18,29 @@ const AdminRouting:React.FC = () => {
         </AgentsWrapper>
       } />
 
-      <Route path="owners" element={
+      {/* <Route path="owners" element={
         <OwnersWrapper>
           <UsersPage role={UserRoles.Owner} />
         </OwnersWrapper>
-      } />
+      } /> */}
+      <Route path="owners">
+        <Route index element={
+          <OwnersWrapper>
+            <UsersPage role={UserRoles.Owner} />
+          </OwnersWrapper>
+        } />
+        <Route path={':ownerId/hotels'} element={<UserHotels />}/>
+      </Route>
+
       
-      <Route path="guests" element={
-        <GuestsWrapper>
-          <UsersPage role={UserRoles.Guest} />
-        </GuestsWrapper>
-      } />
+      <Route path="guests">
+        <Route index element={
+          <GuestsWrapper>
+            <UsersPage role={UserRoles.Guest} />
+          </GuestsWrapper>
+        } />
+        <Route path={':guestId/reservations'} element={<UserReservations />}/>
+      </Route>
 
       <Route path='reservations' element={<ReservationPage />}/>
 

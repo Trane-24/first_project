@@ -56,9 +56,10 @@ export const updateHote = createAsyncThunk('hotes/Update hotel', async (params: 
   try {
     const { hotelId, hotel } = params;
     const nextData: any = { ...hotel };
+    nextData['imagesIds'] = [];
 
     const { payload: images } : any = await thunkApi.dispatch(AssetsAsync.validateAssets({}));
-
+    
     if (images.length) {
       nextData['imagesIds'] = images.map((asset: IAsset) => asset._id);
     }

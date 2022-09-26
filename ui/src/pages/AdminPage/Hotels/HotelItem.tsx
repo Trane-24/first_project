@@ -41,8 +41,8 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
 
   const page = location.pathname.split('/')[2];
 
-  const isHotels = useMemo(() => {
-    return page === 'hotels';
+  const isNotReservation = useMemo(() => {
+    return page !== 'reservations';
   }, [page]);
 
   const imgUrl = hotel.images?.length !== 0 ? `${config.serverURL}/${hotel.images[0].path}` : '/images/hotel-no-available.png';
@@ -104,7 +104,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
         <HotelsForm onClose={closeDialog} hotel={hotel}/>
       </Dialog>
 
-      <Accordion disableGutters={true} defaultExpanded={isHotels ? false : true}>
+      <Accordion disableGutters={true} defaultExpanded={isNotReservation ? false : true}>
         <AccordionSummary
         sx={{
           userSelect: 'text',
@@ -128,7 +128,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
               <Typography className={classes.title}>Owner</Typography>
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
-            {isHotels ? (
+            {isNotReservation ? (
               <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
                 <Tooltip title="hotel menu" ref={menuRef}>
                   <IconButton onClick={handleOpenMenu}>
