@@ -1,6 +1,6 @@
 const Router = require('express');
-const authMiddleware = require('../middlewares/auth.middleware');
-const Asset = require('../models/Asset');
+const authMiddleware = require('../../middlewares/auth.middleware');
+const Asset = require('../../models/Asset');
 const router = new Router();
 const multer = require('multer');
 const fs = require('fs');

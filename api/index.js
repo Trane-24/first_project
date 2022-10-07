@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
-const authRouter = require('./routes/auth.routes');
-const usersRouter = require('./routes/users.routes');
-const hotelsRouter = require('./routes/hotels.routes');
-const reservationsRouter = require('./routes/reservations.routes');
-const assetsRouter = require('./routes/assets.routes');
+const authRouter = require('./routes/admin/auth.routes');
+const clientAuthRouter = require('./routes/client/auth.routes');
+const usersRouter = require('./routes/admin/users.routes');
+const hotelsRouter = require('./routes/admin/hotels.routes');
+const reservationsRouter = require('./routes/admin/reservations.routes');
+const assetsRouter = require('./routes/admin/assets.routes');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
@@ -13,11 +14,12 @@ const corsMiddleware = require('./middlewares/cors.middleware');
 app.use(corsMiddleware)
 app.use('/assets', express.static('assets'));
 app.use(express.json());
-app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/hotels', hotelsRouter);
-app.use('/api/reservations', reservationsRouter);
-app.use('/api/assets', assetsRouter);
+app.use('/api/admin/auth', authRouter);
+app.use('/api/client/auth', clientAuthRouter);
+app.use('/api/admin/users', usersRouter);
+app.use('/api/admin/hotels', hotelsRouter);
+app.use('/api/admin/reservations', reservationsRouter);
+app.use('/api/admin/assets', assetsRouter);
 
 const start = async () => {
   try {
