@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Router = require('express');
-const User = require('../models/User');
-const Hotel = require('../models/Hotel');
-const Reservation = require('../models/Reservation');
+const User = require('../../models/User');
+const Hotel = require('../../models/Hotel');
+const Reservation = require('../../models/Reservation');
 const router = new Router();
-const authMiddleware = require('../middlewares/auth.middleware');
+const authMiddleware = require('../../middlewares/auth.middleware');
 
 router.get('/', authMiddleware, async (req, res) => {
   try {

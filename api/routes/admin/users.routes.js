@@ -1,10 +1,10 @@
 const Router = require('express');
 const bcrypt = require('bcryptjs')
-const User = require('../models/User');
-const Hotel = require('../models/Hotel');
-const Reservation = require('../models/Reservation');
+const User = require('../../models/User');
+const Hotel = require('../../models/Hotel');
+const Reservation = require('../../models/Reservation');
 const router = new Router();
-const authMiddleware = require('../middlewares/auth.middleware');
+const authMiddleware = require('../../middlewares/auth.middleware');
 const { check, validationResult } = require('express-validator');
 
 router.get('/fetchMe',
