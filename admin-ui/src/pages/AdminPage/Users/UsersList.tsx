@@ -72,6 +72,7 @@ const UsersList:React.FC = () => {
               rowsPerPage={limit}
               onRowsPerPageChange={handleChangeLimit}
               rowsPerPageOptions={[20, 50, 100]}
+              labelRowsPerPage="Items: "
             />
           </Box>
         </Box>

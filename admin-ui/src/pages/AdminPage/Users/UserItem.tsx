@@ -82,21 +82,21 @@ const UserItem: React.FC<Props> = ({ user }) => {
 
       <Card className={classes.card}>
         <Grid container>
-          <Grid item xs={4} alignSelf="center">
+          <Grid item xs={10} md={4} alignSelf="center" sx={{ order: -1 }}>
             <Typography className={classes.text}>{`${user.firstName} ${user.lastName}`}</Typography>
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Typography className={classes.title}>E-mail</Typography>
             <Typography className={classes.text}>{user.email}</Typography>
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <Typography className={classes.title}>Phone</Typography>
             <Typography className={classes.text}>{user.phone ? formatPhone(user.phone) : ''}</Typography>
           </Grid>
 
-          <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Grid item xs={2} md={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 } }}>
             <Tooltip title="User menu" ref={menuRef}>
               <IconButton onClick={handleOpenMenu}>
                 <MoreVertIcon />

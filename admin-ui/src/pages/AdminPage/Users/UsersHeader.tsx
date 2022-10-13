@@ -69,7 +69,7 @@ const UsersHeader:React.FC<Props> = ({ role }) => {
         <UsersForm onClose={closeDialog} role={role} />
       </Dialog>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant='h5'>
           {`${capitalizeFirstLetter(role)}s`}
         </Typography>
