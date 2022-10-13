@@ -51,7 +51,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   const onSubmit = handleSubmit((data: IForm) => {
     setIsLoading(true);
     if (user) {
-      dispatch(updateUser({ userId: user._id, user: data }))
+      dispatch(updateUser({ userId: user._id, userData: data }))
         .unwrap()
         .then(() => {
           dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'User was updated' }))

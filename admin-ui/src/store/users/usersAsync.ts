@@ -1,16 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import StorageService from "services/StorageService";
 import { authActions } from "store/auth/authSlice";
-import myAxios from "utilites/myAxios";
-import config from "../../config";
+import config from "config";
+// Services
+import HttpService from "services/HttpService";
 
 const url = `${config.apiURL}/users`;
 
 export const fetchMe = createAsyncThunk('users/Fetch me', async (_:any , thunkApi) => {
   try {
-    // const response: any = await myAxios.get(`${url}/fetchMe`);
-    const response: any = await axios.get(`${url}/fetchMe`, {headers: {Authorization: `Barrer ${StorageService.getToken()}`}});
+    const response: any = await HttpService.get(`${url}/fetchMe`);
     thunkApi.dispatch(authActions.setAuthorization(true));
     return response.data;
   } catch (e: any) {
@@ -21,15 +19,7 @@ export const fetchMe = createAsyncThunk('users/Fetch me', async (_:any , thunkAp
 
 export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any , thunkApi) => {
   try {
-    const nextParams = new URLSearchParams();
-
-    Object.keys(params).forEach((key: string) => {
-      if (params[key]) {
-        nextParams.append(key, params[key])
-      }
-    })
-
-    const { data } = await myAxios.get(url, nextParams);
+    const { data } = await HttpService.get(url, params);
     return data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
@@ -38,7 +28,7 @@ export const fetchUsers = createAsyncThunk('users/Fetch users', async(params:any
 
 export const createUser = createAsyncThunk('users/Create user', async(user: any, thunkApi) => {
   try {
-    const { data } = await myAxios.post(url, user);
+    const { data } = await HttpService.post(url, user);
     return data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
@@ -47,17 +37,18 @@ export const createUser = createAsyncThunk('users/Create user', async(user: any,
 
 export const deleteUser = createAsyncThunk('users/Delete user', async (userId: number, thunkApi) => {
   try {
-    await myAxios.delete(url, userId);
+    await HttpService.delete(`${url}/${userId}`);
     return userId;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
 
-export const updateUser = createAsyncThunk('users/Update user', async (params: any, thunkApi) => {
+export const updateUser = createAsyncThunk('users/Update user', async (data: any, thunkApi) => {
   try {
-    const { data } = await myAxios.put(url, params.userId, params.user);
-    return data;
+    const { userId, userData } = data;
+    const { data: user } = await HttpService.put(`${url}/${userId}`, userData);
+    return user;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
   }

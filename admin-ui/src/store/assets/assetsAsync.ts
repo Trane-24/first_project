@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import config from "config";
-import IFile from "models/File";
-import StorageService from "services/StorageService";
 import { RootState } from "store";
-import myAxios from "utilites/myAxios";
+// Models
+import IFile from "models/File";
+// Service
+import HttpService from "services/HttpService";
 
 const url = `${config.apiURL}/assets`;
 
@@ -14,8 +14,8 @@ const AssetsAsync = {
     Array.from(files).forEach((file: IFile) => {
       formData.append('files', file.file, file.file.name);
     })
-    // const {data} = await myAxios.post(url, formData);
-    const {data} = await axios.post(url, formData, {headers: {Authorization: `Barrer ${StorageService.getToken()}`}});
+
+    const {data} = await HttpService.post(url, formData);
     return data;
   }),
   validateAssets: createAsyncThunk('assets/validateAssets', async (_: any, thunkApi) => {
@@ -35,8 +35,8 @@ const AssetsAsync = {
     }
     return result;
   }),
-  deleteAsset: createAsyncThunk('asset/deleteAsset', async (id: string, thunkApi) => {
-    await myAxios.delete(url, id);
+  deleteAsset: createAsyncThunk('asset/deleteAsset', async (id: string) => {
+    await HttpService.delete(`${url}/${id}`);
   }),
 }
 

@@ -74,7 +74,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
     };
 
     if (hotel) {
-      dispatch(updateHote({ hotelId: hotel._id, hotel: nextData }))
+      dispatch(updateHote({ hotelId: hotel._id, hotelData: nextData }))
         .unwrap()
         .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Hotel was updated' })))
         .then(() => onClose())

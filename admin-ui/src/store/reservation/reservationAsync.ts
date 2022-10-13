@@ -1,22 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import config from "config";
+// Models
 import IReservation from "models/Reservation";
-import myAxios from "utilites/myAxios";
+// Services
+import HttpService from "services/HttpService";
 
 const url = `${config.apiURL}/reservations`;
 
 // fetch reservations
 export const fetchReservation = createAsyncThunk('reservations/Fetch reservation', async (params: any, thunkApi) => {
   try {
-    const nextParams = new URLSearchParams();
-
-    Object.keys(params).forEach((key: string) => {
-      if (params[key]) {
-        nextParams.append(key, params[key]);
-      }
-    })
-
-    const { data } = await myAxios.get(url, nextParams);
+    const { data } = await HttpService.get(url, params);
     return data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data)
@@ -25,7 +19,7 @@ export const fetchReservation = createAsyncThunk('reservations/Fetch reservation
 // delete reservation
 export const deleteReservation = createAsyncThunk('reservations/Delete reservation', async (id: string, thunkApi) => {
   try {
-    await myAxios.delete(url, id);
+    await HttpService.delete(`${url}/${id}`);
     return id;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);
@@ -34,17 +28,18 @@ export const deleteReservation = createAsyncThunk('reservations/Delete reservati
 // create reservation 
 export const createReservation = createAsyncThunk('reservations/Create reservation', async (reservation: IReservation, thunkApi) => {
   try {
-    const { data } = await myAxios.post(url, reservation);
+    const { data } = await HttpService.post(url, reservation);
     return data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data)
   }
 });
 // update reservation
-export const updateReservation = createAsyncThunk('reservations/Update reservation', async (params: any, thunkApi) => {
+export const updateReservation = createAsyncThunk('reservations/Update reservation', async (data: any, thunkApi) => {
   try {
-    const { data } = await myAxios.put(url, params.reservationId, params.reservation);
-    return data;
+    const { reservationId, reservationData } = data;
+    const { data:reservation } = await HttpService.put(`${url}/${reservationId}`, reservationData);
+    return reservation;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data)
   }

@@ -1,4 +1,4 @@
-import ReservationStatus from "types/ReservationStatus";
+import ReservationStatuses from "types/ReservationStatuses";
 import IHotel from "./Hotel";
 import IUser from "./User";
 
@@ -7,7 +7,7 @@ interface IReservation {
   startDate: string;
   endDate: string,
   notes: string,
-  status: ReservationStatus;
+  status: ReservationStatuses;
   hotel: IHotel;
   guest: IUser;
 }

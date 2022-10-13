@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IReservation from "models/Reservation";
-import { createReservation, deleteReservation, fetchReservation, updateReservation } from "./reservationAsunc";
+import { createReservation, deleteReservation, fetchReservation, updateReservation } from "./reservationAsync";
 
 interface IState {
   reservations: IReservation[] | null,

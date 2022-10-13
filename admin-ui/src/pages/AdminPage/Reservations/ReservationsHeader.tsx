@@ -6,11 +6,11 @@ import useDialog from "hooks/useDialog";
 // Store
 import { reservationAction } from "store/reservation/reservationSlice";
 // Async
-import { fetchReservation } from "store/reservation/reservationAsunc";
+import { fetchReservation } from "store/reservation/reservationAsync";
 // Selectors
 import { selectParams } from "store/reservation/reservationSelectors";
 // Type
-import ReservationStatus from "types/ReservationStatus";
+import ReservationStatuses from "types/ReservationStatuses";
 // MUI
 import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 // Components
@@ -68,7 +68,7 @@ const ReservationHeader: React.FC = () => {
           onChange={(e) => handleChangeStatus(e)}
         >
           <MenuItem value={'all'}>All</MenuItem>
-          {Object.entries(ReservationStatus).map((status) => {
+          {Object.entries(ReservationStatuses).map((status) => {
             const [title, value] = status;
 
             return (<MenuItem key={value} value={value} >{title}</MenuItem>)

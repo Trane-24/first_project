@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import { useAppDispatch } from "hooks/useAppDispatch";
 import React, { useEffect, useState }  from "react";
 import { useSelector } from "react-redux";
-import { fetchReservation } from "store/reservation/reservationAsunc";
+import { fetchReservation } from "store/reservation/reservationAsync";
 import { selectParams, selectReservations, selectTotal } from "store/reservation/reservationSelectors";
 import { reservationAction } from "store/reservation/reservationSlice";
 import ReservationsItem from "./ReservationsItem";

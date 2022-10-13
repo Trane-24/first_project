@@ -1,23 +1,34 @@
-import { LoadingButton } from "@mui/lab";
-import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce, MenuItem } from "@mui/material";
-import { MobileDatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import { useAppDispatch } from "hooks/useAppDispatch";
-import IReservation from "models/Reservation";
-import IUser from "models/User";
+
 import React, { useCallback, useEffect, useState }  from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { appActions } from "store/app/appSlice";
-import { fetchHotels } from "store/hotels/hotelsAsync";
-import { selectHotels } from "store/hotels/hotelsSelectors";
-import { createReservation, updateReservation } from "store/reservation/reservationAsunc";
-import { fetchUsers } from "store/users/usersAsync";
-import { selectUsers } from "store/users/usersSelectors";
-import ReservationStatus from "types/ReservationStatus";
-import { isRequired } from "utilites/validation";
 import { v4 as uuid } from "uuid";
-// Components
+import dayjs from "dayjs";
+// Hooks
+import { useAppDispatch } from "hooks/useAppDispatch";
+// Async
+import { createReservation, updateReservation } from "store/reservation/reservationAsync";
+import { fetchUsers } from "store/users/usersAsync";
+import { fetchHotels } from "store/hotels/hotelsAsync";
+// Actions
+import { appActions } from "store/app/appSlice";
+// Selectors
+import { selectUsers } from "store/users/usersSelectors";
+import { selectHotels } from "store/hotels/hotelsSelectors";
+// Models
+import IReservation from "models/Reservation";
+import IUser from "models/User";
+// Types
+import ReservationStatuses from "types/ReservationStatuses";
+// Mui
+import { LoadingButton } from "@mui/lab";
+import { MobileDatePicker } from "@mui/x-date-pickers";
+import {
+  Autocomplete, Box, Button, Grid, TextField,
+  Typography, debounce, MenuItem
+} from "@mui/material";
+// utilites
+import { isRequired } from "utilites/validation";
 
 interface Props {
   onClose: () => void;
@@ -30,7 +41,7 @@ interface IForm {
   notes?: string;
   guestId: any;
   hotelId: any;
-  status: ReservationStatus;
+  status: ReservationStatuses;
 }
 
 const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
@@ -52,7 +63,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       notes: reservation ? reservation.notes : '',
       guestId: reservation ? reservation.guest : null,
       hotelId: reservation ? reservation.hotel : null,
-      status: reservation ? reservation.status :  ReservationStatus.Completed,
+      status: reservation ? reservation.status :  ReservationStatuses.Completed,
     }
   });
 
@@ -94,7 +105,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
      if (reservation) {
       dispatch(updateReservation({
         reservationId: reservation._id,
-        reservation: nextData,
+        reservationData: nextData,
       }))
         .then(() => dispatch(appActions.enqueueSnackbar({
           key: uuid(),
@@ -226,7 +237,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                   fullWidth
                   error={!!errors?.notes}
                 >
-                  {Object.entries(ReservationStatus).map((status) => {
+                  {Object.entries(ReservationStatuses).map((status) => {
                     const [title, value] = status;
 
                     return (<MenuItem key={value} value={value} >{title}</MenuItem>)

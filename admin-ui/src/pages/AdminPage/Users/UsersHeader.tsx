@@ -15,7 +15,7 @@ import UsersForm from './UsersForm';
 // MUI
 import { Box, Button, TextField, Typography, debounce } from '@mui/material';
 // utilites
-import { capitalizeFirstLetter } from 'utilites/getString';
+import { capitalizeFirstLetter } from 'utilites/stringFormatter';
 
 type Props = {
   role: UserRoles

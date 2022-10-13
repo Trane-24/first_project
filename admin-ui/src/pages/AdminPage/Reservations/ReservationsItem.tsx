@@ -1,26 +1,40 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, Grid, IconButton, Link, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import ConfirmDeleteModal from 'components/ConfirmDeleteModal';
+import React, { useRef, useState } from 'react';
+import { v4 as uuid } from 'uuid';
+// Hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import useDialog from 'hooks/useDialog';
+// Async
+import { deleteReservation } from 'store/reservation/reservationAsync';
+// Actions
+import { appActions } from 'store/app/appSlice';
+// Models
 import IReservation from 'models/Reservation';
-import React, { useRef, useState } from 'react';
-import ReservationForm from './ReservationsForm';
+// Types
+import ReservationStatuses from 'types/ReservationStatuses';
+// MUI
+import { makeStyles } from '@mui/styles';
+import {
+  Accordion, AccordionDetails, AccordionSummary, Box,
+  Button,
+  Chip,
+  Divider, Grid, IconButton, Link, ListItemIcon, Menu,
+  MenuItem, Tooltip, Typography
+} from '@mui/material';
 import {
   DeleteOutline as DeleteOutlineIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
+  Done as DoneIcon,
+  DoneAll as DoneAllIcon,
+  Close as CloseIcon,
 } from '@mui/icons-material';
-import { deleteReservation } from 'store/reservation/reservationAsunc';
-import { appActions } from 'store/app/appSlice';
-import { v4 as uuid } from 'uuid';
-import dayjs from 'dayjs';
+// Components
+import ConfirmDeleteModal from 'components/ConfirmDeleteModal';
+import ReservationForm from './ReservationsForm';
 import UserInfo from '../Users/UserInfo';
-import ReservationStatus from 'types/ReservationStatus';
-import DoneIcon from '@mui/icons-material/Done';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import CloseIcon from '@mui/icons-material/Close';
 import HotelItem from '../Hotels/HotelItem';
+// utilites
+import { formatStartAndEndDates } from 'utilites/dateFormatter';
 
 interface Props {
   reservation: IReservation;
@@ -35,7 +49,9 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  const handleIsActive = () => setIsActive(!isActive);
+  const handleIsActive = (e: any) => {
+    setIsActive(!isActive);
+  };
 
   const handleOpenMenu = (e: any) => {
     e.stopPropagation();
@@ -101,69 +117,6 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
   
   const {hotel, guest} = reservation;
 
-  const showCorrectDate = (startDate: string, endDate: string) => {
-    const start = startDate.split('-');
-    const end = endDate.split('-');
-
-    const oneMonth = start[1] === end[1];
-    const oneYear = start[0] === end[0];
-
-    if (oneMonth && oneYear) {
-      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('DD, YYYY')}`;
-    } else if (!oneMonth && oneYear) {
-      return `${dayjs(startDate).format('MMM DD')} - ${dayjs(endDate).format('MMM DD, YYYY')}`;
-    } else {
-      return `${dayjs(startDate).format('MMM DD, YYYY')} - ${dayjs(endDate).format('MMM DD, YYYY')}`;
-    }
-  };
-
-  const createStatus = (status: ReservationStatus) => {
-    const styleDefault = {
-      display:'flex',
-      alignItems: 'center',
-      gap: 1,
-      width: 'max-content',
-      padding: '2px 10px',
-      borderRadius: '15px',
-    }
-
-    switch(status) {
-      case ReservationStatus.Submitted:
-        return (
-          <Box sx={{
-            ...styleDefault,
-            color: '#3D98BF',
-            backgroundColor: '#E9F5F8',
-          }}>
-            <DoneIcon fontSize='small'/>
-            Submitted
-          </Box>
-        )
-        case ReservationStatus.Completed:
-        return (
-          <Box sx={{
-            ...styleDefault,
-            color: '#2E7D31',
-            backgroundColor: '#E6EFE6',
-          }}>
-            <DoneAllIcon fontSize='small'/>
-            Completed
-          </Box>
-        )
-        case ReservationStatus.Cancelled:
-        return (
-          <Box sx={{
-            ...styleDefault,
-            color: '#D32F30',
-            backgroundColor: '#FAE6E6',
-          }}>
-            <CloseIcon fontSize='small'/>
-            Cancelled
-          </Box>
-        )
-    }
-  }
-
   return (
     <React.Fragment>
       <ConfirmDeleteModal
@@ -173,15 +126,15 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
         onClose={handleCloseModal}
       />
 
-      <Dialog>
+      <Dialog maxWidth="md">
         <ReservationForm onClose={closeDialog} reservation={reservation} />
       </Dialog>
 
-      <DialogGuest>
+      <DialogGuest maxWidth="sm">
         <UserInfo user={guest} close={closeDialogGuest} />
       </DialogGuest>
 
-      <DialogOwner >
+      <DialogOwner maxWidth="sm">
         <UserInfo user={hotel.owner} close={closeDialogOwner} />
       </DialogOwner>
 
@@ -207,33 +160,29 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                   Date
                 </Typography>
                 <Typography className={classes.text}>
-                  {showCorrectDate(reservation.startDate, reservation.endDate)}
+                  {formatStartAndEndDates(reservation.startDate, reservation.endDate)}
                 </Typography>
-                {createStatus(reservation.status)}
+                {reservation.status === ReservationStatuses.Submitted && <Chip size="small" color="info" label="Submitted" icon={<DoneIcon />} />}
+                {reservation.status === ReservationStatuses.Cancelled && <Chip size="small" color="error" label="Cancelled" icon={<CloseIcon />} />}
+                {reservation.status === ReservationStatuses.Completed && <Chip size="small" color="success" label="Completed" icon={<DoneAllIcon />} />}
               </Grid>
 
               <Grid item xs={2}>
                 <Typography className={classes.title}>
                   Owner
                 </Typography>
-                <Link className={classes.link} onClick={handleOpenOwnerModal} sx={{ cursor: 'pointer'}} underline="hover">
-                  <Typography color='primary' >
-                    {reservation.hotel.owner.firstName}
-                    {' '}
-                    {reservation.hotel.owner.lastName}
-                  </Typography>
-                </Link>
+                <Typography className={classes.link} onClick={handleOpenOwnerModal}>
+                  {`${reservation.hotel.owner.firstName} ${reservation.hotel.owner.lastName}`}
+                </Typography>
               </Grid>
 
               <Grid item xs={2}>
                 <Typography className={classes.title}>
                   Guest
                 </Typography>
-                <Link className={classes.link} onClick={handleOpenGuestModal} sx={{ cursor: 'pointer'}} underline="hover">
-                  <Typography color='primary'>
-                    {`${reservation.guest.firstName} ${reservation.guest.lastName}`}
-                  </Typography>
-                </Link>
+                <Typography className={classes.link} onClick={handleOpenGuestModal}>
+                  {`${reservation.guest.firstName} ${reservation.guest.lastName}`}
+                </Typography>
               </Grid>
 
               <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -282,14 +231,9 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
             </Grid>
 
             <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
-              <Link
-                className={classes.link}
-                onClick={openDialogHotel}
-                sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1}}
-                underline='hover'
-              >
+              <Button onClick={openDialogHotel}>
                 View hotel details
-              </Link>
+              </Button>
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -319,5 +263,7 @@ const useStyles = makeStyles({
     fontSize: '14px',
     lineHeight: '143%',
     letterSpacing: '0.17px',
+    cursor: 'pointer',
+    color: '#48A8D0',
   }
 });

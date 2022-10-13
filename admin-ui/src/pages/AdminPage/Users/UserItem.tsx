@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 // hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
@@ -9,6 +10,8 @@ import { deleteUser } from 'store/users/usersAsync';
 import { appActions } from 'store/app/appSlice';
 // Models
 import IUser from 'models/User';
+// Types
+import UserRoles from 'types/UserRoles';
 // Components
 import ConfirmDeleteModal from 'components/ConfirmDeleteModal';
 import UserForm from './UsersForm';
@@ -23,11 +26,10 @@ import {
   Edit as EditIcon,
   HomeWorkOutlined,
   MoreVert as MoreVertIcon,
+  AppRegistration as AppRegistrationIcon,
 } from '@mui/icons-material';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 // utilites
-import { formatPhone, getFullName } from 'utilites/getString';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { formatPhone } from 'utilites/stringFormatter';
 
 interface Props {
   user: IUser;
@@ -36,10 +38,6 @@ interface Props {
 const UserItem: React.FC<Props> = ({ user }) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-
-  const location = useLocation();
-  const navigate = useNavigate();
-  const activePage = location.pathname.split('/')[2];
 
   //menu
   const menuRef = useRef();
@@ -84,9 +82,8 @@ const UserItem: React.FC<Props> = ({ user }) => {
 
       <Card className={classes.card}>
         <Grid container>
-          <Grid item xs={4}>
-            <Typography className={classes.title}>Name</Typography>
-            <Typography className={classes.text}>{getFullName(user.firstName, user.lastName)}</Typography>
+          <Grid item xs={4} alignSelf="center">
+            <Typography className={classes.text}>{`${user.firstName} ${user.lastName}`}</Typography>
           </Grid>
 
           <Grid item xs={4}>
@@ -122,8 +119,8 @@ const UserItem: React.FC<Props> = ({ user }) => {
             Edit
           </MenuItem>
 
-          {activePage === 'guests' && (
-            <MenuItem component="div" onClick={() => navigate(`/admin/guests/${user._id}/reservations`)}>
+          {user.role === UserRoles.Guest && (
+            <MenuItem component={NavLink} to={`/admin/guests/${user._id}/reservations`}>
               <ListItemIcon>
                 <AppRegistrationIcon fontSize='small'/>
               </ListItemIcon>
@@ -131,8 +128,8 @@ const UserItem: React.FC<Props> = ({ user }) => {
             </MenuItem>
           )}
 
-          {activePage === 'owners' && (
-            <MenuItem component="div" onClick={() => navigate(`/admin/owners/${user._id}/hotels`)}>
+          {user.role === UserRoles.Owner && (
+            <MenuItem component={NavLink} to={`/admin/guests/${user._id}/reservations`}>
               <ListItemIcon>
                 <HomeWorkOutlined fontSize='small'/>
               </ListItemIcon>

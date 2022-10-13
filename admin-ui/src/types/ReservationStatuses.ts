@@ -1,7 +1,7 @@
-enum ReservationStatus {
+enum ReservationStatuses {
   Submitted = 'pending',
   Completed = 'completed',
   Cancelled = 'rejected',
 }
 
-export default ReservationStatus;
+export default ReservationStatuses;
