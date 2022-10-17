@@ -28,8 +28,8 @@ export const signUp = createAsyncThunk('auth/signUp', async (data:any, thunkApi)
   }
 });
 
- // Check authenticated
- export const checkIsAuthorization = createAsyncThunk('auth/checkIsAuthorization', async (_:any, thunkApi) => {
+// Check authenticated
+export const checkIsAuthorization = createAsyncThunk('auth/checkIsAuthorization', async (_:any, thunkApi) => {
   if ( StorageService.getToken() ){
     thunkApi.dispatch(fetchMe({}));
   } else {

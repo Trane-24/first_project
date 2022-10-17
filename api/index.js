@@ -6,6 +6,7 @@ const clientAuthRouter = require('./routes/client/auth.routes');
 const usersRouter = require('./routes/admin/users.routes');
 const clientUsersRouter = require('./routes/client/users.routes');
 const hotelsRouter = require('./routes/admin/hotels.routes');
+const clientHotelsRouter = require('./routes/client/hotels.routes');
 const reservationsRouter = require('./routes/admin/reservations.routes');
 const assetsRouter = require('./routes/admin/assets.routes');
 const app = express();
@@ -20,6 +21,7 @@ app.use('/api/client/auth', clientAuthRouter);
 app.use('/api/admin/users', usersRouter);
 app.use('/api/client/users', clientUsersRouter);
 app.use('/api/admin/hotels', hotelsRouter);
+app.use('/api/client/hotels', clientHotelsRouter);
 app.use('/api/admin/reservations', reservationsRouter);
 app.use('/api/admin/assets', assetsRouter);
 
