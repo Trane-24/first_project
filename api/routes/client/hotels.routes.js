@@ -24,7 +24,7 @@ router.get('/search', async (req, res) => {
 
 router.get('/topHotels', async (req, res) => {
   try {
-    const hotels = await Hotel.find().sort({ startDate: -1 }).limit(4)
+    const hotels = await Hotel.find().limit(4)
       .populate('images', 'path');
 
     return res.json({ data: hotels });
