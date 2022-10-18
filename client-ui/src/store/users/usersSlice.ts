@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import StorageService from "../../services/StorageService";
 import IUser from "../../models/User";
-import { createUser, deleteUser, fetchMe, fetchUsers, updateUser } from "./usersAsync";
+import UsersAsync from "./usersAsync";
 
 interface IState {
   currentUser: IUser | null;
@@ -38,40 +38,18 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // fetch me
-      .addCase(fetchMe.pending, (state) => {
+      .addCase(UsersAsync.fetchMe.pending, (state) => {
         state.currentUser = null;
       })
-      .addCase(fetchMe.fulfilled, (state, action) => {
+      .addCase(UsersAsync.fetchMe.fulfilled, (state, action) => {
         state.currentUser = action.payload;
       })
-      .addCase(fetchMe.rejected, () => {
+      .addCase(UsersAsync.fetchMe.rejected, () => {
         StorageService.removeToken();
       })
-      // fetch users
-      .addCase(fetchUsers.pending, (state, action) => {
-        state.users = null;
-        state.params = action.meta.arg;
-      })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.users = action.payload.data;
-        state.total = action.payload.total;
-      })
-      // create user
-      .addCase(createUser.fulfilled, (state, action) => {
-        state.users = state.users ? [action.payload, ...state.users] : [action.payload];
-        state.total = state.total + 1;
-      })
-      // delete user
-      .addCase(deleteUser.fulfilled, (state, action) => {
-        state.users = state.users ? state.users.filter(user => user._id !== action.payload) : null;
-        state.total = state.total - 1;
-      })
       // update user
-      .addCase(updateUser.fulfilled, (state, action) => {
-        state.currentUser = action.payload._id === state.currentUser?._id ? action.payload : state.currentUser;
-        state.users = state.users
-          ? state.users.map(user => user._id === action.payload._id ? action.payload : user)
-          : null
+      .addCase(UsersAsync.updateUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
       })
   }
 })

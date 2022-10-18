@@ -1,15 +1,29 @@
+
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+// MUI
+import { Box } from '@mui/material';
+// Components
+import SignInForm from 'components/SignIn.form';
+import SignUpForm from 'components/SignUp.form';
+import UserMenu from './UserMenu';
+// Styles
 import classes from './styles.module.scss';
 
+
 const Header: React.FC = () => {
+
   return (
     <header className={[classes.header, 'container'].join(' ')}>
-      <img className={classes.logo} src='/img/logo.png' alt='LOGO' />
-      <nav className={classes.nav}>
-        <a className={classes.link} href="#">List of propery</a>
-        <a className={classes.link} href="#">Sing In</a>
-        <a className={classes.link} href="#">Sing Up</a>
+      <NavLink to="/">
+        <img className={classes.logo} src='/img/logo.png' alt='Hotels logo' />
+      </NavLink>
+      <nav className={classes.menu}>
+        <NavLink to="about">About</NavLink>
+        <NavLink to="contact-us">Contact us</NavLink>
       </nav>
+      <Box flexGrow="1" />
+      <UserMenu />
     </header>
   )
 };

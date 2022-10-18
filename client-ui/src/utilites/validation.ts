@@ -1,6 +1,6 @@
 export const isRequired = {
   value: true,
-  message: 'This field is require!'
+  message: 'This field is required!'
 }
 
 export const isEmail = {

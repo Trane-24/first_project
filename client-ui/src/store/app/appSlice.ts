@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import INotification from "../../models/Notification";
+import INotification from "models/Notification";
 
 interface IState {
-  drawerOpen: boolean;
   notifications: INotification[];
 }
 
 const initialState: IState = {
-  drawerOpen: false,
   notifications: [],
 }
 
@@ -15,9 +13,6 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    toggleDrawer: (state) => {
-      state.drawerOpen = !state.drawerOpen;
-    },
     enqueueSnackbar: (state, action:PayloadAction<INotification>) => {
       state.notifications = [ ...state.notifications, action.payload ]
     },
