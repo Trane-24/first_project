@@ -71,7 +71,7 @@ router.put('/me',
     }
     await user.update({...newData});
 
-    const response = await User.findOne({_id: req.params.id});
+    const response = await User.findOne({_id: req.user.id});
     const data = {};
     Object.keys(response._doc).map(key => {
       if (response._doc[key] && key !== 'password') {
