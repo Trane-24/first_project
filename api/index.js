@@ -8,6 +8,7 @@ const clientUsersRouter = require('./routes/client/users.routes');
 const hotelsRouter = require('./routes/admin/hotels.routes');
 const clientHotelsRouter = require('./routes/client/hotels.routes');
 const reservationsRouter = require('./routes/admin/reservations.routes');
+const clientReservationsRouter = require('./routes/client/reservations.routes');
 const assetsRouter = require('./routes/admin/assets.routes');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
@@ -23,6 +24,7 @@ app.use('/api/client/users', clientUsersRouter);
 app.use('/api/admin/hotels', hotelsRouter);
 app.use('/api/client/hotels', clientHotelsRouter);
 app.use('/api/admin/reservations', reservationsRouter);
+app.use('/api/client/reservations', clientReservationsRouter);
 app.use('/api/admin/assets', assetsRouter);
 
 const start = async () => {
