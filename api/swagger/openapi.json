@@ -138,6 +138,26 @@
         "tags": [
           "Reservations"
         ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "description": "Default: 1",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "Default: 20",
+            "schema": {
+              "type": "string",
+              "example": "20"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -169,6 +189,26 @@
         "tags": [
           "Hotels"
         ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "description": "Default: 1",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "Default: 20",
+            "schema": {
+              "type": "string",
+              "example": "20"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -186,6 +226,80 @@
                     "total": {
                       "type": "number"
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/hotels/search": {
+      "get": {
+        "summary": "Get hotels",
+        "tags": [
+          "Hotels"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "description": "Default: 1",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "Default: 20",
+            "schema": {
+              "type": "string",
+              "example": "20"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getHotel"
+                      }
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/hotels/topHotels": {
+      "get": {
+        "summary": "Get hotels",
+        "tags": [
+          "Hotels"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/getHotel"
                   }
                 }
               }
