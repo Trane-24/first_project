@@ -11,7 +11,7 @@
   "paths": {
     "/api/client/users/me": {
       "get": {
-        "summary": "Get authenticated User",
+        "summary": "Get current User",
         "tags": [
           "Users"
         ],
@@ -29,7 +29,7 @@
         }
       },
       "put": {
-        "summary": "Update user",
+        "summary": "Update current user",
         "tags": [
           "Users"
         ],
@@ -59,7 +59,7 @@
     },
     "/api/client/auth/login": {
       "post": {
-        "summary": "User log in",
+        "summary": "User sign in",
         "tags": [
           "Authentication"
         ],
@@ -98,7 +98,7 @@
     },
     "/api/client/auth/registration": {
       "post": {
-        "summary": "Register user",
+        "summary": "User sign up",
         "tags": [
           "Authentication"
         ],
@@ -123,6 +123,68 @@
                     "message": {
                       "type": "string",
                       "example": "User was created"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/reservations": {
+      "get": {
+        "summary": "Get current users reservations",
+        "tags": [
+          "Reservations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getReservation"
+                      }
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/hotels": {
+      "get": {
+        "summary": "Get current users hotels",
+        "tags": [
+          "Hotels"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getHotel"
+                      }
+                    },
+                    "total": {
+                      "type": "number"
                     }
                   }
                 }
@@ -191,6 +253,75 @@
             "type": "string",
             "enum": ["admin", "owner", "guest"],
             "example": "guest"
+          }
+        }
+      },
+      "getReservation": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "634e8652d6389a1eb1268862"
+          },
+          "hotel": {
+            "$ref": "#/components/schemas/getHotel"
+          },
+          "guest": {
+            "$ref": "#/components/schemas/getUser"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2000-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2000-01-01"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "rejected", "completed"],
+            "example": "pending"
+          }
+        }
+      },
+      "getHotel": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "634e8652d6389a1eb1268862"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/getUser"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/getAsset"
+            }
+          }
+        }
+      },
+      "getAsset": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
           }
         }
       }
