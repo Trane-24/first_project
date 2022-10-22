@@ -2,6 +2,7 @@ const Router = require('express');
 const User = require('../../models/User');
 const router = new Router();
 const authMiddleware = require('../../middlewares/auth.middleware');
+const { check, validationResult } = require('express-validator');
 
 router.get('/me',
   authMiddleware,
