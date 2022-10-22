@@ -13,6 +13,8 @@ const assetsRouter = require('./routes/admin/assets.routes');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/openapi.json');
 
 app.use(corsMiddleware)
 app.use('/assets', express.static('assets'));
@@ -26,6 +28,8 @@ app.use('/api/client/hotels', clientHotelsRouter);
 app.use('/api/admin/reservations', reservationsRouter);
 app.use('/api/client/reservations', clientReservationsRouter);
 app.use('/api/admin/assets', assetsRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const start = async () => {
   try {

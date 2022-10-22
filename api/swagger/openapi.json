@@ -1,0 +1,199 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Hotels API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+    }
+  ],
+  "paths": {
+    "/api/client/users/me": {
+      "get": {
+        "summary": "Get authenticated User",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getUser"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/auth/login": {
+      "post": {
+        "summary": "User log in",
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNGU4NjUyZDYzODlhMWViMTI2ODg2MiIsImlhdCI6MTY2NjQyNjI1OSwiZXhwIjoxNjY3MDMxMDU5fQ.ppYNDwSgJj1Naw0aMUyczyUidahUZOcAhycG7B8ZnL0"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/auth/registration": {
+      "post": {
+        "summary": "Register user",
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User was created"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "postUser": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "example@gmail.com"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Ken"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Adams"
+          },
+          "phone": {
+            "type": "string",
+            "example": "380977777777"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["admin", "owner", "guest"],
+            "example": "guest"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "getUser": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "634e8652d6389a1eb1268862"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@gmail.com"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Ken"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Adams"
+          },
+          "phone": {
+            "type": "string",
+            "example": "380977777777"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["admin", "owner", "guest"],
+            "example": "guest"
+          }
+        }
+      }
+    }
+  }
+}
