@@ -14,8 +14,8 @@ const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
 const swaggerUi = require('swagger-ui-express');
-const swaggerClient = require('./swagger/client.json');
-// const swaggerAdmin = require('./swagger/admin.json');
+const swaggerDoc = require('./swagger/client.json');
+// const swaggerDoc = require('./swagger/admin.json');
 
 app.use(corsMiddleware)
 app.use('/assets', express.static('assets'));
@@ -30,8 +30,7 @@ app.use('/api/admin/reservations', reservationsRouter);
 app.use('/api/client/reservations', clientReservationsRouter);
 app.use('/api/admin/assets', assetsRouter);
 
-app.use('/api/client', swaggerUi.serve, swaggerUi.setup(swaggerClient));
-// app.use('/api/admin', swaggerUi.serve, swaggerUi.setup(swaggerAdmin));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 const start = async () => {
   try {
