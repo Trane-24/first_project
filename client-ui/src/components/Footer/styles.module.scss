@@ -1,0 +1,22 @@
+.footer {
+  width: 100vw;
+  max-height: 84px;
+  padding: 20px 0;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.logo {
+  height: 20px;
+  object-fit: contain;
+  // margin-right: 24px;
+}
+
+.menu {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+

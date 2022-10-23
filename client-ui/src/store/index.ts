@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from './auth/authSlice';
 import usersReducer from "./users/usersSlice";
 import appReducer from "./app/appSlice";
+import hotelsReducer from "./hotels/hotelsSlice";
 // middlewares
 import errorMiddleware from "../middlewares/errorMiddelware";
 
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
   users: usersReducer,
+  hotels: hotelsReducer,
 });
 
 export const setupStore = () => {

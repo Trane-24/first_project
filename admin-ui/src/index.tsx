@@ -33,5 +33,4 @@ root.render(
         </Provider>
       </ThemeProvider>
     </StyledEngineProvider>
-  // </React.StrictMode> 
 );

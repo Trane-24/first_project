@@ -4,8 +4,6 @@ import { NavLink } from 'react-router-dom';
 // MUI
 import { Box } from '@mui/material';
 // Components
-import SignInForm from 'components/SignIn.form';
-import SignUpForm from 'components/SignUp.form';
 import UserMenu from './UserMenu';
 // Styles
 import classes from './styles.module.scss';

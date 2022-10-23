@@ -9,7 +9,7 @@ const url = `${config.apiURL}/users`;
 const UsersAsync = {
   fetchMe: createAsyncThunk('users/Fetch me', async (_:any , thunkApi) => {
     try {
-      const response: any = await HttpService.get(`${url}/fetchMe`);
+      const response: any = await HttpService.get(`${url}/me`);
       thunkApi.dispatch(authActions.setAuthorization(true));
       return response.data;
     } catch (e: any) {

@@ -13,6 +13,7 @@ import { LinearProgress } from '@mui/material';
 import AppRouting from './App.routing';
 import Notifications from 'components/Notifications';
 import Header from '../components/Header';
+import Footer from 'components/Footer';
 
 const App:React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,9 +32,10 @@ const App:React.FC = () => {
   return (
     <React.Fragment>
       <Header />
-      <main>
+      <main style={{ minHeight: 'calc(100vh - 149px)'}}>
         <AppRouting />
       </main>
+      <Footer /> 
       <Notifications />
     </React.Fragment>
   );

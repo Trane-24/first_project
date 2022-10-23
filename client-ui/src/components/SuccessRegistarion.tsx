@@ -4,7 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import Title from './Title';
 
 type Props = {
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const SuccessRegistarion:React.FC<Props> = ({ onClose }) => {

@@ -18,11 +18,6 @@ const AdminRouting:React.FC = () => {
         </AgentsWrapper>
       } />
 
-      {/* <Route path="owners" element={
-        <OwnersWrapper>
-          <UsersPage role={UserRoles.Owner} />
-        </OwnersWrapper>
-      } /> */}
       <Route path="owners">
         <Route index element={
           <OwnersWrapper>
