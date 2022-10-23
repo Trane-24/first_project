@@ -1,7 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Admin hotels API",
+    "title": "Hotels API",
+    "description": "admin site",
     "version": "v1"
   },
   "servers": [

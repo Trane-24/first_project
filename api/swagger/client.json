@@ -1,7 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Client hotels API",
+    "title": "Hotels API",
+    "description": "client site",
     "version": "v1"
   },
   "servers": [
