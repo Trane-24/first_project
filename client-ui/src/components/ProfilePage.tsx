@@ -17,7 +17,7 @@ import { selectCurrentUser } from 'store/users/usersSelectors';
 import UserRoles from 'types/UserRoles';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, IconButton, Grid, TextField } from '@mui/material';
 // utilites
 import { isEmail, isMatch, isRequired } from 'utilites/validation';
 import MessageInfo from 'components/MessageInfo';
@@ -25,7 +25,6 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 // img
 import background from "image/backGround.png";
-import { IconButton } from '@material-ui/core';
 
 interface IForm {
   firstName: string;
@@ -108,7 +107,7 @@ const ProfilePage: React.FC = () => {
     }
 
     setIsLoading(true);
-    dispatch(UsersAsync.updateUser({ userId: currentUser?._id, user: newData }))
+    dispatch(UsersAsync.updateUser({ userData: newData }))
       .unwrap()
       .then(() => {
         resetField('newPassword');

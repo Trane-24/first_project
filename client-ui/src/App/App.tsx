@@ -32,10 +32,10 @@ const App:React.FC = () => {
   return (
     <React.Fragment>
       <Header />
-      <main style={{ minHeight: 'calc(100vh - 149px)'}}>
+      <main style={{ minHeight: 'calc(100vh - 151px)'}}>
         <AppRouting />
       </main>
-      <Footer /> 
+      <Footer />
       <Notifications />
     </React.Fragment>
   );

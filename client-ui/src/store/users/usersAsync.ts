@@ -19,8 +19,9 @@ const UsersAsync = {
   }),
   updateUser: createAsyncThunk('users/Update user', async (data: any, thunkApi) => {
     try {
-      const { userId, userData } = data;
-      const { data: user } = await HttpService.put(`${url}/${userId}`, userData);
+      const { userData } = data;
+      console.log(data)
+      const { data: user } = await HttpService.put(`${url}/me`, userData);
       return user;
     } catch (e: any) {
       return thunkApi.rejectWithValue(e.response.data);
