@@ -1,4 +1,4 @@
-import ProductsSlider from 'components/Banner';
+import ProductsSlider from 'components/SearchBanner';
 import React from 'react';
 
 const HomePage:React.FC = () => {

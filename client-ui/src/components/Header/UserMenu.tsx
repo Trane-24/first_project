@@ -58,7 +58,7 @@ const UserMenu:React.FC = () => {
             <Tooltip title="Account settings">
               <IconButton
                 size="small"
-                sx={{ ml: 2 }}
+                sx={{ ml: 0.5 }}
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
