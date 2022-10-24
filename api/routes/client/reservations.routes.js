@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../../models/User');
+const Hotel = require('../../models/Hotel');
 const Reservation = require('../../models/Reservation');
 const router = new Router();
 const authMiddleware = require('../../middlewares/auth.middleware');
@@ -20,6 +21,55 @@ router.get('/', authMiddleware, async (req, res) => {
       .populate('guest')
 
     return res.json({ data: reservations, total });
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+});
+
+router.post('/', authMiddleware, async (req, res) => {
+  try {
+    const { startDate, endDate, hotelId } = req.body;
+
+    const guest = await User.findOne({ _id: req.user.id, role: 'guest' });
+
+    if (!guest) {
+      return res.status(403).json({message: 'No access'});
+    }
+
+    if (!startDate) {
+      return res.status(400).json({message: 'startDate is require'});
+    }
+    if (!endDate) {
+      return res.status(400).json({message: 'endDate is require'});
+    }
+    if (!hotelId) {
+      return res.status(400).json({message: 'hotelId is require'});
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(hotelId)) {
+      return res.status(400).json({message: 'Unccorect hotelId'});
+    }
+
+    const hotel = await Hotel.findOne({ _id: hotelId });
+  
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+
+    const reservation = new Reservation({
+      ...req.body,
+      guest: guest._id,
+      hotel: req.body.hotelId,
+      status: 'pending',
+    });
+
+    return reservation.save()
+      .then(data => data.populate({ path: 'hotel', populate: { path: 'owner' } }))
+      .then(data => data.populate({ path: 'hotel', populate: { path: 'images' } }))
+      .then(data => data.populate('guest'))
+      .then(data => res.json(data))
+  
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

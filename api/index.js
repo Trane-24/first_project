@@ -10,6 +10,7 @@ const clientHotelsRouter = require('./routes/client/hotels.routes');
 const reservationsRouter = require('./routes/admin/reservations.routes');
 const clientReservationsRouter = require('./routes/client/reservations.routes');
 const assetsRouter = require('./routes/admin/assets.routes');
+const clientAssetsRouter = require('./routes/client/assets.routes');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
@@ -29,6 +30,7 @@ app.use('/api/client/hotels', clientHotelsRouter);
 app.use('/api/admin/reservations', reservationsRouter);
 app.use('/api/client/reservations', clientReservationsRouter);
 app.use('/api/admin/assets', assetsRouter);
+app.use('/api/client/assets', clientAssetsRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
