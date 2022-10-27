@@ -2,14 +2,19 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 // import './ProductsSlider.scss';
-import { sliderData } from './BannerData';
 // style
 import classes from './styles.module.scss';
 import BannerForm from './BannerForm';
 
+const sliderData = [
+  { image: '/img/0.png', id: 1 },
+  { image: '/img/1.png', id: 2 },
+  { image: '/img/2.png', id: 3 },
+];
+
 const Banner: React.FC = () => {
   const [currenSlide, setCurrenSlide] = useState(0);
-  const slideLength = 3;
+  const slideLength = sliderData.length;
 
   let slideInterval: NodeJS.Timer;
   const intervalTime = 5000;
@@ -27,29 +32,29 @@ const Banner: React.FC = () => {
   }, []);
 
   useEffect(() => {
-      auto();
+    auto();
 
     return () => clearInterval(slideInterval);
   }, [currenSlide]);
 
   return (
-    <section className={classes.baner}>
-      <div className={classes.container}>
+    <section className={classes.banner}>
+      <div className={[classes.bannerContent, 'container'].join(' ')}>
         <BannerForm />
-        {sliderData.map((slide, index: number) => {
-          return (
-              <img
-                key={slide.id}
-                src={slide.image}
-                alt="slide"
-                className={classNames(
-                  classes.img,
-                  { [`${classes.imgAct}`] : index === currenSlide },
-                )}
-              />
-          );
-        })}
       </div>
+      {sliderData.map((slide, index: number) => {
+        return (
+            <img
+              key={slide.id}
+              src={slide.image}
+              alt="slide"
+              className={classNames(
+                classes.img,
+                { [`${classes.imgAct}`] : index === currenSlide },
+              )}
+            />
+        );
+      })}
     </section>
   );
 };

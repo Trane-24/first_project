@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { StyledTextField } from 'components/Controls';
+import Title from 'components/Title';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -24,9 +25,9 @@ const BannerForm: React.FC = () => {
 
   return (
     <Box className={classes.form_container}>
-      <Box>
-        <Typography>Dash Realty Group presents DashWeek, our new rental platform</Typography>
-        <Typography>Find your perfect Stay. We specialize in luxury vacation rentals. Let's get started on your next journey</Typography>
+      <Box sx={{ color: '#fff', textShadow: '0 0 5px rgba(0, 0, 0, 0.4)' }}>
+        <Typography sx={{ fontSize: '40px' }}>Hotels, our new rental platform</Typography>
+        <Typography sx={{ fontSize: '18px' }}>Find your perfect Stay. We specialize in luxury vacation rentals. Let's get started on your next journey</Typography>
       </Box>
 
       <form onSubmit={onSubmit} noValidate className={classes.form}>
@@ -35,13 +36,14 @@ const BannerForm: React.FC = () => {
           render={({ field }) => (
             <StyledTextField
               {...field}
+              fullWidth
               placeholder="Search by name or location"
               error={Boolean(errors.search)}
               helperText={errors.search ? `${errors.search.message}` : ''}
             />
           )}
         />
-        <Button variant='contained' sx={{ height: '56px', width: '166px'}}>
+        <Button variant='contained' sx={{ height: '56px', width: '220px' }}>
           Search
         </Button>
       </form>

@@ -3,7 +3,7 @@ import React, { ReactNode } from "react"
 import { Typography } from "@mui/material"
 
 type Props = {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Title:React.FC<Props> = ({ children }) => {
