@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IHotel from '../../models/Hotel';
-import { fetchHotels } from './hotelsAsync';
+import { fetchHotels, fetchTopHotels } from './hotelsAsync';
 
 interface IState {
   hotels: IHotel[] | null;
@@ -34,6 +34,9 @@ const hotelsSlice = createSlice({
     .addCase(fetchHotels.fulfilled, (state, action) => {
       state.hotels = action.payload.data;
       state.total = action.payload.total;
+    })
+    .addCase(fetchTopHotels.fulfilled, (state, action) => {
+      state.hotels = action.payload.data;
     })
   }
 });

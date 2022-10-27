@@ -1,12 +1,74 @@
-.ListYourProperty {
-  padding: 15px 0;
-  background-image: url('../../image/ListYourProperty.png');
+@import '../../styles/utils/mixins';
+
+.form_content {
+  padding: 80px 0;
+  // background-image: url('../../image/ListYourProperty1.png');
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(315deg, rgba(61, 152, 191, 0.8) 0%, rgba(83, 184, 224, 0.6) 100%), url('../../image/ListYourProperty1.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+}
+
+.title {
+  font-size: 40px;
+  text-shadow: 2px 2px 2px #000;
+
+  @include onTablet {
+    font-size: 60px;
+  }
+}
+
+.text {
+  font-size: 16px;
+  text-shadow: 2px 2px 2px #000;
+}
+
+.form_info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form_btn {
+  width: max-content;
+  align-self: flex-end;
+}
+
+.form_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  color: #fff;
+
+  @include onLaptop {
+    flex-direction: row;
+  }
 }
 
 .form {
-  max-width: 450px;
   background-color: #fff;
+}
+
+.lastBlock {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-color: #419EC5;
+
+  @include onDesktop {
+    padding: 64px;
+  }
+}
+
+.lastBlockTitle {
+  color: #fff;
+  font-size: 48px;
+}
+
+.btn {
+  width: 208px;
 }

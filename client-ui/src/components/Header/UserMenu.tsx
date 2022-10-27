@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // Hooks
 import useDialog from 'hooks/useDialog';
@@ -8,6 +8,12 @@ import { selectIsAuthorization } from 'store/auth/authSelectors';
 // MUI
 import { Avatar, Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// Icon
+import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+// Style
+import classes from './styles.module.scss';
+
 
 // Components
 import SignInForm from 'components/SignIn.form';
@@ -20,9 +26,11 @@ import { Logout } from '@mui/icons-material';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const isAuthorization = useSelector(selectIsAuthorization);
   const currentUser = useSelector(selectCurrentUser);
+  const isListYourPropertu = pathname === '/list-your-property';
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -113,9 +121,10 @@ const UserMenu:React.FC = () => {
           Logout
         </MenuItem>
       </Menu>
-    </React.Fragment>
+        </React.Fragment>
       ) : (
-        <Box sx={{ display: 'flex', gap: 1.2 }}>
+        <React.Fragment>
+        <Box className={classes.menuDesktop} sx={{ display: 'flex', gap: 1.2 }}>
           <Button
             component={NavLink} to="list-your-property"
             variant="outlined"
@@ -123,17 +132,32 @@ const UserMenu:React.FC = () => {
           >
             List your property
           </Button>
+
+          {!isListYourPropertu && (
+            <Button
+              variant="contained"
+              size="small"
+              onClick={openSignUpDialog}
+            >Sign up</Button>
+          )}
+
+
           <Button
             variant="contained"
             size="small"
             onClick={openSignInDialog}
           >Sign in</Button>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={openSignUpDialog}
-          >Sign up</Button>
         </Box>
+        <Box className={classes.menuPhone}>
+          <MenuItem component={NavLink} to="list-your-property">
+            <HouseOutlinedIcon />
+          </MenuItem>
+          
+          <MenuItem onClick={openSignInDialog}>
+            <ExitToAppOutlinedIcon />
+          </MenuItem>
+        </Box>
+        </React.Fragment>
       )}
     </React.Fragment>
   );

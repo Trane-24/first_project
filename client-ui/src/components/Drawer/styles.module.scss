@@ -1,0 +1,27 @@
+@import 'styles/utils/mixins';
+
+.list_content {
+  padding: 20px;
+}
+
+.list_header {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 30px;
+  object-fit: contain;
+  margin-right: 24px;
+
+  @include onTablet {
+    height: 40px;
+  }
+}
+
+.drawer_btn {
+
+  @include onDesktop {
+    display: none;
+  }
+}

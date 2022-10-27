@@ -20,7 +20,6 @@ const UsersAsync = {
   updateUser: createAsyncThunk('users/Update user', async (data: any, thunkApi) => {
     try {
       const { userData } = data;
-      console.log(data)
       const { data: user } = await HttpService.put(`${url}/me`, userData);
       return user;
     } catch (e: any) {

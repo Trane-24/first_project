@@ -29,6 +29,7 @@ import {
 } from "@mui/material";
 // utilites
 import { isRequired } from "utilites/validation";
+import IHotel from "models/Hotel";
 
 interface Props {
   onClose: () => void;
@@ -298,7 +299,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                   disablePortal
                   options={hotels || []}
                   isOptionEqualToValue={(option, value) => option._id === value._id}
-                  onChange={(_, guest: IUser | null) => onChange(guest)}
+                  onChange={(_, hotel: IHotel | null) => onChange(hotel)}
                   value={value || null}
                   getOptionLabel={(option) => option.name}
                   loadingText='Please wait'

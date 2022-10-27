@@ -91,6 +91,8 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
     setOpenMenu(false);
   };
 
+  console.log(hotel)
+
   return (
     <React.Fragment>
       <ConfirmDeleteModal

@@ -5,12 +5,21 @@ import IHotel from "models/Hotel";
 // Services
 import HttpService from "services/HttpService";
 
-const url = `${config.apiURL}/hotels/search`;
+const url = `${config.apiURL}/hotels`;
 
 // fetch hotels
 export const fetchHotels = createAsyncThunk('hotels/Fetch hotels', async (params:any, thunkApi) => {
   try {
-    const response = await HttpService.get(url, params);
+    const response = await HttpService.get(`${url}/search`, params);
+    return response.data;
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
+  }
+});
+// fetch top hotels
+export const fetchTopHotels = createAsyncThunk('hotels/Fetch top hotels', async (_:any, thunkApi) => {
+  try {
+    const response = await HttpService.get(`${url}/topHotels`);
     return response.data;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data);

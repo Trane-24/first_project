@@ -1,17 +1,16 @@
 .footer {
-  width: 100vw;
+  width: 100%;
   max-height: 84px;
   padding: 20px 0;
   background-color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .logo {
   height: 20px;
   object-fit: contain;
-  // margin-right: 24px;
 }
 
 .menu {

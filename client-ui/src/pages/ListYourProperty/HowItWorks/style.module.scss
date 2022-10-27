@@ -1,0 +1,62 @@
+@import 'styles/utils/mixins';
+
+.how_it_works {
+  padding: 65px 0;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+  
+  @include onTablet {
+    text-align: left;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: nowrap;
+
+  @include onDesktop {
+    flex-wrap: wrap;
+    max-height: 480px;
+  }
+}
+
+.image {
+  height: 62px;
+  width: 62px;
+
+  @include onTablet {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  gap: 20px;
+  width: 428px;
+  padding: 6px 10px;
+  width: 100%;
+
+  @include onTablet {
+    padding: 12px 20px;
+  }
+
+  @include onDesktop {
+    width: 50%;
+  }
+}
+
+.subtitle {
+  font-weight: bold;
+  font-size: 1.1em;
+}

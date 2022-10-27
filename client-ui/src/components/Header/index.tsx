@@ -7,12 +7,14 @@ import { Box } from '@mui/material';
 import UserMenu from './UserMenu';
 // Styles
 import classes from './styles.module.scss';
+import TemporaryDrawer from 'components/Drawer';
 
 
 const Header: React.FC = () => {
 
   return (
     <header className={[classes.header, 'container'].join(' ')}>
+      <TemporaryDrawer />
       <NavLink to="/">
         <img className={classes.logo} src='/img/logo.png' alt='Hotels logo' />
       </NavLink>
