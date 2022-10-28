@@ -46,7 +46,7 @@ export const deleteHotel = createAsyncThunk('hotels/Delete hotel', async (hotelI
   }
 });
 // update hotel
-export const updateHote = createAsyncThunk('hotes/Update hotel', async (data: any, thunkApi) => {
+export const updateHotel = createAsyncThunk('hotes/Update hotel', async (data: any, thunkApi) => {
   try {
     const { hotelId, hotelData } = data;
     const nextData: any = { ...hotelData };

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IHotel from '../../models/Hotel';
-import { createHotel, deleteHotel, fetchHotels, updateHote } from './hotelsAsync';
+import { createHotel, deleteHotel, fetchHotels, updateHotel } from './hotelsAsync';
 
 interface IState {
   hotels: IHotel[] | null;
@@ -48,7 +48,7 @@ const hotelsSlice = createSlice({
       state.total = state.total - 1;
     })
     // update hotel
-    .addCase(updateHote.fulfilled, (state, action) => {
+    .addCase(updateHotel.fulfilled, (state, action) => {
       state.hotels = state.hotels
         ? state.hotels.map(hotel => hotel._id === action.payload._id ? action.payload : hotel)
         : null

@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
 import { fetchHotels } from 'store/hotels/hotelsAsync';
+// Actions
+import { hotelsActions } from 'store/hotels/hotelsSlice';
 // Models
 import IHotel from 'models/Hotel';
 // Selectors
@@ -13,7 +15,6 @@ import HotelItem from './HotelItem';
 // MUI
 import { Box, LinearProgress, TablePagination } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { hotelsActions } from 'store/hotels/hotelsSlice';
 
 type Props = {
   ownerId?: string;

@@ -9,7 +9,7 @@ import IHotel from "models/Hotel";
 import IUser from "models/User";
 // Async
 import { fetchUsers } from "store/users/usersAsync";
-import { createHotel, updateHote } from "store/hotels/hotelsAsync";
+import { createHotel, updateHotel } from "store/hotels/hotelsAsync";
 // Actions
 import { appActions } from "store/app/appSlice";
 // selectors
@@ -74,7 +74,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
     };
 
     if (hotel) {
-      dispatch(updateHote({ hotelId: hotel._id, hotelData: nextData }))
+      dispatch(updateHotel({ hotelId: hotel._id, hotelData: nextData }))
         .unwrap()
         .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Hotel was updated' })))
         .then(() => onClose())
