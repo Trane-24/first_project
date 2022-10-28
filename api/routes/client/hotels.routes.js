@@ -9,7 +9,7 @@ const authMiddleware = require('../../middlewares/auth.middleware');
 router.get('/search', async (req, res) => {
   try {
     const { limit, page } = req.query;
-    const params = { ...req.query };
+    const params = { ...req.query, verified: true };
     const total = await Hotel.find(params).count();
     const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
       .populate('images', 'path');
@@ -23,8 +23,8 @@ router.get('/search', async (req, res) => {
 
 router.get('/topHotels', async (req, res) => {
   try {
-    const params = { ...req.query, _id: -1 };
-    const hotels = await Hotel.find(params).limit(4)
+    const params = { ...req.query, verified: true };
+    const hotels = await Hotel.find(params).sort({ _id: -1 }).limit(4)
       .populate('images', 'path');
 
     return res.json({ data: hotels });
@@ -86,7 +86,8 @@ router.post('/', authMiddleware, async (req, res) => {
     const hotel = new Hotel({
       ...req.body,
       owner: owner._id,
-      images: req.body.imagesIds
+      images: req.body.imagesIds,
+      verified: false,
     });
 
     return hotel.save()
@@ -136,7 +137,8 @@ router.put('/:id', authMiddleware, async (req, res) => {
     }
     await hotel.update({
       ...req.body,
-      images: req.body.imagesIds
+      images: req.body.imagesIds,
+      verified: false,
     });
     
     return Hotel.findOne({_id: req.params.id})

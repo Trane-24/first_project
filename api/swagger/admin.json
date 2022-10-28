@@ -472,6 +472,13 @@
               "type": "string",
               "example": "20"
             }
+          },
+          {
+            "name": "verified",
+            "in": "path",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -622,6 +629,36 @@
                       "example": "Hotel was successfully deleted"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/hotels/{id}/actions/markAsVerified": {
+      "put": {
+        "summary": "Mark Hotel as verified",
+        "tags": [
+          "Hotels"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getHotel"
                 }
               }
             }
@@ -831,6 +868,9 @@
           },
           "description": {
             "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
           },
           "images": {
             "type": "array",

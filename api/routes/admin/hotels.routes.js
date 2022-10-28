@@ -66,7 +66,8 @@ router.post('/', authMiddleware, async (req, res) => {
     const hotel = new Hotel({
       ...req.body,
       owner: req.body.ownerId,
-      images: req.body.imagesIds
+      images: req.body.imagesIds,
+      verified: true,
     });
 
     return hotel.save()
@@ -122,7 +123,8 @@ router.put('/:id', authMiddleware, async (req, res) => {
     }
     await hotel.update({
       ...req.body,
-      images: req.body.imagesIds
+      images: req.body.imagesIds,
+      verified: true,
     });
     
     return Hotel.findOne({_id: req.params.id})
@@ -134,5 +136,27 @@ router.put('/:id', authMiddleware, async (req, res) => {
     res.send({message: 'Server error'});
   }
 });
+
+router.put('/:id/actions/markAsVerified', authMiddleware, async (req, res) => {
+  try {
+    const hotel = await Hotel.findOne({ _id: req.params.id });
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+    await hotel.update({
+      ...req.body,
+      verified: true,
+    });
+    
+    return Hotel.findOne({_id: req.params.id})
+      .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate('images', 'path'))
+      .then(data => res.json(data)) 
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+});
+
 
 module.exports = router;

@@ -641,6 +641,9 @@
           "description": {
             "type": "string"
           },
+          "verified": {
+            "type": "boolean"
+          },
           "images": {
             "type": "array",
             "items": {
