@@ -6,6 +6,7 @@ const Hotel = new Schema({
   city: { type: String },
   images: [{ type: ObjectId, ref: 'Asset' }],
   description: { type: String },
+  verified: { type: String },
   owner: { type: ObjectId, ref: 'User' },
 });
 
