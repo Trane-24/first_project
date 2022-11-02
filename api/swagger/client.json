@@ -506,6 +506,85 @@
           }
         }
       }
+    },
+    "/api/client/helpdesk/messages": {
+      "get": {
+        "summary": "Get messages",
+        "tags": [
+          "Helpdesk"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "description": "Default: 1",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "Default: 20",
+            "schema": {
+              "type": "string",
+              "example": "20"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getMessage"
+                      }
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Send message",
+        "tags": [
+          "Helpdesk"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getMessage"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -679,6 +758,34 @@
         "type": "object",
         "properties": {
           "path": {
+            "type": "string"
+          }
+        }
+      },
+      "getMessage": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "fromUser": {
+            "$ref": "#/components/schemas/getUser"
+          },
+          "toUser": {
+            "$ref": "#/components/schemas/getUser"
+          },
+          "message": {
+            "type": "string"
+          },
+          "read": {
+            "type": "boolean"
+          }
+        }
+      },
+      "postMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
             "type": "string"
           }
         }
