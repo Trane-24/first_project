@@ -1,5 +1,5 @@
 export default class StorageService {
-  private static readonly TOKEN = 'hotels:TOKEN';
+  private static readonly TOKEN = 'hotelsClient:TOKEN';
 
   public static getToken():string {
     return localStorage.getItem(StorageService.TOKEN) || '';
