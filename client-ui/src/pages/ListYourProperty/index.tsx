@@ -26,6 +26,7 @@ import classes from './style.module.scss';
 import Benefits from 'pages/ListYourProperty/Benefits';
 import HowItWorks from 'pages/ListYourProperty/HowItWorks';
 import useScrollIntoView from 'hooks/useScrollIntoView';
+import useDialog from 'hooks/useDialog';
 
 interface IForm {
   email: string;
@@ -42,7 +43,8 @@ const ListYourProperty:React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [successRegistration, setSuccessRegistration] = useState(false);
+
+  const {Dialog, openDialog, closeDialog} = useDialog();
 
   const handeShowPassword = () => setShowPassword(!showPassword);
 
@@ -62,14 +64,16 @@ const ListYourProperty:React.FC = () => {
 
     dispatch(AuthAsync.signUp(data))
       .unwrap()
-      .then(() => setSuccessRegistration(true))
+      .then(() => openDialog())
       .finally(() => setIsLoading(false));
   });
 
-  if (successRegistration) return <SuccessRegistarion />;
-
   return (
     <React.Fragment>
+      <Dialog>
+        <SuccessRegistarion onClose={closeDialog} />
+      </Dialog>
+
       <Box className={classes.form_content}>
         <Box className={[classes.form_container, "container"].join(' ')} data-container="sign-up">
           <Box className={classes.form_info}>
@@ -165,7 +169,6 @@ const ListYourProperty:React.FC = () => {
                         {...field}
                         label="Password"
                         type={showPassword ? "text" : "password"}
-                        autoComplete="password"
                         fullWidth
                         required
                         error={!!errors?.password}
