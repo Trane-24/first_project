@@ -8,8 +8,9 @@ const authMiddleware = require('../../middlewares/auth.middleware');
 
 router.get('/search', async (req, res) => {
   try {
-    const { limit, page } = req.query;
-    const params = { ...req.query, verified: true };
+    const { limit, page, search } = req.query;
+    const regex = new RegExp(search, 'gi');
+    const params = { verified: true, name: {'$regex': regex} };
     const total = await Hotel.find(params).count();
     const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
       .populate('images', 'path');
