@@ -14,7 +14,9 @@ router.get('/', authMiddleware, async (req, res) => {
     const params = { ...req.query };
     const total = await Hotel.find(params).count();
     const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
-      .populate('owner', 'email firstName lastName phone role').populate('images', 'path');
+      .populate('owner', 'email firstName lastName phone role')
+      .populate({ path: 'hotelType', populate: { path: 'image' } })
+      .populate('images', 'path');
 
     return res.json({ data: hotels, total });
   } catch (e) {
@@ -25,7 +27,10 @@ router.get('/', authMiddleware, async (req, res) => {
 
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
-    const hotel = await Hotel.findOne({_id: req.params.id}).populate('owner', 'email firstName lastName phone role').populate('images', 'path');
+    const hotel = await Hotel.findOne({_id: req.params.id})
+      .populate('owner', 'email firstName lastName phone role')
+      .populate({ path: 'hotelType', populate: { path: 'image' } })
+      .populate('images', 'path');
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
@@ -82,6 +87,7 @@ router.post('/', authMiddleware, async (req, res) => {
 
     return hotel.save()
       .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
       .then(data => data.populate('images', 'path'))
       .then(data => res.json(data)) 
   } catch (e) {
@@ -149,6 +155,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
     
     return Hotel.findOne({_id: req.params.id})
       .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
       .then(data => data.populate('images', 'path'))
       .then(data => res.json(data)) 
   } catch (e) {
