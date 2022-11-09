@@ -878,6 +878,159 @@
           }
         }
       }
+    },
+    "/api/admin/hotelTypes": {
+      "get": {
+        "summary": "Get hotel types",
+        "tags": [
+          "Hotel types"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/getHotelType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create hotel type",
+        "tags": [
+          "Hotel types"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postHotelType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getHotelType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/hotelTypes/{id}": {
+      "get": {
+        "summary": "Get hotel type",
+        "tags": [
+          "Hotel types"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getHotelType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update hotel type",
+        "tags": [
+          "Hotel types"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postHotelType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getHotelType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete hotel type",
+        "tags": [
+          "Hotel types"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Hotel type was successfully deleted"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1017,6 +1170,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "hotelTypId": {
+            "type": "string"
           }
         }
       },
@@ -1050,6 +1206,9 @@
             "items": {
               "$ref": "#/components/schemas/getAsset"
             }
+          },
+          "hotelType": {
+            "$ref": "#/components/schemas/getHotelType"
           }
         }
       },
@@ -1103,6 +1262,37 @@
         "properties": {
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "postHotelType": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          }
+        }
+      },
+      "getHotelType": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "$ref": "#/components/schemas/getAsset"
           }
         }
       }

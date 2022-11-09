@@ -8,6 +8,7 @@ const Hotel = new Schema({
   description: { type: String },
   verified: { type: String },
   owner: { type: ObjectId, ref: 'User' },
+  hotelType: { type: ObjectId, ref: 'HotelType' },
 });
 
 module.exports = model('Hotel', Hotel);
