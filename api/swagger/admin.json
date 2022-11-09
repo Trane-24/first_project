@@ -764,9 +764,9 @@
         }
       },
       "post": {
-        "summary": "Create hotel",
+        "summary": "Create conversation",
         "tags": [
-          "Hotels"
+          "Helpdesk"
         ],
         "requestBody": {
           "required": true,
