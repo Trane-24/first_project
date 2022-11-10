@@ -44,7 +44,7 @@ const AdminRouting:React.FC = () => {
 
       <Route path="my-profile" element={<ProfilePage />} />
 
-      <Route path="types-hotels" element={<HotelsType />} />
+      <Route path="hotel-types" element={<HotelsType />} />
 
       <Route path="*" element={<Navigate to="/admin/agents" />} />
     </Routes>

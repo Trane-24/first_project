@@ -11,7 +11,7 @@ import { createHotelType, updateHotelType } from "store/hotelTypes/hotelTypesAsy
 import { appActions } from "store/app/appSlice";
 // Mui
 import { LoadingButton } from "@mui/lab";
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 // untiles
 import { isRequired } from "utilites/validation";
 import Uploader from "components/Uploader";
@@ -111,14 +111,20 @@ const HotelTypesForm: React.FC<Props> = ({ hotelType, onClose }) => {
           </Grid>
 
         </Grid>
+          
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
+          <Button variant="outlined" onClick={onClose}>
+            Cancel
+          </Button>
 
           <LoadingButton
             loading={isLoading}
             type="submit"
             variant="contained"
           >
-            {`${hotelType ? 'Update' : 'Create'} hotel type`}
+            {hotelType ? 'Update' : 'Create'}
           </LoadingButton>
+        </Box>
       </form>
     </Box>
   );

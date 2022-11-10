@@ -42,8 +42,8 @@ const Drawer:FC = () => {
       ],
       'owner': [
         { to: `/admin/owners`, label: 'Owners', icon: PeopleOutlinedIcon },
+        { to: `/admin/hotel-types`, label: 'Hotel Types', icon: TravelExploreIcon },
         { to: `/admin/hotels`, label: 'Hotels', icon: HomeWorkOutlinedIcon },
-        { to: `/admin/types-hotels`, label: 'Hotels Types', icon: TravelExploreIcon },
       ],
       'guest': [
         { to: `/admin/guests`, label: 'Guests', icon: PeopleOutlinedIcon },

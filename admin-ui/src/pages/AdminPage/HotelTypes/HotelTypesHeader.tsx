@@ -18,9 +18,9 @@ const HotelTypesHeader:React.FC = () => {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <Typography variant='h5'>Hotel types</Typography>
         <Button
-          sx={{ height: '40px' }}
           variant='contained'
           onClick={openDialog}
+          size="small"
         >
           Create hotel type
         </Button>
