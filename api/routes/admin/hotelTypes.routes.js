@@ -40,7 +40,6 @@ router.post('/', authMiddleware, async (req, res) => {
     const hotelType = new HotelType({
       ...req.body,
       image: req.body.imageId,
-      hotelType: req.body.hotelTypeId,
     });
 
     return hotelType.save()
@@ -84,7 +83,6 @@ router.put('/:id', authMiddleware, async (req, res) => {
     await hotelType.update({
       ...req.body,
       image: req.body.imageId,
-      hotelType: req.body.hotelTypeId,
     });
     
     return HotelType.findOne({_id: req.params.id})

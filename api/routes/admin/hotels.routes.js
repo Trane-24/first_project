@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../../models/User');
 const Hotel = require('../../models/Hotel');
+const HotelType = require('../../models/HotelType');
 const Reservation = require('../../models/Reservation');
 const Asset = require('../../models/Asset');
 const router = new Router();
@@ -13,7 +14,9 @@ router.get('/', authMiddleware, async (req, res) => {
     const params = { ...req.query };
     const total = await Hotel.find(params).count();
     const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
-      .populate('owner', 'email firstName lastName phone role').populate('images', 'path');
+      .populate('owner', 'email firstName lastName phone role')
+      .populate({ path: 'hotelType', populate: { path: 'image' } })
+      .populate('images', 'path');
 
     return res.json({ data: hotels, total });
   } catch (e) {
@@ -24,7 +27,10 @@ router.get('/', authMiddleware, async (req, res) => {
 
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
-    const hotel = await Hotel.findOne({_id: req.params.id}).populate('owner', 'email firstName lastName phone role').populate('images', 'path');
+    const hotel = await Hotel.findOne({_id: req.params.id})
+      .populate('owner', 'email firstName lastName phone role')
+      .populate({ path: 'hotelType', populate: { path: 'image' } })
+      .populate('images', 'path');
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
@@ -37,13 +43,17 @@ router.get('/:id', authMiddleware, async (req, res) => {
 
 router.post('/', authMiddleware, async (req, res) => {
   try {
-    const { name, ownerId } = req.body;
+    const { name, ownerId, hotelTypeId } = req.body;
 
     if (!name) {
       return res.status(400).json({message: 'Name is require'});
     }
     if (!ownerId) {
       return res.status(400).json({message: 'ownerId is require'});
+    }
+
+    if (!hotelTypeId) {
+      return res.status(400).json({message: 'hotelTypeId is require'});
     }
 
     if (!mongoose.Types.ObjectId.isValid(ownerId)) {
@@ -54,10 +64,14 @@ router.post('/', authMiddleware, async (req, res) => {
     // }
 
     const owner = await User.findOne({ _id: ownerId });
+    const hotelType = await HotelType.findOne({ _id: hotelTypeId });
     // const img = await Asset.findOne({ _id: imgId });
 
     if (!owner) {
       return res.status(404).json({message: 'Owner not found'});
+    }
+    if (!hotelType) {
+      return res.status(404).json({message: 'Hotel type not found'});
     }
     // if (!img) {
     //   return res.status(404).json({message: 'Image not found'});
@@ -67,11 +81,13 @@ router.post('/', authMiddleware, async (req, res) => {
       ...req.body,
       owner: req.body.ownerId,
       images: req.body.imagesIds,
+      hotelType: req.body.hotelTypeId,
       verified: true,
     });
 
     return hotel.save()
       .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
       .then(data => data.populate('images', 'path'))
       .then(data => res.json(data)) 
   } catch (e) {
@@ -100,7 +116,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
-    const { name, ownerId } = req.body;
+    const { name, ownerId, hotelTypeId } = req.body;
     if (!name) {
       return res.status(400).json({message: 'Name is require'});
     }
@@ -108,13 +124,22 @@ router.put('/:id', authMiddleware, async (req, res) => {
       return res.status(400).json({message: 'ownerId is require'});
     }
 
+    if (!hotelTypeId) {
+      return res.status(400).json({message: 'hotelTypeId is require'});
+    }
+
     if (!mongoose.Types.ObjectId.isValid(ownerId)) {
       return res.status(400).json({message: 'Unccorect ownerId'});
     }
 
     const owner = await User.findOne({ _id: ownerId });
+    const hotelType = await HotelType.findOne({ _id: hotelTypeId });
+
     if (!owner) {
       return res.status(404).json({message: 'Owner not found'});
+    }
+    if (!hotelType) {
+      return res.status(404).json({message: 'Hotel type not found'});
     }
     
     const hotel = await Hotel.findOne({ _id: req.params.id });
@@ -124,11 +149,13 @@ router.put('/:id', authMiddleware, async (req, res) => {
     await hotel.update({
       ...req.body,
       images: req.body.imagesIds,
+      hotelType: req.body.hotelTypeId,
       verified: true,
     });
     
     return Hotel.findOne({_id: req.params.id})
       .then(data => data.populate('owner', 'email firstName lastName phone role'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
       .then(data => data.populate('images', 'path'))
       .then(data => res.json(data)) 
   } catch (e) {
