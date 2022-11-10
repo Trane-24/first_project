@@ -54,7 +54,7 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, multiple 
 
   return (
     <Box className={classes.contained}>
-      {!files.length && !assets.length && (
+      {(multiple || (!files.length && !assets.length)) && (
         <Box className={classes.btnBox}>
           <Button
             variant="contained"
@@ -128,16 +128,16 @@ export default Uploader;
 
 const useStyle = makeStyles({
   contained: {
-    height: '200px',
+    height: '250px',
     padding: '6px',
     border: '1px solid #ccc',
-      borderRadius: '5px',
-      '&:hover': {
-        border: '1px solid #000',
-      }
+    borderRadius: '5px',
+    '&:hover': {
+      border: '1px solid #000',
+    }
   },
   boxs: {
-    height: '100%',
+    maxHeight: '180px',
     overflowY: 'scroll',
   },
   box: {
