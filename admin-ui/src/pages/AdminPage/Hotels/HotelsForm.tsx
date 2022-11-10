@@ -20,9 +20,6 @@ import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce } from
 // untiles
 import { isRequired } from "utilites/validation";
 import Uploader from "components/Uploader";
-import { selectAssets, selectFile } from "store/assets/assetsSelectors";
-import AssetsAsync from "store/assets/assetsAsync";
-import { assetsActions } from "store/assets/assetsSlice";
 
 interface Props {
   onClose: () => void;
@@ -42,7 +39,6 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
 
   const users = useSelector(selectUsers);
   const usersParams = useSelector(selectUsersParams);
-  // const files = useSelector(selectFile);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingInp, setIsLoadingInp] = useState(false);
@@ -62,6 +58,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
     setQueryValue(e.target.value)
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedChangeHandler = useCallback(
     debounce(changeQueryValue, 1000)
   , []);
@@ -92,6 +89,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
     dispatch(fetchUsers({ ...usersParams, role: 'owner', search: queryValue }))
       .unwrap()
       .finally(() => setIsLoadingInp(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryValue]);
 
   return (
@@ -199,7 +197,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Uploader assets={hotel?.images}/>
+            <Uploader assets={hotel?.images} isMultiple={true}/>
           </Grid>
         </Grid>
 

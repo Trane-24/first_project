@@ -18,7 +18,9 @@ import {
   HomeWorkOutlined as HomeWorkOutlinedIcon,
   HolidayVillageOutlined as HolidayVillageOutlinedIcon,
   Close as CloseIcon,
+  TravelExplore as TravelExploreIcon,
 } from '@mui/icons-material';
+
 
 interface INav {
   to: string;
@@ -41,6 +43,7 @@ const Drawer:FC = () => {
       'owner': [
         { to: `/admin/owners`, label: 'Owners', icon: PeopleOutlinedIcon },
         { to: `/admin/hotels`, label: 'Hotels', icon: HomeWorkOutlinedIcon },
+        { to: `/admin/types-hotels`, label: 'Hotels Types', icon: TravelExploreIcon },
       ],
       'guest': [
         { to: `/admin/guests`, label: 'Guests', icon: PeopleOutlinedIcon },

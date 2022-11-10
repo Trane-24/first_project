@@ -87,7 +87,6 @@ const UsersHeader:React.FC<Props> = ({ role }) => {
             {`Create ${role}`}
           </Button>
         </Box>
-        
       </Box>
     </React.Fragment>
   )

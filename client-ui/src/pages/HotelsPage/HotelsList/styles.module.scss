@@ -1,0 +1,34 @@
+@import 'styles/utils/mixins';
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filterBtn {
+
+  @media (min-width: 900px) {
+    display: none;
+  }
+}
+
+.subtitle {
+  color: grey;
+  margin-bottom: 10px;
+
+  @include onTablet {
+    margin-bottom: 20px;
+  }
+}
+
+.card {
+  flex-basis: 100%;
+
+  @include onTablet {
+    flex-basis: 50%;
+  }
+
+  @include onDesktop {
+    flex-basis: calc(100% / 3);
+  }
+}

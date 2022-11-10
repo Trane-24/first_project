@@ -1,0 +1,15 @@
+@import 'styles/utils/mixins';
+
+.wrapperList {
+  padding: 20px 0;
+  display: flex;
+}
+
+.wrapperForm {
+  display: none;
+  margin-right: 20px;
+
+  @media (min-width: 900px) {
+    display: block;
+  }
+}

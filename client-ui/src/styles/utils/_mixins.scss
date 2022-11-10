@@ -5,13 +5,13 @@
 }
 
 @mixin onLaptop {
-  @media (min-width: 900px) {
+  @media (min-width: 1280px) {
     @content;
   }
 }
 
 @mixin onDesktop {
-  @media (min-width: 1280px) {
+  @media (min-width: 1920px) {
     @content;
   }
 }

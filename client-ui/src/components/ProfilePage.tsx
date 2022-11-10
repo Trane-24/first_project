@@ -24,7 +24,7 @@ import MessageInfo from 'components/MessageInfo';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 // img
-import background from "image/backGround.png";
+import background from "images/backGround.png";
 
 interface IForm {
   firstName: string;

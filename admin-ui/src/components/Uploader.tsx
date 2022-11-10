@@ -12,18 +12,22 @@ import IFile from 'models/File';
 
 type Props ={
   assets?: IAsset[];
+  isMultiple: boolean;
 }
 
-const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined }) => {
+const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, isMultiple }) => {
   const dispatch = useAppDispatch();
   const classes = useStyle();
 
   const files = useSelector(selectFile);
+  console.log(files)
   const assets = useSelector(selectAssets);
   const assetsIdsToDelete = useSelector(selectAssetsIdsToDelete);
 
   const uploadFile = (e:any) => {
-    dispatch(assetsActions.setFiles(e.target.files))
+    const files = e.target.files;
+
+    dispatch(assetsActions.setFiles(files))
   };
 
   const deleteFile = (key: string) => {
@@ -60,7 +64,7 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined }) => {
           Upload
           <input
             type="file"
-            multiple
+            multiple={isMultiple}
             onChange={uploadFile}
             hidden
           />

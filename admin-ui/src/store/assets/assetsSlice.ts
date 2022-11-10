@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IAsset from 'models/Asset';
 import IFile from 'models/File';
 import { v4 as uuid } from 'uuid';
-import AssetsAsync from './assetsAsync';
 
 interface IState {
   files: IFile[],
@@ -25,7 +24,7 @@ const assetsSlice = createSlice({
         key: uuid(),
         file,
       }));
-      state.files = nextFiles;
+      state.files = [...state.files, ...nextFiles];
     },
     setInitialReducer: (state) => {
       state.files = initialState['files'];

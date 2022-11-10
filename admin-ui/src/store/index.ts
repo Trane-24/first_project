@@ -4,6 +4,7 @@ import authReducer from 'store/auth/authSlice';
 import appReducer from 'store/app/appSlice';
 import usersReducer from 'store/users/usersSlice';
 import hotelsReducer from 'store/hotels/hotelsSlice';
+import hotelTypesReducer from 'store/hotelTypes/hotelTypesSlice';
 import reservationReducer from 'store/reservation/reservationSlice';
 import assetsReducer from 'store/assets/assetsSlice';
 // middlewares
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   app: appReducer,
   users: usersReducer,
   hotels: hotelsReducer,
+  hotelTypes: hotelTypesReducer,
   reservations: reservationReducer,
   assets: assetsReducer,
 });

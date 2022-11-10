@@ -26,7 +26,6 @@ import { makeStyles } from "@mui/styles";
 import config from "config";
 import { useLocation } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import { assetsActions } from "store/assets/assetsSlice";
 import AssetsAsync from "store/assets/assetsAsync";
 
 type Props = {
@@ -113,23 +112,23 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
         onClick={handleIsActive}
         >
           <Grid container spacing={2}>
-            <Grid item xs={3} alignSelf="center">
-              <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotel.name}</Typography>
+            <Grid item xs={11} md={3} alignSelf="center">
+              <Typography className={classes.text} sx={{ fontWeight: 600, order: -1 }}>{hotel.name}</Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3} sx={{ order: 2}}>
               <Typography className={classes.title}>Country</Typography>
               <Typography>{hotel.country ? hotel.country : '-'}</Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4} md={2} sx={{ order: 2}}>
               <Typography className={classes.title}>City</Typography>
               <Typography>{hotel.city ? hotel.city : '-'}</Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4} md={3} sx={{ order: 2}}>
               <Typography className={classes.title}>Owner</Typography>
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
             {isNotReservation ? (
-              <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: 1, md: 3 }}} item xs={1} >
                 <Tooltip title="hotel menu" ref={menuRef}>
                   <IconButton onClick={handleOpenMenu}>
                     <MoreVertIcon />
@@ -153,7 +152,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
                 </Menu>
               </Grid>
             ) : (
-              <Grid sx={{ display: 'flex', justifyContent: 'flex-end'}} item xs={1}>
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { md: 3 }}} item xs={1}>
                 <Box onClick={onClose} sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'flex-end'}}>
                   <CloseIcon />
                 </Box>
@@ -167,14 +166,15 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
         >
           <Divider sx={{ mb: 2 }} />
           <Grid container spacing={2}>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={5}>
               <img
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                className={classes.img}
                 src={imgUrl}
                 alt={hotel.name}
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12} sm={7}>
               <Typography className={classes.title}>Description</Typography>
               <Typography className={classes.text}>{hotel.description || '-'}</Typography>
             </Grid>
@@ -200,4 +200,10 @@ const useStyle = makeStyles({
     letterSpacing: '0.17px',
     color: 'rgba(0, 0, 0, 0.87)',
   },
+  img: {
+    width: '100%',
+    height: '100%',
+    maxHeight: '260px',
+    objectFit: 'cover',
+  }
 });

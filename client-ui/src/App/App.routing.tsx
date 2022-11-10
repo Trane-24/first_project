@@ -6,12 +6,14 @@ import ListYourProperty from '../pages/ListYourProperty';
 import ProfilePage from 'components/ProfilePage';
 import PublicRoute from 'components/PublicRoute';
 import PrivateRoute from 'components/PrivateRoute';
+import HotelsPage from 'pages/HotelsPage';
+import AboutPage from 'pages/AboutPage';
 
 const AppRouting:React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/about" element={<></>} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/contact-us" element={<></>} />
 
       <Route path="/list-your-property" element={
@@ -25,6 +27,8 @@ const AppRouting:React.FC = () => {
           <ProfilePage />
         </PrivateRoute>
       } />
+
+      <Route path='/hotels' element={<HotelsPage />} />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
