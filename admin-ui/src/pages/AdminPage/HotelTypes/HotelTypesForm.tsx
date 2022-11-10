@@ -107,7 +107,7 @@ const HotelTypesForm: React.FC<Props> = ({ hotelType, onClose }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Uploader assets={hotelType?.image ? [hotelType?.image] : undefined} isMultiple={false}/>
+            <Uploader assets={hotelType?.image ? [hotelType?.image] : undefined} />
           </Grid>
 
         </Grid>

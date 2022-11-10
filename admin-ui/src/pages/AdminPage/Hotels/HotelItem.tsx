@@ -166,15 +166,14 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
         >
           <Divider sx={{ mb: 2 }} />
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={3}>
               <img
-                // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 className={classes.img}
                 src={imgUrl}
                 alt={hotel.name}
               />
             </Grid>
-            <Grid item xs={12} sm={7}>
+            <Grid item xs={12} sm={9}>
               <Typography className={classes.title}>Description</Typography>
               <Typography className={classes.text}>{hotel.description || '-'}</Typography>
             </Grid>
@@ -203,7 +202,7 @@ const useStyle = makeStyles({
   img: {
     width: '100%',
     height: '100%',
-    maxHeight: '260px',
+    // maxHeight: '260px',
     objectFit: 'cover',
   }
 });

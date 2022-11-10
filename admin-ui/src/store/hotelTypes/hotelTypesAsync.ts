@@ -53,12 +53,8 @@ export const updateHotelType = createAsyncThunk('hotelsTypes/Update hotel type',
     const nextData: any = { ...hotelTypeData };
 
     const { payload: images } : any = await thunkApi.dispatch(AssetsAsync.validateAssets({}));
-    console.log(images)
-    if (images.length) {
-      nextData['imageId'] = images[1]._id;
-    }
 
-  console.log('type hotel' , nextData)
+    nextData['imageId'] = images.length ? images[0]._id : null;
 
     const { data: hotel } = await HttpService.put(`${url}/${hotelTypeId}`, nextData)
     return hotel;

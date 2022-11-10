@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { selectHotelsTypes } from 'store/hotelTypes/hotelTypesSelectors';
+import React from 'react';
+// 
 import HotelTypesHeader from './HotelTypesHeader';
 import HotelTypesList from './HotelTypesList';
 
 const HotelTypes: React.FC = () => {
-  const hotelTypes = useSelector(selectHotelsTypes);
-  console.log(hotelTypes);
-
   return (
     <React.Fragment>
       <HotelTypesHeader />

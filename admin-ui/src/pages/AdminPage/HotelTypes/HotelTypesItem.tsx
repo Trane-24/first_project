@@ -33,9 +33,7 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
   const classes = useStyle();
   const dispatch = useAppDispatch();
 
-  const imgUrl = hotelType.image
-    ? `${config.serverURL}/${hotelType.image.path}`
-    : '/images/hotelType-no-available.jpg';
+  const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path}` : '/images/hotel-no-available.png';
 
   // menu
   const menuRef = useRef();
@@ -93,14 +91,14 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
 
       <Box sx={{ p: 1}} className={classes.item}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={5} sx={{ order: { xs: 3, sm: 0}}}>
+          <Grid item xs={12} sm={3} sx={{ order: { xs: 3, sm: 0}}}>
             <img className={classes.img} src={imgUrl} alt={hotelType.name} />
           </Grid>
           <Grid item xs={6} sm={3}>
             <Typography className={classes.title}>Type name</Typography>
             <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotelType.name}</Typography>
           </Grid>
-          <Grid item xs={5} sm={3}>
+          <Grid item xs={5} sm={5}>
             <Typography className={classes.title}>Description</Typography>
             <Typography>{hotelType.description || '-'}</Typography>
           </Grid>
@@ -153,9 +151,8 @@ const useStyle = makeStyles({
     color: 'rgba(0, 0, 0, 0.87)',
   },
   img: {
-    height: '135px',
-    width: '100%',
-    maxWidth: '200px',
+    height: '100px',
+    width: '150px',
     objectFit: 'cover',
   }
 });

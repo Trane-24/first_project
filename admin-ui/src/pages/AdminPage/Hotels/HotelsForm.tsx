@@ -197,7 +197,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Uploader assets={hotel?.images} isMultiple={true}/>
+            <Uploader assets={hotel?.images} multiple={true} />
           </Grid>
         </Grid>
 

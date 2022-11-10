@@ -12,15 +12,14 @@ import IFile from 'models/File';
 
 type Props ={
   assets?: IAsset[];
-  isMultiple: boolean;
+  multiple?: boolean;
 }
 
-const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, isMultiple }) => {
+const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, multiple = false }) => {
   const dispatch = useAppDispatch();
   const classes = useStyle();
 
   const files = useSelector(selectFile);
-  console.log(files)
   const assets = useSelector(selectAssets);
   const assetsIdsToDelete = useSelector(selectAssetsIdsToDelete);
 
@@ -55,21 +54,23 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, isMultipl
 
   return (
     <Box className={classes.contained}>
-      <Box className={classes.btnBox}>
-        <Button
-          variant="contained"
-          component="label"
-          className={classes.btn}
-        >
-          Upload
-          <input
-            type="file"
-            multiple={isMultiple}
-            onChange={uploadFile}
-            hidden
-          />
-        </Button>
-      </Box>
+      {!files.length && !assets.length && (
+        <Box className={classes.btnBox}>
+          <Button
+            variant="contained"
+            component="label"
+            className={classes.btn}
+          >
+            Upload
+            <input
+              type="file"
+              multiple={multiple}
+              onChange={uploadFile}
+              hidden
+            />
+          </Button>
+        </Box>
+      )}
       <Box className={classes.boxs}>
         {!!files.length && (
           <Box className={classes.box}>
@@ -127,16 +128,16 @@ export default Uploader;
 
 const useStyle = makeStyles({
   contained: {
-  maxHeight: '388px',
-  padding: '6px',
-  border: '1px solid #ccc',
-    borderRadius: '5px',
-    '&:hover': {
-      border: '1px solid #000',
-    }
+    height: '200px',
+    padding: '6px',
+    border: '1px solid #ccc',
+      borderRadius: '5px',
+      '&:hover': {
+        border: '1px solid #000',
+      }
   },
   boxs: {
-    maxHeight: '334px',
+    height: '100%',
     overflowY: 'scroll',
   },
   box: {
@@ -154,10 +155,7 @@ const useStyle = makeStyles({
     width: '160px',
   },
   btnBox : {
-    height: '100%',
     display: 'flex',
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   btn: {
     margin: '0 auto',
