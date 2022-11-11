@@ -73,6 +73,7 @@ const ReservationList: React.FC<Props> = ({ guestId }) => {
           <TablePagination
             className={classes.pagination}
             component="div"
+            labelRowsPerPage="Items"
             count={total}
             page={page - 1}
             onPageChange={handleChangePage}
@@ -117,7 +118,6 @@ const useStyles = makeStyles({
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
   image: {
-    // objectFit: 'contain',
     maxHeight: 'calc(100vh - 202px)',
     '@media (min-width: 600px)': {
       maxHeight: 'calc(100vh - 222px)',

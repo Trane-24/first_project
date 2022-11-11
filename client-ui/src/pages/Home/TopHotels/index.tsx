@@ -41,6 +41,7 @@ const TopHotels: React.FC = () => {
       <Box className='container'>
         <Title>Top Hotels</Title>
         <Swiper
+          style={{ padding: '3px'}}
           slidesPerView={slidesPerViewCount}
           spaceBetween={20}
           className="mySwiper"

@@ -150,12 +150,12 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
           }}
           onClick={handleIsActive}
         >
-            <Grid container sx={{ display: 'flex', alignItems: 'center'}}>
-              <Grid item xs={4}>
+            <Grid container sx={{ display: 'flex', alignItems: 'center'}} spacing={2}>
+              <Grid item xs={11} sm={4} sx={{ order: { xs: -2, sm: 0}}}>
                 <Typography sx={{ fontWeight: 600 }}>{reservation.hotel.name}</Typography>
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={3}>
                 <Typography className={classes.title}>
                   Date
                 </Typography>
@@ -167,7 +167,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 {reservation.status === ReservationStatuses.Completed && <Chip size="small" color="success" label="Completed" icon={<DoneAllIcon />} />}
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={6} sm={2}>
                 <Typography className={classes.title}>
                   Owner
                 </Typography>
@@ -176,7 +176,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={6} sm={2}>
                 <Typography className={classes.title}>
                   Guest
                 </Typography>
@@ -185,7 +185,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, sm: 0 } }}>
                 <Tooltip title="User menu" ref={menuRef}>
                   <IconButton onClick={handleOpenMenu}>
                     <MoreVertIcon />
@@ -221,7 +221,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
           <Divider sx={{ mb: 2 }} />
 
           <Grid container>
-            <Grid item xs={10}>
+            <Grid item xs={8}>
               <Typography className={classes.title}>
                 Notes
               </Typography>
@@ -230,7 +230,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
               </Typography>
             </Grid>
 
-            <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+            <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
               <Button onClick={openDialogHotel}>
                 View hotel details
               </Button>

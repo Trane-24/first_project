@@ -108,6 +108,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
         sx={{
           userSelect: 'text',
           backgroundColor: isActive ? '#ededed' : '#fff',
+          // padding: { xs: 0.5, sm: 2}
         }}
         onClick={handleIsActive}
         >
@@ -128,7 +129,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
             {isNotReservation ? (
-              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: 1, md: 3 }}} item xs={1} >
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: 1, md: 3 }, position: 'relative', left: { xs: '15px', sm: 0}}} item xs={1} >
                 <Tooltip title="hotel menu" ref={menuRef}>
                   <IconButton onClick={handleOpenMenu}>
                     <MoreVertIcon />

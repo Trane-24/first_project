@@ -79,6 +79,7 @@ const HotelList:React.FC<Props> = ({ ownerId }) => {
         <TablePagination
           className={classes.pagination}
           component="div"
+          labelRowsPerPage="Items"
           count={total}
           page={stateParams.page - 1}
           onPageChange={handleChangePage}
