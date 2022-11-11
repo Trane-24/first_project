@@ -585,6 +585,29 @@
           }
         }
       }
+    },
+    "/api/admin/hotelTypes": {
+      "get": {
+        "summary": "Get hotel types",
+        "tags": [
+          "Hotel types"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/getHotelType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -728,6 +751,9 @@
             "items": {
               "$ref": "#/components/schemas/getAsset"
             }
+          },
+          "hotelType": {
+            "$ref": "#/components/schemas/getHotelType"
           }
         }
       },
@@ -751,6 +777,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "hotelTypId": {
+            "type": "string"
           }
         }
       },
@@ -787,6 +816,23 @@
         "properties": {
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "getHotelType": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "$ref": "#/components/schemas/getAsset"
           }
         }
       }

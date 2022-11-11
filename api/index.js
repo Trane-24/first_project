@@ -14,12 +14,13 @@ const clientAssetsRouter = require('./routes/client/assets.routes');
 const helpdeskRouter = require('./routes/admin/helpdesk.routes');
 const clientHelpdeskRouter = require('./routes/client/helpdesk.routes');
 const hotelTypesRouter = require('./routes/admin/hotelTypes.routes');
+const clientHotelTypesRouter = require('./routes/client/hotelTypes.routes');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
 const swaggerUi = require('swagger-ui-express');
-// const swaggerDoc = require('./swagger/client.json');
-const swaggerDoc = require('./swagger/admin.json');
+const swaggerDoc = require('./swagger/client.json');
+// const swaggerDoc = require('./swagger/admin.json');
 
 app.use(corsMiddleware)
 app.use('/assets', express.static('assets'));
@@ -37,6 +38,7 @@ app.use('/api/client/assets', clientAssetsRouter);
 app.use('/api/admin/helpdesk', helpdeskRouter);
 app.use('/api/client/helpdesk', clientHelpdeskRouter);
 app.use('/api/admin/hotelTypes', hotelTypesRouter);
+app.use('/api/client/hotelTypes', clientHotelTypesRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
