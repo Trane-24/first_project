@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../../models/User');
 const Hotel = require('../../models/Hotel');
+const HotelType = require('../../models/HotelType');
 const Reservation = require('../../models/Reservation');
 const router = new Router();
 const authMiddleware = require('../../middlewares/auth.middleware');
