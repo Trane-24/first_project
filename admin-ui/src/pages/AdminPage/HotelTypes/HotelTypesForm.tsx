@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
-// hooks
+// Hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
-// models
-import { IHotelType } from "models/HotelType";
+// Models
+import IHotelType from "models/HotelType";
 // Async
 import { createHotelType, updateHotelType } from "store/hotelTypes/hotelTypesAsync";
 // Actions
@@ -12,10 +12,10 @@ import { appActions } from "store/app/appSlice";
 // Mui
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-// untiles
+// Utilites
 import { isRequired } from "utilites/validation";
+// Components
 import Uploader from "components/Uploader";
-
 
 interface Props {
   onClose: () => void;

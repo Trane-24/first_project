@@ -1,5 +1,5 @@
 import IAsset from "./Asset";
-import { IHotelType } from "./HotelType";
+import IHotelType from "./HotelType";
 import IUser from "./User";
 
 interface IHotel {

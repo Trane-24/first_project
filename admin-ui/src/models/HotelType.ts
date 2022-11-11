@@ -1,8 +1,10 @@
 import IAsset from "./Asset";
 
-export interface IHotelType {
+interface IHotelType {
   _id: string;
   name: string;
   description: string;
   image: IAsset;
 }
+
+export default IHotelType;

@@ -1,35 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 // hooks
 import useDialog from 'hooks/useDialog';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+// Async
+import { fetchHotels } from 'store/hotels/hotelsAsync';
+import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
+// Selectors
+import { selectParams } from 'store/hotels/hotelsSelectors';
+import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
+// Models
+import IHotelType from 'models/HotelType';
+// MUI
+import {
+  Box, Button, MenuItem, TextField, Typography,
+} from '@mui/material';
 // Components
 import HotelsForm from './HotelsForm';
-// MUI
-import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
-import { useAppDispatch } from 'hooks/useAppDispatch';
-import { useSelector } from 'react-redux';
-import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
-import { IHotelType } from 'models/HotelType';
-import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
-import { fetchHotels } from 'store/hotels/hotelsAsync';
 
 const HotelHeader:React.FC = () => {
   const dispatch = useAppDispatch();
-  // Selector
+  // State
   const hotelTypes = useSelector(selectHotelTypes);
+  const params = useSelector(selectParams);
 
-  const handleHotelType = (e: any) => {
-    dispatch(fetchHotels({ hotelType: e.target.value}))
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: hotelType } = e.target;
+    dispatch(fetchHotels({ hotelType, page: 1 }));
   }
-
-  const { Dialog, openDialog, closeDialog } = useDialog();
 
   useEffect(() => {
     dispatch(fetchHotelTypes({}))
+    // eslint-disable-next-line
   }, []);
+
+  const { Dialog, openDialog, closeDialog } = useDialog();
 
   return (
     <React.Fragment>
-      <Dialog>
+      <Dialog maxWidth="md">
         <HotelsForm onClose={closeDialog} />
       </Dialog>
 
@@ -39,24 +48,19 @@ const HotelHeader:React.FC = () => {
           <TextField
             select
             label="Hotel Types"
-            sx={{ width: '150px', pr: 1}}
+            sx={{ width: '200px', pr: 1}}
             size='small'
-            onChange={handleHotelType}
+            value={params.hotelType}
+            onChange={onChange}
           >
-            <MenuItem value="">
-              All
+            <MenuItem value=" ">
+              Any
             </MenuItem>
-            {hotelTypes ? (
-              hotelTypes?.map((hotelType: IHotelType) => (
-                <MenuItem value={hotelType._id} key={hotelType._id}>
-                  {hotelType.name}
-                </MenuItem>
-              ))
-            ) : (
-              <MenuItem value="">
-                Loading...
+            {hotelTypes?.map((hotelType: IHotelType) => (
+              <MenuItem value={hotelType._id} key={hotelType._id}>
+                {hotelType.name}
               </MenuItem>
-            )}
+            ))}
           </TextField>
 
           <Button

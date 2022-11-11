@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
+import config from "config";
 // hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
 import useDialog from "hooks/useDialog";
@@ -8,11 +9,9 @@ import { deleteHotelType } from "store/hotelTypes/hotelTypesAsync";
 // Action
 import { appActions } from "store/app/appSlice";
 // Models
-import { IHotelType } from "models/HotelType";
-// Component
-import ConfirmDeleteModal from "components/ConfirmDeleteModal";
-import HotelTypesForm from "./HotelTypesForm";
+import IHotelType from "models/HotelType";
 // MUI
+import { makeStyles } from "@mui/styles";
 import {
   Box, Grid, IconButton, Menu, MenuItem,
   Tooltip, Typography,
@@ -22,8 +21,9 @@ import {
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
-import { makeStyles } from "@mui/styles";
-import config from "config";
+// Component
+import ConfirmDeleteModal from "components/ConfirmDeleteModal";
+import HotelTypesForm from "./HotelTypesForm";
 
 type Props = {
   hotelType: IHotelType,

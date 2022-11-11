@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-// hooks
+// Hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
-import { fetchHotels } from 'store/hotels/hotelsAsync';
-// Actions
-import { hotelsActions } from 'store/hotels/hotelsSlice';
-// Models
-import IHotel from 'models/Hotel';
+import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
 // Selectors
-import { selectHotels, selectParams, selectTotal } from 'store/hotels/hotelsSelectors';
+import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
+// Models
+import IHotelType from 'models/HotelType';
+// MUI
+import { makeStyles } from '@mui/styles';
+import { Box, LinearProgress } from '@mui/material';
 // Components
 import HotelTypesItem from './HotelTypesItem';
-// MUI
-import { Box, LinearProgress } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
-import { IHotelType } from 'models/HotelType';
-import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
 
 type Props = {
   ownerId?: string;

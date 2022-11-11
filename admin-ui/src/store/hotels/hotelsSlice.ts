@@ -14,6 +14,7 @@ const initialState: IState = {
   params: {
     limit: 20,
     page: 1,
+    hotelType: ' ',
   }
 };
 

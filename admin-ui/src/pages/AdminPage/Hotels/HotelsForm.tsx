@@ -7,6 +7,7 @@ import { useAppDispatch } from "hooks/useAppDispatch";
 // models
 import IHotel from "models/Hotel";
 import IUser from "models/User";
+import IHotelType from "models/HotelType";
 // Async
 import { fetchUsers } from "store/users/usersAsync";
 import { createHotel, updateHotel } from "store/hotels/hotelsAsync";
@@ -14,17 +15,17 @@ import { createHotel, updateHotel } from "store/hotels/hotelsAsync";
 import { appActions } from "store/app/appSlice";
 // selectors
 import { selectParams as selectUsersParams, selectUsers } from "store/users/usersSelectors";
+import { selectHotelTypes } from "store/hotelTypes/hotelTypesSelectors";
 // Mui
 import { LoadingButton } from "@mui/lab";
-import { Autocomplete, Box, Button, Grid, TextField,
+import {
+  Autocomplete, Box, Button, Grid, TextField,
   Typography, debounce, MenuItem,
 } from "@mui/material";
-// untiles
+// Utilites
 import { isRequired } from "utilites/validation";
+// Components
 import Uploader from "components/Uploader";
-import { selectHotelTypes } from "store/hotelTypes/hotelTypesSelectors";
-import { fetchHotelTypes } from "store/hotelTypes/hotelTypesAsync";
-import { IHotelType } from "models/HotelType";
 
 interface Props {
   onClose: () => void;
@@ -99,11 +100,6 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
       .finally(() => setIsLoadingInp(false))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryValue]);
-
-  useEffect(() => {
-    dispatch(fetchHotelTypes({}))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <Box sx={{p: 5, width: '100%'}}>
