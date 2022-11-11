@@ -13,6 +13,7 @@ interface Props {
 }
 
 const HotelItem: React.FC<Props> = ({ hotel }) => {
+  console.log(hotel);
   const imgUrl = hotel.images?.length !== 0 ? `${config.serverURL}/${hotel.images[0].path}` : '/img/hotel-no-available.png';
 
   return (

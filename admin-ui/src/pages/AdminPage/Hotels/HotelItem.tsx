@@ -108,28 +108,35 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
         sx={{
           userSelect: 'text',
           backgroundColor: isActive ? '#ededed' : '#fff',
-          // padding: { xs: 0.5, sm: 2}
         }}
         onClick={handleIsActive}
         >
           <Grid container spacing={2}>
-            <Grid item xs={11} md={3} alignSelf="center">
-              <Typography className={classes.text} sx={{ fontWeight: 600, order: -1 }}>{hotel.name}</Typography>
+            <Grid item xs={11} md={3} alignSelf="center" sx={{ order: -1}}>
+              <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotel.name}</Typography>
             </Grid>
-            <Grid item xs={4} md={3} sx={{ order: 2}}>
+
+            <Grid item xs={12} sm={6} md={2}>
+              <Typography className={classes.title}>Hotel type</Typography>
+              <Typography>{hotel.hotelType ? hotel.hotelType.name : '-'}</Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={2}>
               <Typography className={classes.title}>Country</Typography>
               <Typography>{hotel.country ? hotel.country : '-'}</Typography>
             </Grid>
-            <Grid item xs={4} md={2} sx={{ order: 2}}>
+
+            <Grid item xs={12} sm={6} md={2}>
               <Typography className={classes.title}>City</Typography>
               <Typography>{hotel.city ? hotel.city : '-'}</Typography>
             </Grid>
-            <Grid item xs={4} md={3} sx={{ order: 2}}>
+
+            <Grid item xs={12} sm={6} md={2}>
               <Typography className={classes.title}>Owner</Typography>
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
             {isNotReservation ? (
-              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: 1, md: 3 }, position: 'relative', left: { xs: '15px', sm: 0}}} item xs={1} >
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 }, position: 'relative', left: { xs: '15px', sm: 0}}} item xs={1} >
                 <Tooltip title="hotel menu" ref={menuRef}>
                   <IconButton onClick={handleOpenMenu}>
                     <MoreVertIcon />
@@ -200,6 +207,11 @@ const useStyle = makeStyles({
     letterSpacing: '0.17px',
     color: 'rgba(0, 0, 0, 0.87)',
   },
+  // info: {
+  //   display: 'flex',
+  //   alignItems: 'center'
+  //   // flexDerection: 'colum',
+  // },
   img: {
     width: '100%',
     height: '100%',

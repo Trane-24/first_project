@@ -17,7 +17,7 @@ import { Box, LinearProgress } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
 import { IHotelType } from 'models/HotelType';
-import { selectHotelsTypes } from 'store/hotelTypes/hotelTypesSelectors';
+import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
 
 type Props = {
   ownerId?: string;
@@ -28,7 +28,7 @@ const HotelTypesList:React.FC<Props> = ({ ownerId }) => {
   // dispatch
   const dispatch = useAppDispatch();
 
-  const hotelTypes = useSelector(selectHotelsTypes);
+  const hotelTypes = useSelector(selectHotelTypes);
   // state
   const [isLoading, setIsLoading] = useState(false);
 

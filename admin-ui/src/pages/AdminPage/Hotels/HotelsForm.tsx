@@ -16,10 +16,15 @@ import { appActions } from "store/app/appSlice";
 import { selectParams as selectUsersParams, selectUsers } from "store/users/usersSelectors";
 // Mui
 import { LoadingButton } from "@mui/lab";
-import { Autocomplete, Box, Button, Grid, TextField, Typography, debounce } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, TextField,
+  Typography, debounce, MenuItem,
+} from "@mui/material";
 // untiles
 import { isRequired } from "utilites/validation";
 import Uploader from "components/Uploader";
+import { selectHotelTypes } from "store/hotelTypes/hotelTypesSelectors";
+import { fetchHotelTypes } from "store/hotelTypes/hotelTypesAsync";
+import { IHotelType } from "models/HotelType";
 
 interface Props {
   onClose: () => void;
@@ -32,6 +37,7 @@ interface IForm {
   city?: string;
   description?: string;
   ownerId: any;
+  hotelTypeId: string;
 }
 
 const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
@@ -39,6 +45,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
 
   const users = useSelector(selectUsers);
   const usersParams = useSelector(selectUsersParams);
+  const hotelTypes = useSelector(selectHotelTypes);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingInp, setIsLoadingInp] = useState(false);
@@ -51,6 +58,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
       city: hotel?.city ? hotel.city : '',
       description: hotel?.description ? hotel.description : '',
       ownerId: hotel?.owner || null,
+      hotelTypeId: hotel?.hotelType._id || '',
     }
   });
 
@@ -91,6 +99,11 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
       .finally(() => setIsLoadingInp(false))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryValue]);
+
+  useEffect(() => {
+    dispatch(fetchHotelTypes({}))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Box sx={{p: 5, width: '100%'}}>
@@ -152,6 +165,36 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
                     />
                   )}
                 />
+              )}
+            />
+          </Grid>
+          {/* hotel type */}
+          <Grid item xs={12}>
+            <Controller
+              rules={{ required: isRequired}}
+              control={control} name="hotelTypeId"
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  required
+                  fullWidth
+                  select
+                  label="Hotel Types"
+                  error={!!errors?.hotelTypeId}
+                  helperText={errors?.hotelTypeId ? errors.hotelTypeId.message : null}
+                >
+                  {hotelTypes ? (
+                    hotelTypes?.map((hotelType: IHotelType) => (
+                      <MenuItem value={hotelType._id} key={hotelType._id}>
+                        {hotelType.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem value="">
+                      Loading...
+                    </MenuItem>
+                  )}
+                </TextField>
               )}
             />
           </Grid>

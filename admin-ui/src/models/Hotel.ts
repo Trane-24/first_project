@@ -1,4 +1,5 @@
 import IAsset from "./Asset";
+import { IHotelType } from "./HotelType";
 import IUser from "./User";
 
 interface IHotel {
@@ -9,6 +10,7 @@ interface IHotel {
   images: IAsset[];
   description?: string;
   owner: IUser;
+  hotelType: IHotelType;
 }
 
 export default IHotel;
