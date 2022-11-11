@@ -792,7 +792,7 @@
               "type": "string"
             }
           },
-          "hotelTypId": {
+          "hotelTypeId": {
             "type": "string"
           }
         }
