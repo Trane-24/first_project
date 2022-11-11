@@ -26,7 +26,7 @@ const HotelHeader:React.FC = () => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: hotelType } = e.target;
-    dispatch(fetchHotels({ hotelType, page: 1 }));
+    dispatch(fetchHotels({ ...params, hotelType, page: 1 }));
   }
 
   useEffect(() => {

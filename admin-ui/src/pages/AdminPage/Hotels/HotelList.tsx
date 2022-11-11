@@ -30,33 +30,26 @@ const HotelList:React.FC<Props> = ({ ownerId }) => {
   const params = useSelector(selectParams);
   // state
   const [isLoading, setIsLoading] = useState(false);
-  const [stateParams, setStateParams] = useState(params);
 
   const handleChangePage = (_: any, value: any) => {
-    setStateParams({
-      ...stateParams,
-      page: value + 1,
-    })
+    dispatch(fetchHotels({...params, page: value + 1}))
   };
 
   const handleChangeLimit = (event:any) => {
-    const { value } = event.target;
-    setStateParams({
-      ...stateParams,
-      limit: value,
-      page: 1,
-    })
+    const { value: limit } = event.target;
+
+    dispatch(fetchHotels({...params, page: 1, limit}))
   }
 
   useEffect(() => {
     setIsLoading(true);
 
-    dispatch(fetchHotels({ ...stateParams, owner: ownerId }))
+    dispatch(fetchHotels({ ...params, owner: ownerId }))
       .unwrap()
       .finally(() => setIsLoading(false));
 
     // eslint-disable-next-line
-  }, [stateParams]);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -81,9 +74,9 @@ const HotelList:React.FC<Props> = ({ ownerId }) => {
           component="div"
           labelRowsPerPage="Items"
           count={total}
-          page={stateParams.page - 1}
+          page={params.page - 1}
           onPageChange={handleChangePage}
-          rowsPerPage={stateParams.limit}
+          rowsPerPage={params.limit}
           onRowsPerPageChange={handleChangeLimit}
           rowsPerPageOptions={[20, 50, 100]}
         />
