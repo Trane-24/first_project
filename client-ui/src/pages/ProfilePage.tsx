@@ -80,12 +80,14 @@ const ProfilePage: React.FC = () => {
   }, [newPass]);
 
   const passwrdHas1SpecialChar = useMemo(() => {
+    // eslint-disable-next-line
     const isSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPass || '');
     return newPass ? isSpecial : false;
   }, [newPass]);
 
   const passwordIsCorrect = useMemo(() => {
     return passwordHas8Characters && passwordHas1UpperChar && passwrdHas1SpecialChar;
+    // eslint-disable-next-line
   }, [newPass]);
 
   const onSubmit = handleSubmit((data: IForm) => {
@@ -122,11 +124,11 @@ const ProfilePage: React.FC = () => {
       display: 'flex',
       justifyContent: 'center',
       padding: '20px',
-      backgroundImage: `url(${background})`,
+      background: `linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${background})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }}>
-      <Box sx={{ maxWidth: '450px', p: 5, backgroundColor: '#fff'}}>
+      <Box sx={{ maxWidth: '550px', p: 5, backgroundColor: '#fff'}}>
         <React.Fragment>
           <Title>Profile</Title>
           <form onSubmit={onSubmit} noValidate>
@@ -149,7 +151,7 @@ const ProfilePage: React.FC = () => {
                 />
               </Grid>
               {/* firstName */}
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <Controller
                   control={control} name="firstName"
                   rules={{ required: isRequired }}
@@ -166,7 +168,7 @@ const ProfilePage: React.FC = () => {
                 />
               </Grid>
               {/* lastName */}
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <Controller
                   control={control} name="lastName"
                   rules={{ required: isRequired }}

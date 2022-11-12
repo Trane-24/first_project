@@ -19,11 +19,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  flex-wrap: nowrap;
 
-  @include onDesktop {
+  @include onLaptop {
+    flex-direction: row;
     flex-wrap: wrap;
-    max-height: 480px;
   }
 }
 
@@ -51,12 +50,12 @@
     padding: 12px 20px;
   }
 
-  @include onDesktop {
+  @include onLaptop {
     width: 50%;
   }
 }
 
 .subtitle {
-  font-weight: bold;
+  font-weight: 500;
   font-size: 1.1em;
 }

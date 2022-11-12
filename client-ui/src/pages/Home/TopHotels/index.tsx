@@ -37,11 +37,11 @@ const TopHotels: React.FC = () => {
   }
 
   return (
-    <Box sx={{ padding: '65px 0'}}>
+    <Box sx={{ padding: '65px 0', backgroundColor: '#f5f6f7' }}>
       <Box className='container'>
         <Title>Top Hotels</Title>
         <Swiper
-          style={{ padding: '3px'}}
+          style={{ padding: ' 30px 3px 3px'}}
           slidesPerView={slidesPerViewCount}
           spaceBetween={20}
           className="mySwiper"

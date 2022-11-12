@@ -20,8 +20,7 @@
 }
 
 .drawer_btn {
-
-  @include onDesktop {
+  @include onLaptop {
     display: none;
   }
 }

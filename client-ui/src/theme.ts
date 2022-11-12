@@ -35,7 +35,23 @@ const theme = createTheme({
             background: '#53B8E0'
           }
         }
-      }
+      },
+      variants: [
+        {
+          props: { variant: 'contained', color: 'secondary' },
+          style: {
+            background: '#fff',
+            color: '#48A8D0',
+            transition: 'initial',
+            '&:hover': {
+              background: '#fff',
+              boxShadow: `rgb(0 0 0 / 20%) 0px 2px 4px -1px,
+                          rgb(0 0 0 / 14%) 0px 4px 5px 0px,
+                          rgb(0 0 0 / 12%) 0px 1px 10px 0px`,
+            }
+          }
+        },
+      ],
     },
     MuiIconButton: {
       variants: [

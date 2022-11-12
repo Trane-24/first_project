@@ -1,14 +1,14 @@
 @import '../utils/mixins';
 
 .container {
-  max-width: 936px;
   width: 100%;
+  max-width: 1040px;
   margin-right: auto;
   margin-left: auto;
   padding-right: 16px;
   padding-left: 16px;
 
   @include onDesktop {
-    max-width: 1234px;
+    max-width: 1396px;
   }
 }

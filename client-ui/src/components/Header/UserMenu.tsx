@@ -124,7 +124,7 @@ const UserMenu:React.FC = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-        <Box className={classes.menuDesktop} sx={{ display: 'flex', gap: 1.2 }}>
+        <Box className={classes.menuDesktop}>
           <Button
             component={NavLink} to="list-your-property"
             variant="outlined"

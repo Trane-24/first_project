@@ -18,7 +18,7 @@ const Benefits: React.FC = () => {
 
               <Box>
                 <Typography className={classes.subtitle}>{item.title}</Typography>
-                <Typography>{item.text}</Typography>
+                <Typography sx={{ opacity: 0.7 }}>{item.text}</Typography>
               </Box>
             </Box>
           ))}

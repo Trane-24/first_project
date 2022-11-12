@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Pages
 import HomePage from 'pages/Home';
 import ListYourProperty from '../pages/ListYourProperty';
-import ProfilePage from 'components/ProfilePage';
+import ProfilePage from 'pages/ProfilePage';
 import PublicRoute from 'components/PublicRoute';
 import PrivateRoute from 'components/PrivateRoute';
 import HotelsPage from 'pages/HotelsPage';

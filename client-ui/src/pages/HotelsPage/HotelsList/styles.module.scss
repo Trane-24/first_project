@@ -28,7 +28,7 @@
     flex-basis: 50%;
   }
 
-  @include onDesktop {
+  @include onLaptop {
     flex-basis: calc(100% / 3);
   }
 }

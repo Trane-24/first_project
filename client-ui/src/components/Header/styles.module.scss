@@ -4,6 +4,7 @@
   width: 100%;
   padding: 20px 0;
   background-color: #fff;
+  box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px;
 }
 
 .headerContent {
@@ -26,7 +27,7 @@
   gap: 12px;
   align-items: center;
 
-  @include onDesktop {
+  @include onLaptop {
     display: flex;
   }
 }
@@ -36,7 +37,7 @@
 
   @include onTablet {
     display: flex;
-    gap: 20px;
+    gap: 8px;
   }
 }
 

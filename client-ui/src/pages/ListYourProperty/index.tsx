@@ -78,14 +78,15 @@ const ListYourProperty:React.FC = () => {
         <Box className={[classes.form_container, "container"].join(' ')} data-container="sign-up">
           <Box className={classes.form_info}>
             <Typography className={classes.title}>
-              Rent your timeshare weeks
+              Rent your dream
             </Typography>
             <Typography className={classes.text}>
-            Hotels will handle all aspects of the rental process. We will advertise your rental at fair market value. We pride ourselves on the personal touch, so you will always be able to communicate directly with an agent
+              Hotels will handle all aspects of the rental process. We will advertise your rental at fair market value. We pride ourselves on the personal touch, so you will always be able to communicate directly with an agent
             </Typography>
             <Button
               className={classes.form_btn}
-              variant='contained'
+              variant="contained"
+              color="secondary"
               onClick={() => scrollTo('how-it-works')}
             >Learn More</Button>
           </Box>
@@ -94,7 +95,7 @@ const ListYourProperty:React.FC = () => {
               <Title>Create owner account</Title>
             </DialogTitle>
             <DialogContent dividers>
-              <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
+              <Grid container spacing={2} sx={{ pt: 2, pb: 2 }}>
                 <Grid item xs={12}>
                   <Controller
                     control={control} name="email"
@@ -104,7 +105,6 @@ const ListYourProperty:React.FC = () => {
                         {...field}
                         label="Email"
                         fullWidth
-                        autoComplete="email"
                         required
                         error={!!errors?.email}
                         helperText={errors?.email ? errors.email.message : null}
@@ -112,7 +112,7 @@ const ListYourProperty:React.FC = () => {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12}>
                   <Controller
                     control={control} name="firstName"
                     rules={{ required: isRequired }}
@@ -128,7 +128,7 @@ const ListYourProperty:React.FC = () => {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12}>
                   <Controller
                     control={control} name="lastName"
                     rules={{ required: isRequired }}
@@ -153,6 +153,7 @@ const ListYourProperty:React.FC = () => {
                         value={value || ''}
                         onChange={onChange}
                         label="Phone"
+                        margin="none"
                         required
                         error={!!errors?.phone}
                         helperText={errors?.phone?.message || ''} 
@@ -170,6 +171,7 @@ const ListYourProperty:React.FC = () => {
                         label="Password"
                         type={showPassword ? "text" : "password"}
                         fullWidth
+                        autoComplete="new-password"
                         required
                         error={!!errors?.password}
                         helperText={errors?.password ? errors.password.message : null}
@@ -204,7 +206,12 @@ const ListYourProperty:React.FC = () => {
         <Typography className={classes.lastBlockTitle}>
           Ready to list your property?
         </Typography>
-        <Button className={classes.btn} variant='contained' onClick={() => scrollTo('sign-up')}>Sign Up</Button>
+        <Button
+          className={classes.btn}
+          variant="contained"
+          color="secondary"
+          onClick={() => scrollTo('sign-up')}
+        >Sign Up</Button>
       </Box>
     </React.Fragment>
   );
