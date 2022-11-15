@@ -75,22 +75,21 @@ router.put('/:id', authMiddleware, async (req, res) => {
     if (!name) {
       return res.status(400).json({message: 'Name is require'});
     }
-    
-    const hotelType = await HotelType.findOne({ _id: req.params.id });
-    if (!hotelType) {
-      return res.status(404).json({message: 'Hotel type not found'});
-    }
-    await hotelType.update({
-      ...req.body,
-      image: req.body.imageId,
-    });
+
+    await HotelType.replaceOne(
+      { _id: req.params.id },  
+      {
+        ...req.body,
+        image: req.body.imageId,
+      }
+    )
     
     return HotelType.findOne({_id: req.params.id})
       .then(data => data.populate('image', 'path'))
       .then(data => res.json(data)) 
   } catch (e) {
     console.log(e);
-    res.send({message: 'Server error'});
+    res.status(500).send({message: 'Server error'});
   }
 });
 
