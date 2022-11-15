@@ -12,7 +12,7 @@ router.get('/search', async (req, res) => {
     const { limit, page, search, hotelType } = req.query;
     const regex = new RegExp(search, 'gi');
     const params = { verified: true, name: {'$regex': regex} };
-    if (hotelType) params['hotelType'] = { $in: JSON.parse(hotelType) };
+    if (hotelType) params['hotelType'] = { $in: hotelType.split(',') };
     const total = await Hotel.find(params).count();
     const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
       .populate('images', 'path')
