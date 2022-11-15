@@ -75,7 +75,7 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, multiple 
         {!!files.length && (
           <Box className={classes.box}>
             {files.map((file: IFile) => (
-              <Box sx={{ position: 'relative', width: 'max-content' }} key={file.key} >
+              <Box sx={{ position: 'relative', width: '160px', height: '160px', backgroundColor: '#ddd' }} key={file.key} >
                 <img
                   className={classes.img}
                   alt='file'
@@ -97,7 +97,7 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, multiple 
         {!!assets.length && (
           <Box className={classes.box}>
             {assets?.map((asset: IAsset) => (
-              <Box key={asset._id} sx={{ position: 'relative', width: 'max-content' }}>
+              <Box key={asset._id} sx={{ position: 'relative', width: '160px', height: '160px', backgroundColor: '#ddd' }}>
                 <img
                   className={classes.img}
                   alt='file'
@@ -151,8 +151,8 @@ const useStyle = makeStyles({
     height: '160px',
   },
   img: {
-    height: '160px',
-    width: '160px',
+    height: '100%',
+    width: '100%',
   },
   btnBox : {
     display: 'flex',
@@ -173,8 +173,8 @@ const useStyle = makeStyles({
     top: '0',
     backgroundColor: '#000',
     opacity: '0',
-    height: '160px',
-    width: '160px',
+    height: '100%',
+    width: '100%',
     transition: 'all 0.3s ease-out',
     '&:hover': {
       opacity: '0.5',

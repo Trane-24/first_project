@@ -105,7 +105,7 @@ const ProfilePage: React.FC = () => {
     }
 
     setIsLoading(true);
-    dispatch(updateUser({ userId: currentUser?._id, user: newData }))
+    dispatch(updateUser({ userId: currentUser?._id, userData: newData }))
       .unwrap()
       .then(() => {
         resetField('newPassword');
