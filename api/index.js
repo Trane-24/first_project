@@ -19,8 +19,8 @@ const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
 const swaggerUi = require('swagger-ui-express');
-// const swaggerDoc = require('./swagger/client.json');
-const swaggerDoc = require('./swagger/admin.json');
+const swaggerDoc = require('./swagger/client.json');
+// const swaggerDoc = require('./swagger/admin.json');
 
 app.use(corsMiddleware)
 app.use('/assets', express.static('assets'));

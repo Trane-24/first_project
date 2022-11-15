@@ -16,9 +16,17 @@ router.get('/', authMiddleware, async (req, res) => {
     const params = {...req.query, guest: guest._id };
     const total = await Reservation.find(params).count();
     const reservations = await Reservation.find(params).skip((page-1)*limit).limit(limit)
-      .populate({ path: 'hotel', populate: { path: 'owner' } })
-      .populate({ path: 'hotel', populate: { path: 'images' } })
-      .populate('guest')
+      .populate(
+        {
+          path: 'hotel',
+          populate: [
+            { path: 'owner', select: 'firstName, lastName, role, phone, email' },
+            { path: 'images' },
+            { path: 'hotelType' },
+          ]
+        }
+      )
+      .populate('guest', 'firstName, lastName, role, phone, email')
 
     return res.json({ data: reservations, total });
   } catch (e) {
@@ -65,9 +73,17 @@ router.post('/', authMiddleware, async (req, res) => {
     });
 
     return reservation.save()
-      .then(data => data.populate({ path: 'hotel', populate: { path: 'owner' } }))
-      .then(data => data.populate({ path: 'hotel', populate: { path: 'images' } }))
-      .then(data => data.populate('guest'))
+      .then(data => data.populate(
+        {
+          path: 'hotel',
+          populate: [
+            { path: 'owner', select: 'firstName, lastName, role, phone, email' },
+            { path: 'images' },
+            { path: 'hotelType' },
+          ]
+        }
+      ))
+      .then(data => data.populate('guest', 'firstName, lastName, role, phone, email'))
       .then(data => res.json(data))
   
   } catch (e) {

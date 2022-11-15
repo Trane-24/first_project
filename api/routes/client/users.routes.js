@@ -9,14 +9,8 @@ router.get('/me',
   authMiddleware,
   async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.user.id });
-    const data = {};
-    Object.keys(user._doc).map(key => {
-      if (user._doc[key] && key !== 'password') {
-        data[key] = user._doc[key];
-      }
-    })
-    return res.json(data);
+    return await User.findOne({ _id: req.user.id }, 'firstName lastName email phone role')
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -66,20 +60,18 @@ router.put('/me',
       }
     }
 
-    const newData = {
-      ...req.body,
-      password: req.body.password ? await bcrypt.hash(req.body.password, 8) : user.password
-    }
-    await user.update({...newData});
-
-    const response = await User.findOne({_id: req.user.id});
-    const data = {};
-    Object.keys(response._doc).map(key => {
-      if (response._doc[key] && key !== 'password') {
-        data[key] = response._doc[key];
+    await User.replaceOne(
+      {
+        _id: req.user.id,
+      },
+      {
+        ...req.body,
+        password: req.body.password ? await bcrypt.hash(req.body.password, 8) : user.password
       }
-    })
-    return res.json(data);
+    );
+
+    return await User.findOne({_id: req.user.id}, 'firstName lastName email phone role')
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

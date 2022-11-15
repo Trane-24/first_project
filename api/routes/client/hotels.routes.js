@@ -14,7 +14,7 @@ router.get('/search', async (req, res) => {
     const params = { verified: true, name: {'$regex': regex} };
     if (hotelType) params['hotelType'] = { $in: hotelType.split(',') };
     const total = await Hotel.find(params).count();
-    const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
+    const hotels = await Hotel.find(params, '-owner').skip((page-1)*limit).limit(limit)
       .populate('images', 'path')
       .populate({ path: 'hotelType', populate: { path: 'image' } })
 
@@ -28,7 +28,7 @@ router.get('/search', async (req, res) => {
 router.get('/topHotels', async (req, res) => {
   try {
     const params = { ...req.query, verified: true };
-    const hotels = await Hotel.find(params).sort({ _id: -1 }).limit(4)
+    const hotels = await Hotel.find(params, '-owner').sort({ _id: -1 }).limit(4)
       .populate('images', 'path')
       .populate({ path: 'hotelType', populate: { path: 'image' } })
 
@@ -48,7 +48,7 @@ router.get('/', authMiddleware, async (req, res) => {
     }
     const params = { ...req.query, owner: owner._id };
     const total = await Hotel.find(params).count();
-    const hotels = await Hotel.find(params).skip((page-1)*limit).limit(limit)
+    const hotels = await Hotel.find(params, '-owner').skip((page-1)*limit).limit(limit)
       .populate('images', 'path')
       .populate({ path: 'hotelType', populate: { path: 'image' } })
 
@@ -65,11 +65,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
     if (!owner) {
       return res.status(403).json({message: 'No access'});
     }
-    const hotel = await Hotel.findOne({ _id: req.params.id, owner: owner._id })
-      .populate('images', 'path')
-      .populate({ path: 'hotelType', populate: { path: 'image' } })
-
-    return res.json(hotel);
+    return await Hotel.findOne({ _id: req.params.id, owner: owner._id }, '-owner')
+      .then(data => data.populate('images', 'path'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -100,7 +99,6 @@ router.post('/', authMiddleware, async (req, res) => {
       return res.status(404).json({message: 'Hotel type not found'});
     }
 
-
     const hotel = new Hotel({
       ...req.body,
       owner: owner._id,
@@ -109,8 +107,9 @@ router.post('/', authMiddleware, async (req, res) => {
       verified: false,
     });
 
-    return hotel.save()
-      .then(data => data.populate('owner', 'email firstName lastName phone role'))
+    await hotel.save()
+
+    return Hotel.findOne({ _id: hotel._id }, '-owner')
       .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
       .then(data => data.populate('images', 'path'))
       .then(data => res.json(data)) 
@@ -166,15 +165,19 @@ router.put('/:id', authMiddleware, async (req, res) => {
     if (!hotel) {
       return res.status(404).json({message: 'Hotel not found'});
     }
-    await hotel.update({
-      ...req.body,
-      images: req.body.imagesIds,
-      hotelType: req.body.hotelTypeId,
-      verified: false,
-    });
+    await Hotel.replaceOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        ...req.body,
+        images: req.body.imagesIds,
+        hotelType: req.body.hotelTypeId,
+        verified: false,
+      }
+    );
     
-    return Hotel.findOne({_id: req.params.id})
-      .then(data => data.populate('owner', 'email firstName lastName phone role'))
+    return Hotel.findOne({_id: req.params.id}, '-owner')
       .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
       .then(data => data.populate('images', 'path'))
       .then(data => res.json(data)) 

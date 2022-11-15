@@ -12,9 +12,17 @@ router.get('/', authMiddleware, async (req, res) => {
     const params = {...req.query};
     const total = await Reservation.find(params).count();
     const reservations = await Reservation.find(params).skip((page-1)*limit).limit(limit)
-      .populate({ path: 'hotel', populate: { path: 'owner' } })
-      .populate({ path: 'hotel', populate: { path: 'images' } })
-      .populate('guest')
+      .populate(
+        {
+          path: 'hotel',
+          populate: [
+            { path: 'owner', select: 'firstName lastName phone role email' },
+            { path: 'hotelType' },
+            { path: 'images' }
+          ]
+        }
+      )
+      .populate('guest', 'firstName lastName phone role email')
 
     return res.json({ data: reservations, total });
   } catch (e) {
@@ -26,9 +34,17 @@ router.get('/', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const reservation = await Reservation.findOne({_id: req.params.id})
-      .populate({ path: 'hotel', populate: { path: 'owner' } })
-      .populate({ path: 'hotel', populate: { path: 'images' } })
-      .populate('guest')
+      .populate(
+        {
+          path: 'hotel',
+          populate: [
+            { path: 'owner', select: 'firstName lastName phone role email' },
+            { path: 'hotelType' },
+            { path: 'images' }
+          ]
+        }
+      )
+      .populate('guest', 'firstName lastName phone role email')
 
     if (!reservation) {
       return res.status(404).json({message: 'Reservation not found'});
@@ -82,10 +98,20 @@ router.post('/', authMiddleware, async (req, res) => {
       status: 'pending',
     });
 
-    return reservation.save()
-      .then(data => data.populate({ path: 'hotel', populate: { path: 'owner' } }))
-      .then(data => data.populate({ path: 'hotel', populate: { path: 'images' } }))
-      .then(data => data.populate('guest'))
+    await reservation.save()
+
+    return await Reservation.findOne({ _id: reservation._id })
+      .then(data => data.populate(
+        {
+          path: 'hotel',
+          populate: [
+            { path: 'owner', select: 'firstName lastName phone role email' },
+            { path: 'hotelType' },
+            { path: 'images' }
+          ]
+        }
+      ))
+      .then(data => data.populate('guest', 'firstName lastName phone role email'))
       .then(data => res.json(data))
   
   } catch (e) {
@@ -136,17 +162,31 @@ router.put('/:id', authMiddleware, async (req, res) => {
     if (!reservation) {
       return res.status(404).json({message: 'Reservation not found'});
     }
-    await reservation.update({
-      ...req.body,
-      hotel: req.body.hotelId,
-      guest: req.body.guestId 
-    });
-    const response = await Reservation.findOne({_id: req.params.id})
-      .populate({ path: 'hotel', populate: { path: 'owner' } })
-      .populate({ path: 'hotel', populate: { path: 'images' } })
-      .populate('guest')
 
-    return res.json(response);
+    await Reservation.replaceOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        ...req.body,
+        hotel: req.body.hotelId,
+        guest: req.body.guestId,
+      }
+    );
+
+    return await Reservation.findOne({_id: req.params.id})
+      .then(data => data.populate(
+        {
+          path: 'hotel',
+          populate: [
+            { path: 'owner', select: 'firstName lastName phone role email' },
+            { path: 'hotelType' },
+            { path: 'images' }
+          ]
+        }
+      ))
+      .then(data => data.populate('guest', 'firstName lastName phone role email'))
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

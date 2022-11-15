@@ -17,26 +17,6 @@ const upload = multer({
   storage,
 });
 
-// router.get('', async (req, res) => {
-//   try {
-//     const assets = await Asset.find().sort({ _id: -1 });
-//     return res.json(assets);
-//   } catch (e) {
-//     console.log(e);
-//     res.send({ message: 'Server error' });
-//   }
-// });
-
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const assets = await Asset.find({ _id: req.params.id });
-//     return res.json(assets);
-//   } catch (e) {
-//     console.log(e);
-//     res.send({ message: 'Server error' });
-//   }
-// });
-
 router.post('/', authMiddleware, upload.array('files'), async (req, res) => {
   try {
     const promises = [];
