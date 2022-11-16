@@ -1,11 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // MUI
-import { Paper } from '@mui/material';
+import { Divider, MenuItem, Paper, Typography, Box, FormControlLabel, Checkbox, FormGroup } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { useSelector } from 'react-redux';
+import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
+import IHotelType from 'models/HotelType';
+import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
+import { fetchHotels } from 'store/hotels/hotelsAsync';
+import { selectParams } from 'store/hotels/hotelsSelectors';
+import { hotelsActions } from 'store/hotels/hotelsSlice';
 
-const HotelsFilter: React.FC = () => {
+interface Props {
+  modal?: boolean;
+  onClose?: () => void;
+}
+
+const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
+  const dispatch = useAppDispatch();
+  const hotelTypes = useSelector(selectHotelTypes);
+  const params = useSelector(selectParams);
+
+  const handleChange = (e: any) => {
+    const { value } = e.target;
+
+    dispatch(hotelsActions.changeHotelType(value))
+  }
+
+  useEffect(() => {
+    dispatch(fetchHotelTypes({}))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Paper style={{minWidth: '280px', height : '556px', padding: '30px'}}>
-      Filters
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+        <Typography sx={{ pb: 1}}>
+          Filters
+        </Typography>
+
+        {modal && (
+          <MenuItem onClick={onClose}>
+            <CloseIcon />
+          </MenuItem>
+        )}
+      </Box>
+
+      <Divider />
+
+      <FormGroup>
+          {hotelTypes?.map((hotelType: IHotelType) => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={hotelType._id}
+                  onClick={handleChange}
+                  checked={params.hotelType.includes(hotelType._id)}
+                />
+              }
+              label={hotelType.name}
+              key={hotelType._id}
+            />
+          ))}
+      </FormGroup>
     </Paper>
   );
 };

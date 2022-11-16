@@ -6,7 +6,7 @@
 }
 
 .filterBtn {
-
+  align-self: start;
   @media (min-width: 900px) {
     display: none;
   }
@@ -21,6 +21,17 @@
   }
 }
 
+.chips {
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  @include onTablet {
+    padding: 20px 0;
+  }
+}
+
 .card {
   flex-basis: 100%;
 
@@ -30,5 +41,15 @@
 
   @include onLaptop {
     flex-basis: calc(100% / 3);
+  }
+}
+
+.paginationWrap {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+
+  @include onTablet {
+    padding: 20px 0;
   }
 }
