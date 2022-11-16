@@ -11,14 +11,8 @@ router.get('/fetchMe',
   authMiddleware,
   async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.user.id });
-    const data = {};
-    Object.keys(user._doc).map(key => {
-      if (user._doc[key] && key !== 'password') {
-        data[key] = user._doc[key];
-      }
-    })
-    return res.json(data);
+    return await User.findOne({ _id: req.user.id }, 'firstName lastName phone role email')
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -30,18 +24,9 @@ router.get('/', authMiddleware, async (req, res) => {
     const { limit, page, search } = req.query;
     const regex = new RegExp(search, 'gi');
     const params = { ...req.query, $or: [ {firstName:{'$regex': regex}}, {lastName:{'$regex': regex}} ] };
-    const users = await User.find(params).skip((page-1)*limit).limit(limit);
+    const users = await User.find(params, 'firstName lastName phone role email').skip((page-1)*limit).limit(limit);
     const total = await User.find(params).count();
-    const newUsers = users.map((user) => {
-      const data = {};
-      Object.keys(user._doc).map(key => {
-        if (user._doc[key] && key !== 'password') {
-          data[key] = user._doc[key];
-        }
-      })
-      return data;
-    })
-    return res.json({ data: newUsers, total });
+    return res.json({ data: users, total });
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -50,16 +35,10 @@ router.get('/', authMiddleware, async (req, res) => {
 
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findOne({_id: req.params.id});
+    const user = await User.findOne({_id: req.params.id}, 'firstName lastName phone role email');
     if (!user) {
       return res.status(404).json({message: 'User not found'});
     }
-    const data = {};
-    Object.keys(user._doc).map(key => {
-      if (user._doc[key] && key !== 'password') {
-        data[key] = user._doc[key];
-      }
-    })
     return res.json(data);
   } catch (e) {
     console.log(e);
@@ -100,14 +79,11 @@ router.post('/',
     }
 
     const user = new User(req.body);
-    const response = await user.save();
-    const data = {};
-    Object.keys(response._doc).map(key => {
-      if (response._doc[key] && key !== 'password') {
-        data[key] = response._doc[key];
-      }
-    })
-    return res.json(data);
+    await user.save()
+
+    return await User.findOne({_id: user._id}, 'firstName lastName phone role email')
+      .then(data => res.json(data))
+
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -185,20 +161,18 @@ router.put('/:id',
       }
     }
 
-    const newData = {
-      ...req.body,
-      password: req.body.password ? await bcrypt.hash(req.body.password, 8) : user.password
-    }
-    await user.update({...newData});
-
-    const response = await User.findOne({_id: req.params.id});
-    const data = {};
-    Object.keys(response._doc).map(key => {
-      if (response._doc[key] && key !== 'password') {
-        data[key] = response._doc[key];
+    await User.replaceOne(
+      {
+        _id: req.params.id
+      },
+      {
+        ...req.body,
+        password: req.body.password ? await bcrypt.hash(req.body.password, 8) : user.password
       }
-    })
-    return res.json(data);
+    );
+
+    return await User.findOne({_id: req.params.id}, 'firstName lastName phone role email')
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

@@ -429,7 +429,10 @@
             "name": "hotelType",
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         ],
@@ -750,9 +753,6 @@
           },
           "city": {
             "type": "string"
-          },
-          "owner": {
-            "$ref": "#/components/schemas/getUser"
           },
           "description": {
             "type": "string"
