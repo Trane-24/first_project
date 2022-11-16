@@ -13,12 +13,7 @@
 }
 
 .subtitle {
-  color: grey;
-  margin-bottom: 10px;
-
-  @include onTablet {
-    margin-bottom: 20px;
-  }
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .chips {

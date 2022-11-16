@@ -16,6 +16,7 @@ export const StyledTextField = withStyles({
       borderBottomColor: 'yellow',
     },
     '& .MuiOutlinedInput-root': {
+      paddingLeft: '20px',
       backgroundColor: '#fff',
       '& fieldset': {
         border: 'none',

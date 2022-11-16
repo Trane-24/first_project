@@ -1,13 +1,13 @@
 @import 'styles/utils/mixins';
 
 .hotelsByTypes {
-  padding: 30px 0;
-  background-color: #f5f6f7;
+  padding: 20px 0;
+  background-color: #fff;
   margin-left: auto;
   padding-left: 16px;
 
   @include onLaptop {
-    padding: 65px 0;
+    padding: 60px 0;
   }
 }
 

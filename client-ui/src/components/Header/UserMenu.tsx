@@ -63,7 +63,7 @@ const UserMenu:React.FC = () => {
       {isAuthorization ? (
         <React.Fragment>
           <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', cursor: 'pointer' }} onClick={handleClick}>
-            <Typography>{`Welcome, ${currentUser?.firstName} ${currentUser?.lastName}`}</Typography>
+            <Typography>{`Welcome, ${currentUser?.firstName}`}</Typography>
             <Tooltip title="Account settings">
               <IconButton
                 size="small"

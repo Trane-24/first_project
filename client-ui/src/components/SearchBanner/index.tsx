@@ -46,11 +46,13 @@ const Banner: React.FC = () => {
     <section className={classes.banner} style={{
       padding: isHomePage ? '120px 0' : '40px 0',
     }}>
-      <div className={[classes.bannerContent, 'container'].join(' ')}>
+      <div className='container'>
         <Box sx={{
           color: '#fff',
           textShadow: '0 0 5px rgba(0, 0, 0, 0.4)',
           display: isHomePage ? 'block' : 'none',
+          position: 'relative',
+          zIndex: 1
         }}>
           <Typography sx={{ fontSize: '40px' }}>Hotels, our new rental platform</Typography>
           <Typography sx={{ fontSize: '18px' }}>Find your perfect Stay. We specialize in luxury vacation rentals. Let's get started on your next journey</Typography>
@@ -70,6 +72,7 @@ const Banner: React.FC = () => {
             />
         );
       })}
+      <div className={classes.imgShadow} />
     </section>
   );
 };

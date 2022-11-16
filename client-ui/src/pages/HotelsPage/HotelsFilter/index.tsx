@@ -33,9 +33,9 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
   }, [])
 
   return (
-    <Paper style={{minWidth: '280px', height : '556px', padding: '30px'}}>
+    <Paper style={{ minWidth: '280px', height : '556px', padding: '30px 0', boxShadow: 'rgb(0 0 0 / 8%) 0px 4px 32px' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-        <Typography sx={{ pb: 1}}>
+        <Typography sx={{ pb: 1, pl: 2, fontSize: '22px', fontWeight: 500 }}>
           Filters
         </Typography>
 
@@ -48,7 +48,11 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
 
       <Divider />
 
-      <FormGroup>
+      <Typography sx={{ pt: 2, pb: 1, pl: 2, fontSize: '14px', color: 'rgba(0, 0, 0, 0.5)', fontWeight: 500 }}>
+        Property types
+      </Typography>
+
+      <FormGroup sx={{ pl: 2 }}>
           {hotelTypes?.map((hotelType: IHotelType) => (
             <FormControlLabel
               control={

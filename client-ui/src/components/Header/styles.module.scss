@@ -13,12 +13,18 @@
 }
 
 .logo {
+  position: relative;
   height: 30px;
   object-fit: contain;
   margin-right: 24px;
 
   @include onTablet {
     height: 40px;
+  }
+
+  @include onLaptop {
+    border-right: 1px solid rgb(225, 225, 225);
+    padding-right: 30px;
   }
 }
 

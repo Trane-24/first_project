@@ -135,7 +135,7 @@ const HotelsList: React.FC = () => {
                 onPageChange={handleChangePage}
                 rowsPerPage={params.limit}
                 onRowsPerPageChange={handleChangeLimit}
-                rowsPerPageOptions={[20, 50, 100]}
+                rowsPerPageOptions={[15, 30, 60, 90]}
               />
             </Box>
           )}

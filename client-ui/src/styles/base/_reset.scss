@@ -18,4 +18,9 @@ a {
   cursor: pointer;
   display: block;
   color: inherit;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #48A8D0;
+  }
 }
