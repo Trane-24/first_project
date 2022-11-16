@@ -48,7 +48,7 @@ const ListYourProperty:React.FC = () => {
 
   const handeShowPassword = () => setShowPassword(!showPassword);
 
-  const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<IForm>({
     defaultValues: {
       email: '',
       firstName: '',
@@ -64,7 +64,10 @@ const ListYourProperty:React.FC = () => {
 
     dispatch(AuthAsync.signUp(data))
       .unwrap()
-      .then(() => openDialog())
+      .then(() => {
+        reset();
+        openDialog();
+      })
       .finally(() => setIsLoading(false));
   });
 
