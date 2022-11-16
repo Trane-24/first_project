@@ -1,7 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import config from "config";
-// Models
-import IHotel from "models/Hotel";
 // Services
 import HttpService from "services/HttpService";
 

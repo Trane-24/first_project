@@ -13,6 +13,7 @@ import { fetchTopHotels } from 'store/hotels/hotelsAsync';
 import { selectHotels } from 'store/hotels/hotelsSelectors';
 // Styles
 import './styles.scss';
+import classNames from 'classnames';
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -24,7 +25,7 @@ const TopHotels: React.FC = () => {
   const { width } = useWindowDimensions();
 
   const slidesPerViewCount = useMemo(() => {
-    return width < 600 ? 1.2 : width < 1280 ? 2.3 : width < 1920 ? 3 : 4;
+    return width < 600 ? 1.2 : width < 1240 ? 2.2 : width < 1920 ? 3 : 4;
   }, [width])
 
   useEffect(() => {
@@ -37,11 +38,11 @@ const TopHotels: React.FC = () => {
   }
 
   return (
-    <Box sx={{ padding: '65px 0', backgroundColor: '#f5f6f7' }}>
-      <Box className='container'>
+    <Box className='topHotels'>
+      <Box className={classNames({ container: width >= 1240 })}>
         <Title>Top Hotels</Title>
         <Swiper
-          style={{ padding: ' 30px 3px 3px'}}
+          style={{ padding: ' 30px 3px 3px' }}
           slidesPerView={slidesPerViewCount}
           spaceBetween={20}
           className="mySwiper"

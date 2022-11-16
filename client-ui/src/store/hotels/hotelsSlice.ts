@@ -14,6 +14,8 @@ const initialState: IState = {
   params: {
     limit: 20,
     page: 1,
+    hotelType: [],
+    search: '',
   }
 };
 
@@ -23,7 +25,15 @@ const hotelsSlice = createSlice({
   reducers: {
     setInitialField: (state, action: PayloadAction<keyof IState>) => {
       state[action.payload] = initialState[action.payload];
-    }
+    },
+    changeHotelType: (state, action) => {
+      state.params.hotelType = state.params.hotelType.includes(action.payload)
+        ? state.params.hotelType.filter((type: string) => type !== action.payload)
+        : [...state.params.hotelType, action.payload]
+    },
+    changeSearch: (state, action) => {
+      state.params.search = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

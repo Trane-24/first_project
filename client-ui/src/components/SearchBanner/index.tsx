@@ -55,7 +55,7 @@ const Banner: React.FC = () => {
           <Typography sx={{ fontSize: '40px' }}>Hotels, our new rental platform</Typography>
           <Typography sx={{ fontSize: '18px' }}>Find your perfect Stay. We specialize in luxury vacation rentals. Let's get started on your next journey</Typography>
         </Box>
-        <BannerForm />
+        <BannerForm isHomePage={isHomePage} />
       </div>
       {sliderData.map((slide, index: number) => {
         return (

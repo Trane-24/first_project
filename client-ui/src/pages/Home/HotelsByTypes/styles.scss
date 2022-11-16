@@ -1,13 +1,13 @@
 @import 'styles/utils/mixins';
 
-.topHotels {
-  padding: 20px 0;
+.hotelsByTypes {
+  padding: 30px 0;
   background-color: #f5f6f7;
   margin-left: auto;
   padding-left: 16px;
 
   @include onLaptop {
-    padding: 55px 0 0;
+    padding: 65px 0;
   }
 }
 
@@ -15,6 +15,7 @@
   height: 100%;
   width: 100%;
 }
+
 
 .swiper-slide img {
   object-fit: cover;

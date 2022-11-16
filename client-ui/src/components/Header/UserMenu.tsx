@@ -11,18 +11,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // Icon
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 // Style
 import classes from './styles.module.scss';
-
+// Services
+import StorageService from 'services/StorageService';
 
 // Components
 import SignInForm from 'components/SignIn.form';
 import SignUpForm from 'components/SignUp.form';
 import { selectCurrentUser } from 'store/users/usersSelectors';
-import StorageService from 'services/StorageService';
-import { authActions } from 'store/auth/authSlice';
 import { usersActions } from 'store/users/usersSlice';
 import { Logout } from '@mui/icons-material';
+import { authActions } from 'store/auth/authSlice';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
@@ -113,13 +114,33 @@ const UserMenu:React.FC = () => {
             <MenuItem onClick={handleClick} component={NavLink} to="my-profile">
               <Avatar /> Profile
             </MenuItem>
+
+            {currentUser?.role === 'guest' && (
+              <MenuItem onClick={() => {}}>
+                <ListItemIcon>
+                  <AppRegistrationIcon fontSize='small'/>
+                </ListItemIcon>
+                Reservations
+              </MenuItem>
+            )}
+
+            {currentUser?.role === 'owner' && (
+              <MenuItem onClick={() => {}}>
+                <ListItemIcon>
+                  <AppRegistrationIcon fontSize='small'/>
+                </ListItemIcon>
+                Hotels
+              </MenuItem>
+            )}
+
             <Divider />
-        <MenuItem onClick={signOut}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
+            <MenuItem onClick={signOut}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+
       </Menu>
         </React.Fragment>
       ) : (
