@@ -26,7 +26,7 @@ router.get('/messages/:id', authMiddleware, async (req, res) => {
     const { limit, page } = req.query;
     const params = { ...req.query, clientId: req.params.id };
     const total = await Message.find(params).count();
-    const messages = await Message.find(params).skip((page-1)*limit).limit(limit)
+    const messages = await Message.find(params).sort({ _id: -1 }).skip((page-1)*limit).limit(limit)
       .populate('fromUser', 'firstName lastName')
       .populate('toUser', 'firstName lastName');
 
