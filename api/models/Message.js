@@ -8,4 +8,6 @@ const Message = new Schema({
   read: { type: Boolean, require: true },
 });
 
+Message.set('timestamps', true);
+
 module.exports = model('Message', Message);

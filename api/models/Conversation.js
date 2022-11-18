@@ -6,4 +6,6 @@ const Conversation = new Schema({
   read: { type: Boolean, require: true },
 });
 
+Conversation.set('timestamps', true);
+
 module.exports = model('Conversation', Conversation);
