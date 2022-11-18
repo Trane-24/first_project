@@ -8,6 +8,7 @@ import PublicRoute from 'components/PublicRoute';
 import PrivateRoute from 'components/PrivateRoute';
 import HotelsPage from 'pages/HotelsPage';
 import AboutPage from 'pages/AboutPage';
+import HotelInfo from 'pages/HotelsPage/HotelInfo';
 
 const AppRouting:React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const AppRouting:React.FC = () => {
       } />
 
       <Route path='/hotels' element={<HotelsPage />} />
+      <Route path='/hotels/:hotelId' element={<HotelInfo />} />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

@@ -17,3 +17,7 @@ export const isMatch = (value: string | undefined, matchField: string | undefine
   if (!value || !matchField) return true;
   return value === matchField || message;
 }
+
+export const isCountLetters = (value: string, count: number) => {
+  return value.length >= count || `Please add ${count - value.length} characters`;
+};

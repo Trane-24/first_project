@@ -1,0 +1,48 @@
+@import 'styles/utils/mixins';
+
+.contactUs {
+  padding: 20px 0;
+  // background-color: #f5f6f7;
+  background-color: #eee;
+  margin-left: auto;
+
+  @include onLaptop {
+    padding: 60px 0;
+  }
+}
+
+.contactUsContent {
+  padding: 30px 20px;
+  margin-top: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.form {
+  margin-top: 30px;
+}
+
+.btn {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include onTablet {
+    margin-right: 0;
+  }
+}
+
+.getBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  @include onTablet {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  @include onLaptop {
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,14 @@
+@import 'styles/utils/mixins';
+
+.hotelInfo {
+  position: relative;
+  background-color: rgba(238, 238, 238, 1);
+}
+
+.title {
+  padding: 20px 0;
+
+  @include onTablet {
+    padding: 40px 0;
+  }
+}

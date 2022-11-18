@@ -7,6 +7,7 @@ import IHotel from "models/Hotel";
 import classes from './styles.module.scss';
 // untils
 import config from "config";
+import { Link } from "react-router-dom";
 
 interface Props {
   hotel: IHotel;
@@ -17,7 +18,9 @@ const HotelItem: React.FC<Props> = ({ hotel }) => {
 
   return (
     <Paper className={classes.item}>
-      <img className={classes.img} src={imgUrl} alt={hotel.name} />
+      <Link to={`/hotels/${hotel._id}`}>
+        <img className={classes.img} src={imgUrl} alt={hotel.name} />
+      </Link>
       <Box className={classes.content}>
         <Typography>{hotel.name}</Typography>
         <Typography>{`${hotel.country}, ${hotel.city}`}</Typography>
