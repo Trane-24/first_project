@@ -46,6 +46,7 @@ const BannerForm: React.FC<Props> = ({ isHomePage = false}) => {
             <StyledTextField
               {...field}
               fullWidth
+              type="search"
               placeholder="Search by name or location"
               error={Boolean(errors.search)}
               helperText={errors.search ? `${errors.search.message}` : ''}

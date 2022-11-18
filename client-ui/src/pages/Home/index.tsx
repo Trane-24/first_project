@@ -1,8 +1,10 @@
-import SearchBanner from 'components/SearchBanner';
 import React from 'react';
+// Components
+import SearchBanner from 'components/SearchBanner';
 import ContactUs from './ContactUs';
 import HotelsByTypes from './HotelsByTypes';
 import TopHotels from './TopHotels';
+import WhyHotels from './WhyHotels';
 
 const HomePage:React.FC = () => {
   return (
@@ -11,6 +13,7 @@ const HomePage:React.FC = () => {
       <TopHotels />
       <HotelsByTypes />
       <ContactUs />
+      <WhyHotels />
     </section>
   );
 }

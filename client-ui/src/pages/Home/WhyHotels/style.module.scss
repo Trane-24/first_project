@@ -1,0 +1,59 @@
+@import 'styles/utils/mixins';
+
+.whyHotels {
+  padding: 65px 0;
+  background-color: #f5f6f7;
+}
+
+.title {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+
+  @include onTablet {
+    gap: 40px;
+  }
+}
+
+.image {
+  height: 82px;
+  width: 82px;
+
+  @include onTablet {
+    height: 120px;
+    width: 120px;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  gap: 20px;
+  padding: 12px 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px #ccc;
+
+  @include onTablet {
+    padding: 24px 40px;
+    flex-direction: row;
+  }
+
+  @include onLaptop {
+    width: 40%;
+  }
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 1.1em;
+}
