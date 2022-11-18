@@ -1,21 +1,24 @@
 import React from "react";
-// Hooks
+import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
+// Hooks
+import useDialog from "hooks/useDialog";
 // Components
 import Title from "components/Title";
+import Phone from "components/Phone";
 // MUI
 import { Box, Button, Chip, Divider, Grid, TextField, Typography } from "@mui/material";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+// Utilites
+import { isCountLetters, isRequired } from "utilites/validation";
 // Styles
 import classes from './styles.module.scss';
-// Ultils
-import axios from "axios";
-import { isCountLetters, isEmail, isRequired } from "utilites/validation";
-import useDialog from "hooks/useDialog";
 
 interface IForm {
-  name: string;
-  email: string;
+  subject: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
   message: string;
 }
 
@@ -29,26 +32,20 @@ const ContactUs: React.FC = () => {
 
   const { handleSubmit, control, formState: { errors }, reset} = useForm({
     defaultValues: {
-      name: '',
-      email: '',
+      subject: '',
+      phone: '',
+      firstName: '',
+      lastName: '',
       message: '',
     }
   });
 
-  const sangmessage = async (text: string) => {
-    await axios.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}?parse_node=HTML&text=${text}`);
-  };
-
   const onSubmit = handleSubmit((data: IForm) => {
-    const text = `Name: ${data.name},
-    Email: ${data.email},
-    Message: ${data.message}`;
-
-    sangmessage(text)
-      .then(() => {
-        reset();
-        openDialog();
-      })
+    const { firstName, lastName, subject, phone, message } = data;
+    const text = `Name: ${firstName} ${lastName}\nPhone: +${phone}\nSubject: ${subject}\n\nMessage:\n${message}`;
+    axios.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&parse_mode=HTML&text=${encodeURIComponent(text)}`);
+    openDialog();
+    reset();
   });
 
   return (
@@ -66,47 +63,89 @@ const ContactUs: React.FC = () => {
 
       <Box className={classes.contactUs}>
         <Box className="container">
-          <Title>Contact us</Title>
+          <Box sx={{ textAlign: 'center' }}>
+            <Title>Contact us</Title>
+          </Box>
 
           <Box className={classes.contactUsContent}>
             <Title>Send us a message</Title>
             <form onSubmit={onSubmit} noValidate className={classes.form}>
               <Grid container spacing={ {xs: 2, sm: 4}}>
-                {/* name */}
+                {/* Subject */}
                 <Grid item xs={12} sm={6}>
                   <Controller
-                    control={control} name='name'
+                    control={control} name="subject"
                     rules={{ required: isRequired }}
                     render={({ field }) => (
                       <TextField
                         { ...field }
                         fullWidth
                         type="text"
-                        label="Your name"
                         required
+                        label="Subject"
                         inputProps={{ style: inputStyle }}
-                        error={Boolean(errors.name)}
-                        helperText={errors.name ? `${errors.name.message}` : ''}
+                        error={Boolean(errors.subject)}
+                        helperText={errors.subject ? `${errors.subject.message}` : ''}
                       />
                     )}
                   />
                 </Grid>
 
-                {/* email */}
+
+                {/* Phone */}
                 <Grid item xs={12} sm={6}>
                   <Controller
-                    control={control} name='email'
-                    rules={{ required: isRequired, pattern: isEmail }}
+                    control={control} name="phone"
+                    rules={{ required: isRequired }}
+                    render={({ field: { onChange, value } }) => (
+                      <Phone
+                        value={value || ''}
+                        onChange={onChange}
+                        label="Phone"
+                        margin="none"
+                        required
+                        error={Boolean(errors.phone)}
+                        helperText={errors.phone ? `${errors.phone.message}` : ''}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                {/* firstName */}
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    control={control} name='firstName'
+                    rules={{ required: isRequired }}
                     render={({ field }) => (
                       <TextField
                         { ...field }
                         fullWidth
                         type="text"
+                        label="First name"
                         required
-                        label="Your e-mail"
                         inputProps={{ style: inputStyle }}
-                        error={Boolean(errors.email)}
-                        helperText={errors.email ? `${errors.email.message}` : ''}
+                        error={Boolean(errors.firstName)}
+                        helperText={errors.firstName ? `${errors.firstName.message}` : ''}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                {/* lastName */}
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    control={control} name='lastName'
+                    rules={{ required: isRequired }}
+                    render={({ field }) => (
+                      <TextField
+                        { ...field }
+                        fullWidth
+                        type="text"
+                        label="Last name"
+                        required
+                        inputProps={{ style: inputStyle }}
+                        error={Boolean(errors.lastName)}
+                        helperText={errors.lastName ? `${errors.lastName.message}` : ''}
                       />
                     )}
                   />
@@ -115,7 +154,7 @@ const ContactUs: React.FC = () => {
                 {/* message */}
                 <Grid item xs={12}>
                   <Controller
-                    control={control} name='message'
+                    control={control} name="message"
                     rules={{
                       required: isRequired,
                       validate: (val: string) => isCountLetters(val, 30),
@@ -127,7 +166,7 @@ const ContactUs: React.FC = () => {
                         type="text"
                         label="Your message"
                         multiline
-                        rows={3}
+                        rows={5}
                         required
                         error={Boolean(errors.message)}
                         helperText={errors.message ? `${errors.message.message}` : ''}
@@ -141,7 +180,7 @@ const ContactUs: React.FC = () => {
                   className={classes.btn}
                   variant="contained"
                 >
-                  Send message
+                  Send
                 </Button>
               </Grid>
             </form>
