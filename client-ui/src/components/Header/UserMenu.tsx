@@ -12,6 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 // Style
 import classes from './styles.module.scss';
 // Services
@@ -116,7 +117,7 @@ const UserMenu:React.FC = () => {
             </MenuItem>
 
             {currentUser?.role === 'guest' && (
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={handleClick} component={NavLink} to="/reservations">
                 <ListItemIcon>
                   <AppRegistrationIcon fontSize='small'/>
                 </ListItemIcon>
@@ -125,9 +126,9 @@ const UserMenu:React.FC = () => {
             )}
 
             {currentUser?.role === 'owner' && (
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={handleClick} component={NavLink} to="/my-hotels">
                 <ListItemIcon>
-                  <AppRegistrationIcon fontSize='small'/>
+                  <HomeWorkOutlinedIcon fontSize='small'/>
                 </ListItemIcon>
                 Hotels
               </MenuItem>
@@ -141,7 +142,7 @@ const UserMenu:React.FC = () => {
               Logout
             </MenuItem>
 
-      </Menu>
+          </Menu>
         </React.Fragment>
       ) : (
         <React.Fragment>

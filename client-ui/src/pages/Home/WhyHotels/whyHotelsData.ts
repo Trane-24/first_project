@@ -17,6 +17,6 @@ export const whyHotelsData = [
   {
     title: 'We can find it',
     text: 'Can\'t find what you are looking for? Please fill out a property request through our site, or call us. We work with a vast network of property owners as well as resort contacts to find what your perfect vacation rental.',
-    imgUrl: '/img/whyHotels/3.svg'
+    imgUrl: '/img/whyHotels/4.svg'
   },
 ]

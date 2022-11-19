@@ -9,6 +9,7 @@ import PrivateRoute from 'components/PrivateRoute';
 import HotelsPage from 'pages/HotelsPage';
 import AboutPage from 'pages/AboutPage';
 import HotelInfo from 'pages/HotelsPage/HotelInfo';
+import MyHotelsPage from 'pages/MyHotelsPage';
 
 const AppRouting:React.FC = () => {
   return (
@@ -26,6 +27,18 @@ const AppRouting:React.FC = () => {
       <Route path="/my-profile" element={
         <PrivateRoute>
           <ProfilePage />
+        </PrivateRoute>
+      } />
+
+      <Route path="/reservations" element={
+        <PrivateRoute>
+          <div>reservations</div>
+        </PrivateRoute>
+      } />
+
+      <Route path="/my-hotels" element={
+        <PrivateRoute>
+          <MyHotelsPage />
         </PrivateRoute>
       } />
 

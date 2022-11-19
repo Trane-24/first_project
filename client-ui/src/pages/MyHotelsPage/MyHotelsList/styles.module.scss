@@ -1,0 +1,15 @@
+.list_content {
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: '0px 0px 0px 1px #E0E0E0';
+  overflow: hidden;
+  border: 1px solid grey;
+}
+
+.list {
+    // test
+    max-height: calc(100vh - 355px);
+    overflow-y: scroll;
+  //
+}

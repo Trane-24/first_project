@@ -1,17 +1,18 @@
 import React from "react";
 // Hooks
 import { Controller, useForm } from "react-hook-form";
+import useDialog from "hooks/useDialog";
 // Components
 import Title from "components/Title";
 // MUI
 import { Box, Button, Chip, Divider, Grid, TextField, Typography } from "@mui/material";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 // Styles
 import classes from './styles.module.scss';
 // Ultils
 import axios from "axios";
 import { isCountLetters, isEmail, isRequired } from "utilites/validation";
-import useDialog from "hooks/useDialog";
 
 interface IForm {
   name: string;
@@ -165,7 +166,7 @@ const ContactUs: React.FC = () => {
                 variant="contained"
                 href={'tel:+380999999999'}
               >
-                <EmailOutlinedIcon />
+                <CallOutlinedIcon />
                 <Typography>+380999999999</Typography>
               </Button>
             </Box>

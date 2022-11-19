@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IHotel from '../../models/Hotel';
-import { fetchHotels, fetchTopHotels } from './hotelsAsync';
+import { createHotel, deleteHotel, fetchCurrentUserHotels, fetchHotels, fetchTopHotels } from './hotelsAsync';
 
 interface IState {
   hotels: IHotel[] | null;
@@ -47,6 +47,25 @@ const hotelsSlice = createSlice({
     })
     .addCase(fetchTopHotels.fulfilled, (state, action) => {
       state.hotels = action.payload.data;
+    })
+    // fetch curren user hotels
+    .addCase(fetchCurrentUserHotels.pending, (state, action) => {
+      state.params = action.meta.arg;
+    })
+    .addCase(fetchCurrentUserHotels.fulfilled, (state, action) => {
+      state.hotels = action.payload.data;
+      state.total = action.payload.total;
+    })
+    // create hotel
+    .addCase(createHotel.fulfilled, (state, action) => {
+      state.hotels = state.hotels ? [action.payload, ...state.hotels] : [action.payload];
+      state.total = state.total + 1;
+    })
+    // delte hotel
+    .addCase(deleteHotel.fulfilled, (state, action) => {
+      state.hotels = state.hotels
+        ? state.hotels.filter(hotel => hotel._id !== action.payload)
+        : null;
     })
   }
 });
