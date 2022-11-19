@@ -18,6 +18,7 @@ const clientHotelTypesRouter = require('./routes/client/hotelTypes.routes');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 const corsMiddleware = require('./middlewares/cors.middleware');
+const ws = require('ws');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = require('./swagger/client.json');
 // const swaggerDoc = require('./swagger/admin.json');
@@ -47,7 +48,27 @@ const start = async () => {
     await mongoose.connect(config.get('dbUrl'))
     app.listen(PORT, () => {
       console.log(`Server started on ${PORT} port`);
+    });
+    const wss = new ws.Server({ port: 5001 }, () => console.log(`Websocket server started`));
+    wss.on('connection', (ws) => {
+      ws.on('message', (messageOutput) => {
+        console.log(JSON.parse(messageOutput));
+        const { event, message, userId, clientId } = JSON.parse(messageOutput);
+        switch (event) {
+          case 'message': 
+            sendMessages(JSON.parse(messageOutput))
+            break;
+          default:
+            break;
+        }
+      })
     })
+
+    function sendMessages(message) {
+      wss.clients.forEach((client) => {
+        client.send(JSON.stringify(message));
+      })
+    }
   } catch (e) {
 
   }

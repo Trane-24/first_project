@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .messagesWrapper {
+      width: 800px;
+      height: 600px;
+      margin: 100px auto 0;
+      border: 1px solid #999;
+    }
+    .messages {
+      height: 565px;
+    }
+    .input {
+      height: 35px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="messagesWrapper">
+    <div class="messages">
+
+    </div>
+    <input class="input" />
+  </div>
+
+  <script type="text/javascript">
+    const messagesBlock = document.querySelector('.messages');
+    const input = document.querySelector('.input');
+
+    const ws = new WebSocket('ws://localhost:5001');
+
+    ws.onmessage = (message) => {
+      message = JSON.parse(message.data);
+      renderMessages(message);
+    }
+
+    input.addEventListener('keydown', (e) => {
+      const { value: message } = e.target;
+      if (e.key !== 'Enter' || !message.trim()) return;
+      ws.send(JSON.stringify({ message, event: 'message' }));
+      input.value = '';
+    })
+
+    function renderMessages(message) {
+      messagesBlock.insertAdjacentHTML('beforeEnd', `
+        <p>${message.message}</p>
+      `)
+    }
+  </script>
+</body>
+</html>
