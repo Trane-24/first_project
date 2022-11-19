@@ -3,7 +3,6 @@
 .contactUs {
   padding: 20px 0;
   background-color: #eee;
-  margin-left: auto;
 
   @include onLaptop {
     padding: 60px 0;
@@ -12,9 +11,10 @@
 
 .contactUsContent {
   padding: 30px 20px;
-  margin-top: 30px;
+  margin: 30px auto 0;
   background-color: #fff;
   border-radius: 8px;
+  max-width: 800px;
 }
 
 .form {
