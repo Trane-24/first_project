@@ -6,8 +6,10 @@ import appReducer from "./app/appSlice";
 import hotelsReducer from "./hotels/hotelsSlice";
 import hotelTypesReducer from "./hotelTypes/hotelTypesSlice";
 import assetsReducer from "./assets/assetsSlice";
+import helpdeskReducer from "./helpdesk/helpdeskSlice";
 // middlewares
 import errorMiddleware from "../middlewares/errorMiddelware";
+import messagesMiddelware from "middlewares/messagesMiddelware";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -16,6 +18,7 @@ const rootReducer = combineReducers({
   hotels: hotelsReducer,
   hotelTypes: hotelTypesReducer,
   assets: assetsReducer,
+  helpdesk: helpdeskReducer,
 });
 
 export const setupStore = () => {
@@ -24,7 +27,7 @@ export const setupStore = () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }).concat(errorMiddleware)
+      }).concat([errorMiddleware, messagesMiddelware])
   });
 };
 

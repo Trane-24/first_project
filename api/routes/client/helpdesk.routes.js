@@ -28,7 +28,7 @@ router.post('/messages', authMiddleware, async (req, res) => {
       return res.status(400).json({message: 'message is require'});
     }
 
-    const conversation = await Conversation.findOne({ clientId: req.user.id });
+    const conversation = await Conversation.findOne({ client: req.user.id });
 
     if (!conversation) {
       const newConversation = new Conversation({

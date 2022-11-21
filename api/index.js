@@ -21,6 +21,8 @@ const corsMiddleware = require('./middlewares/cors.middleware');
 const ws = require('ws');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = require('./swagger/client.json');
+const User = require('./models/User');
+const Message = require('./models/Message');
 // const swaggerDoc = require('./swagger/admin.json');
 
 app.use(corsMiddleware)
@@ -51,12 +53,22 @@ const start = async () => {
     });
     const wss = new ws.Server({ port: 5001 }, () => console.log(`Websocket server started`));
     wss.on('connection', (ws) => {
-      ws.on('message', (messageOutput) => {
-        console.log(JSON.parse(messageOutput));
-        const { event, message, userId, clientId } = JSON.parse(messageOutput);
+      ws.on('message', async (messageOutput) => {
+        const { event, message, fromUser, clientId } = JSON.parse(messageOutput);
         switch (event) {
-          case 'message': 
-            sendMessages(JSON.parse(messageOutput))
+          case 'message':
+            const sender = await User.findOne({ _id: fromUser._id });
+
+            const msg = new Message({
+              message,
+              read: false,
+              fromUser: fromUser._id,
+              clientId: clientId ? clientId : fromUser._id,
+            });
+
+            const response = await msg.save()
+              .then(data => data.populate('fromUser', 'firstName lastName'))
+              .then(data => sendMessages({...data._doc, event}))
             break;
           default:
             break;

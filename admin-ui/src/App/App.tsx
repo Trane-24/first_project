@@ -13,6 +13,7 @@ import { selectIsAuthorization } from '../store/auth/authSelectors';
 import { selectCurrentUser } from 'store/users/usersSelectors';
 // Mui
 import { LinearProgress } from '@mui/material';
+import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,18 @@ const App = () => {
     dispatch(checkIsAuthorization({}));
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(helpdeskActions.connect());
+    } else {
+      dispatch(helpdeskActions.disconnect());
+    }
+
+    return () => {
+      dispatch(helpdeskActions.disconnect());
+    }
+  }, [currentUser])
 
   if (isAuthorization === null || (isAuthorization && !currentUser)) return <LinearProgress />;
   return (

@@ -35,7 +35,7 @@ export const createUser = createAsyncThunk('users/Create user', async(user: any,
   }
 });
 
-export const deleteUser = createAsyncThunk('users/Delete user', async (userId: number, thunkApi) => {
+export const deleteUser = createAsyncThunk('users/Delete user', async (userId: string, thunkApi) => {
   try {
     await HttpService.delete(`${url}/${userId}`);
     return userId;

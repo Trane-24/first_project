@@ -14,6 +14,7 @@ import AppRouting from './App.routing';
 import Notifications from 'components/Notifications';
 import Header from '../components/Header';
 import Footer from 'components/Footer';
+import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
 
 const App:React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,18 @@ const App:React.FC = () => {
     dispatch(AuthAsync.checkIsAuthorization({}));
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(helpdeskActions.connect());
+    } else {
+      dispatch(helpdeskActions.disconnect());
+    }
+
+    return () => {
+      dispatch(helpdeskActions.disconnect());
+    }
+  }, [currentUser])
 
   if (isAuthorization === null || (isAuthorization && !currentUser)) return <LinearProgress />;
 
