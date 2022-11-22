@@ -33,7 +33,6 @@ const ContactUsForm: React.FC = () => {
   const { pathname } = useLocation();
 
   const isContactUs = pathname === '/contact-us';
-  console.log(isContactUs, pathname)
 
   const { handleSubmit, control, formState: { errors }, reset} = useForm({
     defaultValues: {

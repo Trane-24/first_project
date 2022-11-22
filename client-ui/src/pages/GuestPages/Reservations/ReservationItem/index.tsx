@@ -30,8 +30,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
     setIsActive(!isActive);
   };
 
-  const { images, name, city, country, description, hotelType} = reservation.hotel;
-  console.log(reservation.hotel);
+  const { images, name, city, country, hotelType} = reservation.hotel;
   const imgUrl = images?.length !== 0 ? `${config.serverURL}/${images[0].path}` : '/img/hotel-no-available.png';
 
 
