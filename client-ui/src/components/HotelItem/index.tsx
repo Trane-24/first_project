@@ -38,7 +38,7 @@ const HotelItem: React.FC<Props> = ({ hotel }) => {
             variant="contained"
             onClick={openDialog}
           >
-            Reservation hotels
+            Reserve
           </Button>
         </Box>
       </Paper>

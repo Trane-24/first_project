@@ -193,7 +193,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/postReservation"
+                "type":"object",
+                "properties": {
+                  "reservationData": {
+                    "$ref": "#/components/schemas/postReservation"
+                  },
+                  "guestData": {
+                    "$ref": "#/components/schemas/postUser"
+                  }
+                }
               }
             }
           }
@@ -716,9 +724,6 @@
           },
           "hotel": {
             "$ref": "#/components/schemas/getHotel"
-          },
-          "guest": {
-            "$ref": "#/components/schemas/getUser"
           },
           "startDate": {
             "type": "string",

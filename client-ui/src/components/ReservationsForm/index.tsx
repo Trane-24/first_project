@@ -16,7 +16,6 @@ import { appActions } from "store/app/appSlice";
 // Selectors
 import { selectCurrentUser } from "store/users/usersSelectors";
 // Types
-import ReservationStatuses from "types/ReservationStatuses";
 import UserRoles from "types/UserRoles";
 // Mui
 import { LoadingButton } from "@mui/lab";
@@ -45,8 +44,6 @@ interface IForm {
   startDate: string;
   endDate: string;
   notes?: string;
-  guestId: any;
-  hotelId: any;
 }
 
 const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
@@ -79,24 +76,27 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
   const onSubmit= handleSubmit((data: IForm) => {
     setIsLoading(true);
 
+    const { email, firstName, lastName, phone, password, role, startDate, endDate, notes } = data;
+
     const nextData:any = {
-      ...data,
-      startDate: dayjs(data.startDate).format('YYYY-MM-DD'),
-      endDate: dayjs(data.endDate).format('YYYY-MM-DD'),
-      guestId: currentUser?._id,
-      hotelId: hotelId,
-      status: ReservationStatuses.Completed,
+      reservationData: {
+        startDate: dayjs(data.startDate).format('YYYY-MM-DD'),
+        endDate: dayjs(data.endDate).format('YYYY-MM-DD'),
+        hotelId,
+        notes,
+      }
     };
+
+    if (!currentUser) nextData['guestData'] = { email, firstName, lastName, phone, password, role };
 
     dispatch(createReservation(nextData))
       .unwrap()
       .then(() => dispatch(appActions.enqueueSnackbar({
         key: uuid(),
-        message: 'Reservation was created'
+        message: currentUser ? 'The hotel has been successfully reserved' : 'The hotel has been successfully reserved and an account has been created'
       })))
       .then(() => onClose())
       .finally(() => setIsLoading(false))
-
   });
 
   useEffect(() => {
@@ -300,7 +300,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
               type="submit"
               variant="contained"
             >
-              Add reservation
+              Reserve
             </LoadingButton>
           </Box>
         </form>
