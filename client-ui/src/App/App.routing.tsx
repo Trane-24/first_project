@@ -11,13 +11,14 @@ import AboutPage from 'pages/AboutPage';
 import HotelInfo from 'pages/HotelsPage/HotelInfo';
 import MyHotelsPage from 'pages/MyHotelsPage';
 import Reservations from 'pages/GuestPages/Reservations';
+import ContactUs from 'pages/ContactUs';
 
 const AppRouting:React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact-us" element={<></>} />
+      <Route path="/contact-us" element={<ContactUs />} />
 
       <Route path="/list-your-property" element={
         <PublicRoute>
@@ -43,8 +44,8 @@ const AppRouting:React.FC = () => {
         </PrivateRoute>
       } />
 
-      <Route path='/hotels' element={<HotelsPage />} />
-      <Route path='/hotels/:hotelId' element={<HotelInfo />} />
+      <Route path="/hotels" element={<HotelsPage />} />
+      <Route path="/hotels/:hotelId" element={<HotelInfo />} />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

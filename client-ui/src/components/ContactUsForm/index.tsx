@@ -13,6 +13,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { isCountLetters, isRequired } from "utilites/validation";
 // Styles
 import classes from './styles.module.scss';
+import { useLocation } from "react-router-dom";
 
 interface IForm {
   subject: string;
@@ -27,8 +28,12 @@ const inputStyle = { WebkitBoxShadow: "0 0 0 1000px white inset" };
 const token = '5665706078:AAGoBXqR8z5TZfVJDIiVwTtLh9atgiKP8YI';
 const chatId = '-898556886';
 
-const ContactUs: React.FC = () => {
+const ContactUsForm: React.FC = () => {
   const {Dialog, openDialog, closeDialog} = useDialog();
+  const { pathname } = useLocation();
+
+  const isContactUs = pathname === '/contact-us';
+  console.log(isContactUs, pathname)
 
   const { handleSubmit, control, formState: { errors }, reset} = useForm({
     defaultValues: {
@@ -62,15 +67,14 @@ const ContactUs: React.FC = () => {
       </Dialog>
 
       <Box className={classes.contactUs}>
-        <Box className="container">
-          <Box sx={{ textAlign: 'center' }}>
+          {/* <Box sx={{ textAlign: 'center' }}>
             <Title>Contact us</Title>
-          </Box>
+          </Box> */}
 
           <Box className={classes.contactUsContent}>
             <Title>Send us a message</Title>
             <form onSubmit={onSubmit} noValidate className={classes.form}>
-              <Grid container spacing={ {xs: 2, sm: 4}}>
+              <Grid container rowSpacing={ {xs: 1.5, sm: 2}} columnSpacing={{ xs: 0, sm: 2}}>
                 {/* Subject */}
                 <Grid item xs={12} sm={6}>
                   <Controller
@@ -185,34 +189,38 @@ const ContactUs: React.FC = () => {
               </Grid>
             </form>
 
-            <Divider sx={{pt: 4, pb: 3}}>
-              <Chip label="OR" />
-            </Divider>
+            {isContactUs && (
+              <React.Fragment>
+                <Divider sx={{pt: 4, pb: 3}}>
+                  <Chip label="OR" />
+                </Divider>
           
-            <Box className={classes.getBtns}>
-              <Title>Get in touch</Title>
+                <Box className={classes.getBtns}>
+                  <Title>Get in touch</Title>
 
-              <Button
-                variant="contained"
-                href={'mailto:test@test.com'}
-              >
-                <EmailOutlinedIcon />
-                <Typography>test@test.com</Typography>
-              </Button>
+                  <Button
+                    variant="contained"
+                    href={'mailto:test@test.com'}
+                  >
+                    <EmailOutlinedIcon />
+                    <Typography>test@test.com</Typography>
+                  </Button>
 
-              <Button
-              variant="contained"
-              href={'tel:+380999999999'}
-            >
-              <EmailOutlinedIcon />
-              <Typography>+380999999999</Typography>
-            </Button>
-          </Box>
+                  <Button
+                  variant="contained"
+                  href={'tel:+380999999999'}
+                  >
+                    <EmailOutlinedIcon />
+                    <Typography>+380999999999</Typography>
+                  </Button>
+                </Box>
+              </React.Fragment>
+            )}
+            
         </Box>
       </Box>
-    </Box>
   </React.Fragment>
 );
 };
 
-export default ContactUs;
+export default ContactUsForm;
