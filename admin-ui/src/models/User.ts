@@ -1,7 +1,7 @@
 import UserRoles from "../types/UserRoles";
 
 interface IUser {
-  _id: number;
+  _id: string;
   email: string;
   firstName: string,
   lastName: string;

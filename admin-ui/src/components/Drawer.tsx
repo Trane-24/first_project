@@ -83,15 +83,15 @@ const Drawer:FC = () => {
             xs: '256px',
             sm: drawerOpen ? '256px' : '72px'
           },
-          minHeight: 'calc(100vh - 64px)',
+          minHeight: '100vh',
           bgcolor: 'white',
           borderRight: '1px solid rgba(0,0,0,0.12)',
           transform: {
             xs: drawerOpen ? 'initial' : 'translateX(-100%)',
             sm: 'translateX(0)'
           },
-          '@media print': {
-            display: 'none',
+          '@media (min-width: 600px)': {
+            minHeight: 'calc(100vh - 64px)',
           },
           zIndex: (theme:Theme) => theme.zIndex.drawer
         }}
