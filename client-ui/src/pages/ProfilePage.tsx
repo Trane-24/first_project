@@ -121,8 +121,10 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Box sx={{
+      minHeight: 'calc(100vh - 148.5px)',
       display: 'flex',
       justifyContent: 'center',
+      alignItems: 'center',
       padding: '20px',
       background: `linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${background})`,
       backgroundSize: 'cover',

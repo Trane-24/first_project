@@ -42,7 +42,7 @@ const SignUpForm:React.FC<Props> = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [successRegistration, setSuccessRegistration] = useState(false);
 
-  const handeShowPassword = () => setShowPassword(!showPassword);
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const { control, handleSubmit, formState: { errors } } = useForm<IForm>({
     defaultValues: {
@@ -158,7 +158,7 @@ const SignUpForm:React.FC<Props> = ({ onClose }) => {
               />
               <Button
                 sx={{ position: 'absolute', right: '0', height: '56px'}}
-                onClick={handeShowPassword}
+                onClick={handleShowPassword}
               >
                 {showPassword
                   ? <VisibilityOffOutlinedIcon />

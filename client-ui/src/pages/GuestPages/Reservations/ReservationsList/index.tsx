@@ -1,30 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+// Actions
+import { reservationAction } from "store/reservations/reservationsSlice";
 // Hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
 // MUI
 import { Box, Tab, Tabs, LinearProgress, TablePagination } from "@mui/material";
 // Asyncs
-import { fetchCurrentUserHotels } from "store/hotels/hotelsAsync";
+import { fetchReservation } from "store/reservations/reservationsAsync";
 // Selectors
-import { selectHotels, selectParams, selectTotal } from "store/hotels/hotelsSelectors";
+import { selectParams, selectReservations, selectTotal } from "store/reservations/reservationsSelectors";
 // Components
-import MyHotelItem from "../MyHotelItem";
+import ReservationsItem from "../ReservationItem";
 // Styles
 import classes from './styles.module.scss';
-import { hotelsActions } from "store/hotels/hotelsSlice";
+// Types
+import ReservationStatuses from "types/ReservationStatuses";
 
-const MyHotelsList: React.FC = () => {
+const ReservationsList: React.FC = () => {
   const dispatch = useAppDispatch();
-  // State
-  const [tabValue, setTabValue] = useState('true');
+  // Selectors
+  const total = useSelector(selectTotal);
   const params = useSelector(selectParams);
+  // State
+  const [tabValue, setTabValue] = useState('pending');
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(params.page);
   const [limit, setLimit] = useState<number>(params.limit);
-  // Selectors
-  const total = useSelector(selectTotal);
+
 
   const itemsInOnePage = 10;
   const pages = Math.ceil(total / itemsInOnePage);
@@ -43,12 +47,12 @@ const MyHotelsList: React.FC = () => {
     setPage(1);
   }
 
-  const hotels = useSelector(selectHotels);
+  const reservations = useSelector(selectReservations);
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchCurrentUserHotels({
-      verified: tabValue,
+    dispatch(fetchReservation({
+      status: tabValue,
       limit: limit,
       page: page,
     }))
@@ -59,7 +63,7 @@ const MyHotelsList: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(hotelsActions.setInitialField('params'));
+      dispatch(reservationAction.setInitialField('params'));
     }
     // eslint-disable-next-line
   }, [])
@@ -67,8 +71,11 @@ const MyHotelsList: React.FC = () => {
   return (
     <div>
       <Tabs value={tabValue} onChange={handleTabValue} centered>
-        <Tab label="Verified" value="true" />
-        <Tab label="Not varified" value="false" />
+        {Object.entries(ReservationStatuses).map(status => {
+          const [title, value] = status;
+
+          return (<Tab label={title} value={value} key={value}/>)
+        })}
       </Tabs>
 
       {isLoading ? (
@@ -76,8 +83,8 @@ const MyHotelsList: React.FC = () => {
       ) : (
         <Box className={classes.list_content}>
         <ul className={classes.list}>
-          {hotels?.map(hotel => (
-            <MyHotelItem hotel={hotel} key={hotel._id}/>
+          {reservations?.map(reservation => (
+            <ReservationsItem reservation={reservation} key={reservation._id}/>
           ))}
         </ul>
 
@@ -103,4 +110,4 @@ const MyHotelsList: React.FC = () => {
   );
 };
 
-export default MyHotelsList;
+export default ReservationsList;

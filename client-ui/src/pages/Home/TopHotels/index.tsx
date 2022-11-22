@@ -26,7 +26,7 @@ const TopHotels: React.FC = () => {
 
   const slidesPerViewCount = useMemo(() => {
     return width < 600 ? 1.2 : width < 1240 ? 2.2 : width < 1920 ? 3 : 4;
-  }, [width])
+  }, [width]);
 
   useEffect(() => {
     dispatch(fetchTopHotels({}))

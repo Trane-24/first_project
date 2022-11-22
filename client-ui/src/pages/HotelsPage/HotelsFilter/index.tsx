@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 // MUI
-import { Divider, MenuItem, Paper, Typography, Box, FormControlLabel, Checkbox, FormGroup } from '@mui/material';
+import { Divider, MenuItem, Paper, Typography, Box, FormControlLabel, Checkbox, FormGroup, Skeleton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
 import IHotelType from 'models/HotelType';
 import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
-import { fetchHotels } from 'store/hotels/hotelsAsync';
 import { selectParams } from 'store/hotels/hotelsSelectors';
 import { hotelsActions } from 'store/hotels/hotelsSlice';
 
@@ -21,6 +20,9 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
   const hotelTypes = useSelector(selectHotelTypes);
   const params = useSelector(selectParams);
 
+  // State
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleChange = (e: any) => {
     const { value } = e.target;
 
@@ -28,7 +30,10 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
+
     dispatch(fetchHotelTypes({}))
+      .finally(() => setIsLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -52,7 +57,19 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
         Property types
       </Typography>
 
-      <FormGroup sx={{ pl: 2 }}>
+      {isLoading ? (
+        <Box sx={{ margin: '0 auto', p: 2}}>
+          <Box>
+            <Skeleton height="45px"/>
+            <Skeleton animation="wave" height="45px"/>
+            <Skeleton height="45px"/>
+            <Skeleton height="45px"/>
+            <Skeleton animation="wave" height="45px"/>
+            <Skeleton height="45px"/>
+          </Box>
+        </Box>
+      ) : (
+        <FormGroup sx={{ pl: 2 }}>
           {hotelTypes?.map((hotelType: IHotelType) => (
             <FormControlLabel
               control={
@@ -66,7 +83,8 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
               key={hotelType._id}
             />
           ))}
-      </FormGroup>
+        </FormGroup>
+      )}
     </Paper>
   );
 };

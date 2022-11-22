@@ -13,6 +13,7 @@ import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 // Style
 import classes from './styles.module.scss';
 // Services
@@ -113,13 +114,16 @@ const UserMenu:React.FC = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             <MenuItem onClick={handleClick} component={NavLink} to="my-profile">
-              <Avatar /> Profile
+              <ListItemIcon>
+                <PersonOutlinedIcon fontSize="small"/>
+              </ListItemIcon>
+              Profile
             </MenuItem>
 
             {currentUser?.role === 'guest' && (
               <MenuItem onClick={handleClick} component={NavLink} to="/reservations">
                 <ListItemIcon>
-                  <AppRegistrationIcon fontSize='small'/>
+                  <AppRegistrationIcon fontSize="small"/>
                 </ListItemIcon>
                 Reservations
               </MenuItem>
@@ -128,7 +132,7 @@ const UserMenu:React.FC = () => {
             {currentUser?.role === 'owner' && (
               <MenuItem onClick={handleClick} component={NavLink} to="/my-hotels">
                 <ListItemIcon>
-                  <HomeWorkOutlinedIcon fontSize='small'/>
+                  <HomeWorkOutlinedIcon fontSize="small"/>
                 </ListItemIcon>
                 Hotels
               </MenuItem>

@@ -1,17 +1,18 @@
 import React, { useRef, useState, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 // hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
 import useDialog from "hooks/useDialog";
 // Async
-// import { deleteHotel } from "store/hotels/hotelsAsync";
+import { deleteHotel } from "store/hotels/hotelsAsync";
 // Action
 import { appActions } from "store/app/appSlice";
 // Models
 import IHotel from "models/Hotel";
 // Component
 import ConfirmDeleteModal from "components/ConfirmDeleteModal";
-// import HotelsForm from "./HotelsForm";
+import MyHotelsForm from "../MyHotelsForm";
 // MUI
 import {
   Accordion, AccordionDetails, AccordionSummary, Box, Divider,
@@ -22,13 +23,11 @@ import {
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
-import { makeStyles } from "@mui/styles";
 import config from "config";
-import { useLocation } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import AssetsAsync from "store/assets/assetsAsync";
-import MyHotelsForm from "./MyHotelsForm";
-import { deleteHotel } from "store/hotels/hotelsAsync";
+// Styles
+import classes from './styles.module.scss';
+
 
 type Props = {
   hotel: IHotel,
@@ -36,7 +35,6 @@ type Props = {
 }
 
 const MyHotelItem:React.FC<Props> = ({ hotel, onClose }) => {
-  const classes = useStyle();
   const dispatch = useAppDispatch();
   const location = useLocation();
 
@@ -190,29 +188,3 @@ const MyHotelItem:React.FC<Props> = ({ hotel, onClose }) => {
 }
 
 export default MyHotelItem;
-
-const useStyle = makeStyles({
-  title: {
-    fontSize: '12px',
-    lineHeight: '166%',
-    letterSpacing: '0.4px',
-    color: 'rgba(0, 0, 0, 0.6)',
-  },
-  text: {
-    fontSize: '14px',
-    lineHeight: '143%',
-    letterSpacing: '0.17px',
-    color: 'rgba(0, 0, 0, 0.87)',
-  },
-  // info: {
-  //   display: 'flex',
-  //   alignItems: 'center'
-  //   // flexDerection: 'colum',
-  // },
-  img: {
-    width: '100%',
-    height: '100%',
-    maxHeight: '200px',
-    objectFit: 'cover',
-  }
-});

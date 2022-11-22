@@ -10,6 +10,7 @@ import HotelsPage from 'pages/HotelsPage';
 import AboutPage from 'pages/AboutPage';
 import HotelInfo from 'pages/HotelsPage/HotelInfo';
 import MyHotelsPage from 'pages/MyHotelsPage';
+import Reservations from 'pages/GuestPages/Reservations';
 
 const AppRouting:React.FC = () => {
   return (
@@ -32,7 +33,7 @@ const AppRouting:React.FC = () => {
 
       <Route path="/reservations" element={
         <PrivateRoute>
-          <div>reservations</div>
+          <Reservations />
         </PrivateRoute>
       } />
 
