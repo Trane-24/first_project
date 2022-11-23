@@ -59,6 +59,24 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
+router.get('/search/:id', async (req, res) => {
+  try {
+    const hotel = await Hotel.findOne({ _id: req.params.id }, '-owner');
+
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+
+    return await Hotel.findOne({ _id: req.params.id }, '-owner')
+      .then(data => data.populate('images', 'path'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
+      .then(data => res.json(data))
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+});
+
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const owner = await User.findOne({ _id: req.user.id, role: 'owner' });
