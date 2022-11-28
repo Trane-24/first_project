@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IHotel from '../../models/Hotel';
-import { createHotel, deleteHotel, fetchCurrentUserHotels, fetchHotels, fetchTopHotels } from './hotelsAsync';
+import { createHotel, deleteHotel, fetchCurrentUserHotels, fetchHotel, fetchHotels, fetchTopHotels } from './hotelsAsync';
 
 interface IState {
   hotels: IHotel[] | null;
+  hotel: IHotel | null;
   total: number;
   params: any;
 }
 
 const initialState: IState = {
   hotels: null,
+  hotel: null,
   total: 0,
   params: {
     limit: 15,
@@ -37,6 +39,10 @@ const hotelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    // fetch hotel
+    .addCase(fetchHotel.fulfilled, (state, action) => {
+      state.hotel = action.payload;
+    })
     // fetch hotels
     .addCase(fetchHotels.pending, (state, action) => {
       state.params = action.meta.arg;

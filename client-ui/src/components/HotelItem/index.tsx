@@ -28,7 +28,9 @@ const HotelItem: React.FC<Props> = ({ hotel }) => {
 
       <Paper className={classes.item}>
         <Link to={`/hotels/${hotel._id}`}>
-          <img className={classes.img} src={imgUrl} alt={hotel.name} />
+          <Box className={classes.img_box}>
+            <img className={classes.img} src={imgUrl} alt={hotel.name} />
+          </Box>
         </Link>
         <Box className={classes.content}>
           <Typography>{hotel.name}</Typography>

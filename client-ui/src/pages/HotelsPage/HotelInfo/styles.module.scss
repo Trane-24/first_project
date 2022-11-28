@@ -1,8 +1,14 @@
 @import 'styles/utils/mixins';
 
 .hotelInfo {
-  position: relative;
-  background-color: rgba(238, 238, 238, 1);
+  min-height: calc(100vh - 147px);
+}
+
+.header {
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  gap: 10px;
 }
 
 .title {
@@ -11,4 +17,100 @@
   @include onTablet {
     padding: 40px 0;
   }
+}
+
+.btn {
+  display: flex;
+  gap: 8px;
+}
+
+.hotelInfoContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  @include on900 {
+    flex-direction: row;
+    margin-bottom: 40px;
+  }
+}
+
+.img_box {
+  position: relative;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 60%;
+}
+
+.swiper_btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.images_select {
+  display: flex;
+  gap: 2%;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.img_select_box {
+  width: 24%;
+  height: 80px;
+  overflow: hidden;
+}
+
+.img_select {
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  width: 100%;
+
+  transition: all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.img_select_act {
+  transform: scale(1.2);
+}
+
+.info {
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-left: 1px solid #ddd;
+  padding: 10px;
+
+  @include onTablet {
+    padding: 20px;
+  }
+}
+
+.info_item {
+  display: flex;
+  justify-content: space-between;
+
+  @include onTablet {
+    display: block;
+  }
+}
+
+.subtitle {
+  color: gray;
+  padding-bottom: 5px;
 }

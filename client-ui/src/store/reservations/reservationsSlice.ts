@@ -12,7 +12,7 @@ const initialState: IState = {
   reservations: null,
   total: 0,
   params: {
-    limit: 20,
+    limit: 15,
     page: 1,
   }
 }

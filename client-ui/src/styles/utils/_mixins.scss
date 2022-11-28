@@ -4,6 +4,12 @@
   }
 }
 
+@mixin on900 {
+  @media (min-width: 900px) {
+    @content;
+  }
+}
+
 @mixin onLaptop {
   @media (min-width: 1280px) {
     @content;

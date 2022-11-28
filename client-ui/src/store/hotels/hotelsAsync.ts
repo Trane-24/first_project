@@ -6,7 +6,15 @@ import HttpService from "services/HttpService";
 import AssetsAsync from "store/assets/assetsAsync";
 
 const url = `${config.apiURL}/hotels`;
-
+// fetch hotel
+export const fetchHotel = createAsyncThunk('hotels/Fetch hotel', async (hotelId: string, thunkApi) => {
+  try {
+    const response = await HttpService.get(`${url}/search/${hotelId}`);
+    return response.data;
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
+  }
+})
 // fetch hotels list
 export const fetchHotels = createAsyncThunk('hotels/Fetch hotels list', async (params:any, thunkApi) => {
   try {

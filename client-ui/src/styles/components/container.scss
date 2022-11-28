@@ -9,6 +9,11 @@
   padding-right: 16px;
   padding-left: 16px;
 
+  @include onTablet {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
   @include onDesktop {
     max-width: 1396px;
   }

@@ -7,6 +7,12 @@
   justify-content: space-between;
   border-radius: 8px;
   flex-grow: 1;
+  overflow: hidden;
+}
+
+.img_box {
+  overflow: hidden;
+  height: 220px;
 }
 
 .img {
@@ -14,6 +20,11 @@
   width: 100%;
   border-radius: 8px 8px 0 0;
   object-fit: cover;
+  transition: all 0.5s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 
 .content {
