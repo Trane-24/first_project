@@ -189,6 +189,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
       },
       {
         ...req.body,
+        owner: owner._id,
         images: req.body.imagesIds,
         hotelType: req.body.hotelTypeId,
         verified: false,

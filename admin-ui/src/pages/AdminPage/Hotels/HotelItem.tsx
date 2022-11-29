@@ -149,7 +149,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
 
             <Grid item xs={12} sm={6} md={2}>
               <Typography className={classes.title}>Owner</Typography>
-              {/* <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography> */}
+              <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
             {isNotReservation ? (
               <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 }, position: 'relative', left: { xs: '15px', sm: 0}}} item xs={1} >
