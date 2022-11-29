@@ -1,4 +1,5 @@
 
+import PageNavLink from 'components/PageNavLink';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 // Styles
@@ -15,8 +16,8 @@ const Footer: React.FC = () => {
         </NavLink>
         <p>© 2022</p>
         <nav className={classes.menu}>
-          <NavLink to="about">About</NavLink>
-          <NavLink to="contact-us">Contact us</NavLink>
+          <PageNavLink to="about" text="About" />
+          <PageNavLink to="contact-us" text="Contact us" />
         </nav>
       </div>
     </footer>
