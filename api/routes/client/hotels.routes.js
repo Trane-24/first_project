@@ -11,7 +11,7 @@ router.get('/search', async (req, res) => {
   try {
     const { limit, page, search, hotelType } = req.query;
     const regex = new RegExp(search, 'gi');
-    const params = { verified: true, name: {'$regex': regex} };
+    const params = { verified: true, $or: [{ name: {'$regex': regex} }, { country: {'$regex': regex} }, { city: {'$regex': regex} }] };
     if (hotelType) params['hotelType'] = { $in: hotelType.split(',') };
     const total = await Hotel.find(params).count();
     const hotels = await Hotel.find(params, '-owner').skip((page-1)*limit).limit(limit)
