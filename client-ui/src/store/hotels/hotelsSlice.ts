@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IHotel from '../../models/Hotel';
-import { createHotel, deleteHotel, fetchCurrentUserHotels, fetchHotel, fetchHotels, fetchTopHotels } from './hotelsAsync';
+import { createHotel, deleteHotel, fetchCurrentUserHotels, fetchHotel, fetchHotels, fetchTopHotels, updateHotel } from './hotelsAsync';
 
 interface IState {
   hotels: IHotel[] | null;
@@ -64,14 +64,23 @@ const hotelsSlice = createSlice({
     })
     // create hotel
     .addCase(createHotel.fulfilled, (state, action) => {
-      state.hotels = state.hotels ? [action.payload, ...state.hotels] : [action.payload];
-      state.total = state.total + 1;
+      if (state.params.verified === false) {
+        state.hotels = state.hotels ? [action.payload, ...state.hotels] : [action.payload];
+        state.total = state.total + 1;
+      }
     })
-    // delte hotel
+    // update hotel
+    .addCase(updateHotel.fulfilled, (state, action) => {
+      state.hotels = state.hotels
+        ? state.hotels.map((hotel: IHotel) => hotel._id !== action.payload._id ? hotel : action.payload)
+        : null;
+    })
+    // delte hotels
     .addCase(deleteHotel.fulfilled, (state, action) => {
       state.hotels = state.hotels
         ? state.hotels.filter(hotel => hotel._id !== action.payload)
         : null;
+      state.total = state.total - 1;
     })
   }
 });

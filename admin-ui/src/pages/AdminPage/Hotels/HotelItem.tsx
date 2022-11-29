@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import useDialog from "hooks/useDialog";
 // Async
-import { deleteHotel } from "store/hotels/hotelsAsync";
+import { deleteHotel, markAsAerified } from "store/hotels/hotelsAsync";
 // Action
 import { appActions } from "store/app/appSlice";
 // Models
@@ -21,6 +21,7 @@ import {
   DeleteOutline as DeleteOutlineIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
+  Verified as VerifiedIcon,
 } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import config from "config";
@@ -34,6 +35,8 @@ type Props = {
 }
 
 const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
+  console.log(hotel);
+  
   const classes = useStyle();
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -71,6 +74,19 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
     setOpenMenu(false);
   };
 
+  // Verified hotel
+  const verifiedHotel = (e: any) => {
+    e.stopPropagation();
+
+    dispatch(markAsAerified(hotel._id))
+    .unwrap()
+    .then(() => dispatch(appActions.enqueueSnackbar({
+      key: uuid(),
+      message: 'Hotel was verified',
+    })))
+  }
+
+  // remove hotel
   const removeHotel = () => {
     dispatch(deleteHotel(hotel._id))
       .unwrap()
@@ -133,7 +149,7 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
 
             <Grid item xs={12} sm={6} md={2}>
               <Typography className={classes.title}>Owner</Typography>
-              <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
+              {/* <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography> */}
             </Grid>
             {isNotReservation ? (
               <Grid sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 }, position: 'relative', left: { xs: '15px', sm: 0}}} item xs={1} >
@@ -152,6 +168,13 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
                     <EditIcon fontSize="small" />
                     Edit
                   </MenuItem>
+
+                  {!hotel.verified && (
+                    <MenuItem component="div" onClick={verifiedHotel} sx={{ display: 'flex', gap: 1.5 }}>
+                      <VerifiedIcon fontSize="small" />
+                      Verified
+                    </MenuItem>
+                  )}
 
                   <MenuItem component="div" onClick={handleOpenDeleteModal} sx={{ display: 'flex', gap: 1 }}>
                     <DeleteOutlineIcon />

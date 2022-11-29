@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import IHotel from '../../models/Hotel';
-import { createHotel, deleteHotel, fetchHotels, updateHotel } from './hotelsAsync';
+import { createHotel, deleteHotel, fetchHotels, markAsAerified, updateHotel } from './hotelsAsync';
 
 interface IState {
   hotels: IHotel[] | null;
@@ -53,6 +53,12 @@ const hotelsSlice = createSlice({
       state.hotels = state.hotels
         ? state.hotels.map(hotel => hotel._id === action.payload._id ? action.payload : hotel)
         : null
+    })
+    //
+    .addCase(markAsAerified.fulfilled, (state, action) => {
+      state.hotels = state.hotels
+        ? state.hotels?.map(hotel => hotel._id !== action.payload ? hotel : { ...hotel, verified: true})
+        : null;
     })
   }
 });

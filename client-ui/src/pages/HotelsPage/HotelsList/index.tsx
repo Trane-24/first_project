@@ -20,6 +20,7 @@ const HotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
   // Selectors
   const hotels = useSelector(selectHotels);
+  console.log(hotels)
   const total = useSelector(selectTotal);
   const params = useSelector(selectParams);
   const hotelTypes = useSelector(selectHotelTypes);

@@ -45,7 +45,7 @@ export const fetchCurrentUserHotels = createAsyncThunk('hotels/Fetch current use
 // create hotel
 export const createHotel = createAsyncThunk('hotels/Create hotel', async (data: any, thunkApi) => {
   try {
-    const nextData = {...data};
+    const nextData: any = { ...data };
 
     const { payload: images } : any = await thunkApi.dispatch(AssetsAsync.validateAssets({}));
 
@@ -57,6 +57,24 @@ export const createHotel = createAsyncThunk('hotels/Create hotel', async (data: 
     return hotel;
   } catch (e: any) {
     return thunkApi.rejectWithValue(e.response.data)
+  }
+})
+// update hotel
+export const updateHotel = createAsyncThunk('hotels/Update hotels', async (data: any, thunkApi) => {
+  try {
+    const { hotelId, hotelData } = data;
+    const nextData: any = { ...hotelData };
+
+    const { payload: images } : any = await thunkApi.dispatch(AssetsAsync.validateAssets({}));
+    
+    if (images.length) {
+      nextData['imagesIds'] = images.map((asset: IAsset) => asset._id);
+    }
+    console.log(nextData)
+    const { data: hotel } = await HttpService.put(`${url}/${hotelId}`, nextData)
+    return hotel;
+  } catch (e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
   }
 })
 // delete hotel

@@ -9,6 +9,7 @@ interface IHotel {
   images: IAsset[];
   description?: string;
   hotelType: IHotelType;
+  verified: boolean;
 }
 
 export default IHotel;

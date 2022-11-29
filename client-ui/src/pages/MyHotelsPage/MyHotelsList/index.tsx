@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 // Hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
@@ -13,11 +13,12 @@ import MyHotelItem from "../MyHotelItem";
 // Styles
 import classes from './styles.module.scss';
 import { hotelsActions } from "store/hotels/hotelsSlice";
+import IHotel from "models/Hotel";
 
 const MyHotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
   // State
-  const [tabValue, setTabValue] = useState('true');
+  const [tabValue, setTabValue] = useState<string>('verified');
   const params = useSelector(selectParams);
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,7 +49,7 @@ const MyHotelsList: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchCurrentUserHotels({
-      verified: tabValue,
+      verified: tabValue === 'verified',
       limit: limit,
       page: page,
     }))
@@ -67,8 +68,8 @@ const MyHotelsList: React.FC = () => {
   return (
     <div>
       <Tabs value={tabValue} onChange={handleTabValue} centered>
-        <Tab label="Verified" value="true" />
-        <Tab label="Not varified" value="false" />
+        <Tab label="Verified" value="verified" />
+        <Tab label="Not verified" value="notVerified" />
       </Tabs>
 
       {isLoading ? (
@@ -76,7 +77,7 @@ const MyHotelsList: React.FC = () => {
       ) : (
         <Box className={classes.list_content}>
         <ul className={classes.list}>
-          {hotels?.map(hotel => (
+          {hotels?.map((hotel: IHotel) => (
             <MyHotelItem hotel={hotel} key={hotel._id}/>
           ))}
         </ul>

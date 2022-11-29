@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
@@ -25,7 +25,7 @@ import { isRequired } from "utilites/validation";
 // Components
 import Uploader from "components/Uploader";
 import { fetchHotelTypes } from "store/hotelTypes/hotelTypesAsync";
-import { createHotel } from "store/hotels/hotelsAsync";
+import { createHotel, updateHotel } from "store/hotels/hotelsAsync";
 
 interface Props {
   onClose: () => void;
@@ -41,13 +41,13 @@ interface IForm {
 }
 
 const MyHotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
+  console.log(hotel)
   const dispatch = useAppDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
   const hotelTypes = useSelector(selectHotelTypes);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingInp, setIsLoadingInp] = useState(false);
 
   const { handleSubmit, control, formState: {errors} } = useForm<IForm>({
     defaultValues: {
@@ -61,25 +61,23 @@ const MyHotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
 
   const onSubmit = handleSubmit((data: IForm) => {
     setIsLoading(true);
-    const nextData:any = { 
+    const nextData:any = {
       ...data,
-      verified: false,
-      ownerId: currentUser?._id,
     };
 
-    // if (hotel) {
-    //   dispatch(updateHotel({ hotelId: hotel._id, hotelData: nextData }))
-    //     .unwrap()
-    //     .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Hotel was updated' })))
-    //     .then(() => onClose())
-    //     .finally(() => setIsLoading(false))
-    // } else {
+    if (hotel) {
+      dispatch(updateHotel({ hotelId: hotel._id, hotelData: nextData }))
+        .unwrap()
+        .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Hotel was updated' })))
+        .then(() => onClose())
+        .finally(() => setIsLoading(false))
+    } else {
       dispatch(createHotel(nextData))
       .unwrap()
       .then(() => dispatch(appActions.enqueueSnackbar({ key: uuid(), message: 'Hotel was created'})))
       .then(() => onClose())
       .finally(() => setIsLoading(false))
-    // }
+    }
   });
 
   useEffect(() => {

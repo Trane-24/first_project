@@ -4,7 +4,11 @@ import StorageService from "./StorageService";
 class HttpService {
   public static async get(path: string, params: any = {}) {
     const nextParams = new URLSearchParams();
-    Object.keys(params).forEach((key: string) => { if (params[key]) nextParams.append(key, params[key]) });
+    Object.keys(params).forEach((key: string) => {
+      if (params[key] || key === 'verified') {
+        nextParams.append(key, params[key])
+      }
+    });
     return await axios.get(`${path}?${nextParams}`, { headers: { Authorization: `Barrer ${StorageService.getToken()}` } });
   }
   public static async post(path: string, data: any) {
