@@ -6,7 +6,7 @@ const Hotel = new Schema({
   city: { type: String },
   images: [{ type: ObjectId, ref: 'Asset' }],
   description: { type: String },
-  verified: { type: String },
+  verified: { type: Boolean, require: true },
   owner: { type: ObjectId, ref: 'User' },
   hotelType: { type: ObjectId, ref: 'HotelType' },
 });
