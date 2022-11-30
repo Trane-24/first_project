@@ -14,6 +14,7 @@ import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 // Style
 import classes from './styles.module.scss';
 // Services
@@ -64,7 +65,22 @@ const UserMenu:React.FC = () => {
   
       {isAuthorization ? (
         <React.Fragment>
-          <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', cursor: 'pointer' }} onClick={handleClick}>
+          <MenuItem sx={{ mr: 1}}>
+            <SupportAgentIcon />
+          </MenuItem>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textAlign: 'center',
+              cursor: 'pointer',
+              '@media (max-width: 600px)': {
+                display: 'none',
+              }
+            }}
+            onClick={handleClick}
+          >
             <Typography>{`Welcome, ${currentUser?.firstName}`}</Typography>
             <Tooltip title="Account settings">
               <IconButton
@@ -78,6 +94,32 @@ const UserMenu:React.FC = () => {
               </IconButton>
             </Tooltip>
           </Box>
+
+          <Box
+            sx={{
+              display: 'none',
+              alignItems: 'center',
+              textAlign: 'center',
+              cursor: 'pointer',
+              '@media (max-width: 600px)': {
+                display: 'flex',
+              }
+            }}
+            onClick={handleClick}
+          >
+            <Tooltip title="Account settings">
+              <IconButton
+                size="small"
+                sx={{ ml: 0.5 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+              >
+                <Avatar sx={{ backgroundColor: '#53B8E0' }}>{currentUser?.firstName.slice(0,1)}</Avatar>
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <Menu
             anchorEl={anchorEl}
             id="account-menu"

@@ -23,7 +23,7 @@ const HotelItem: React.FC<Props> = ({ hotel }) => {
   return (
     <React.Fragment>
       <Dialog>
-        <ReservationForm onClose={closeDialog} hotelId={hotel._id} />
+        <ReservationForm onClose={closeDialog} hotel={hotel} />
       </Dialog>
 
       <Paper className={classes.item}>

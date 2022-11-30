@@ -17,6 +17,8 @@ import { appActions } from "store/app/appSlice";
 import { selectCurrentUser } from "store/users/usersSelectors";
 // Types
 import UserRoles from "types/UserRoles";
+// Models
+import IHotel from "models/Hotel";
 // Mui
 import { LoadingButton } from "@mui/lab";
 import { MobileDatePicker } from "@mui/x-date-pickers";
@@ -30,7 +32,7 @@ import { isEmail, isPassword, isRequired } from "utilites/validation";
 
 interface Props {
   onClose: () => void;
-  hotelId: string;
+  hotel: IHotel;
 }
 
 interface IForm {
@@ -46,7 +48,7 @@ interface IForm {
   notes?: string;
 }
 
-const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
+const ReservationForm: React.FC<Props> = ({ onClose, hotel }) => {
   const dispatch = useAppDispatch();
   const currentUser = useSelector(selectCurrentUser);
 
@@ -72,6 +74,8 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
 
   const startDate = watch('startDate');
   const endDate = watch('endDate');
+
+  const { _id: hotelId } = hotel;
 
   const onSubmit= handleSubmit((data: IForm) => {
     setIsLoading(true);
@@ -111,6 +115,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
   return (
     <React.Fragment>
       <Box sx={{p: {xs: 2, sm: 3, md: 5}, width: '100%'}}>
+        <Title>{`${hotel.name}`}</Title>
 
         {!currentUser && (
           <React.Fragment>
@@ -127,7 +132,6 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
                       {...field}
                       label="Email"
                       fullWidth
-                      autoComplete="email"
                       required
                       error={!!errors?.email}
                       helperText={errors?.email ? errors.email.message : null}
@@ -196,7 +200,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotelId }) => {
                       {...field}
                       label="Password"
                       type={showPassword ? "text" : "password"}
-                      autoComplete="password"
+                      autoComplete="new-password"
                       fullWidth
                       required
                       error={!!errors?.password}

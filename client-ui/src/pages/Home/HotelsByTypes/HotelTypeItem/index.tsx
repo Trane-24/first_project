@@ -18,6 +18,7 @@ interface Props {
 }
 
 const HotelTypeItem: React.FC<Props> = ({ hotelType }) => {
+  console.log(hotelType)
   const dispatch = useAppDispatch();
 
   const addHotelType = (value: string) => {

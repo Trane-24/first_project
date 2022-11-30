@@ -43,7 +43,11 @@
   position: relative;
   flex-grow: 1;
   flex-shrink: 1;
-  min-width: 60%;
+  width: 100%;
+
+  @include on900 {
+    max-width: 60%;
+  }
 }
 
 .swiper_btn {

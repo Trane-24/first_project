@@ -77,7 +77,7 @@ const HotelInfo: React.FC = () => {
   return (
     <React.Fragment>
       <DialogForm>
-        <ReservationForm onClose={closeDialogForm} hotelId={hotel?._id || '123'} />
+        <ReservationForm onClose={closeDialogForm} hotel={hotel} />
       </DialogForm>
 
       <DialogSwiper maxWidth="md">
@@ -166,7 +166,7 @@ const HotelInfo: React.FC = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Typography className={classes.subtitle}>Dscriptione</Typography>
+                  <Typography className={classes.subtitle}>Description</Typography>
                   <Typography>{description}</Typography>
                 </Grid>
               </Grid>

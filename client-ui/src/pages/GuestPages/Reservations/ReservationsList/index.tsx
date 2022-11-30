@@ -29,10 +29,6 @@ const ReservationsList: React.FC = () => {
   const [page, setPage] = useState<number>(params.page);
   const [limit, setLimit] = useState<number>(params.limit);
 
-
-  const itemsInOnePage = 10;
-  const pages = Math.ceil(total / itemsInOnePage);
-
   const handleTabValue = (_: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
     setPage(1);
@@ -88,21 +84,20 @@ const ReservationsList: React.FC = () => {
           ))}
         </ul>
 
-        {pages > 1 && (
-          <Box>
-            <TablePagination
-              className={classes.pagination}
-              component="div"
-              labelRowsPerPage="Items"
-              count={total}
-              page={page - 1}
-              onPageChange={handleChangePage}
-              rowsPerPage={limit}
-              onRowsPerPageChange={handleChangeLimit}
-              rowsPerPageOptions={[15, 30, 50]}
-            />
-          </Box>
-        )}
+        <Box>
+          <TablePagination
+            className={classes.pagination}
+            component="div"
+            labelRowsPerPage="Items"
+            count={total}
+            page={page - 1}
+            onPageChange={handleChangePage}
+            rowsPerPage={limit}
+            onRowsPerPageChange={handleChangeLimit}
+            rowsPerPageOptions={[15, 30, 50]}
+          />
+        </Box>
+
       </Box>
       )}
 
