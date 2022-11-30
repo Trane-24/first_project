@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Components
 import ContactUsForm from "components/ContactUsForm";
 // MUI
 import { Box} from "@mui/material";
 // images
 import background from '../../images/contactUsBackground.jpg';
+// utilites
+import { toTop } from 'utilites/utilites';
 
 const ContactUs: React.FC = () => {
+
+  useEffect(() => {
+    toTop();
+  }, []);
+
   return (
     <Box sx={{
       minHeight: 'calc(100vh - 148.5px)',
@@ -18,7 +25,9 @@ const ContactUs: React.FC = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }}>
-      <ContactUsForm />
+      <div className="container">
+        <ContactUsForm />
+      </div>
     </Box>
 
   );

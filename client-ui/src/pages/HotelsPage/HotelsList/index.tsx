@@ -1,5 +1,5 @@
 import { Box, Grid, TablePagination, LinearProgress,
-  Typography, MenuItem, Drawer, Chip
+  Typography, MenuItem, Drawer, Chip, Pagination
 } from '@mui/material';
 import HotelItem from 'components/HotelItem';
 import Title from 'components/Title';
@@ -20,7 +20,6 @@ const HotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
   // Selectors
   const hotels = useSelector(selectHotels);
-  console.log(hotels)
   const total = useSelector(selectTotal);
   const params = useSelector(selectParams);
   const hotelTypes = useSelector(selectHotelTypes);
@@ -30,7 +29,9 @@ const HotelsList: React.FC = () => {
 
   const isEmptyFilter = useMemo(() => !params.hotelType?.length && !params.search, [params.hotelType ,params.search]);
 
-  const isShowPagination = useMemo(() => total / params.limit > 1, [params, total]);
+  const totalPages = Math.ceil(total / params.limit);
+
+  const isShowPagination = useMemo(() => totalPages > 1, [params, total]);
 
   const handleOpenFilter = () => setIsOpenFilter(prev => !prev);
 
@@ -38,27 +39,18 @@ const HotelsList: React.FC = () => {
     dispatch(hotelsActions.changeHotelType(value));
   }
 
-  const handleChangePage = (_: any, value: any) => {
+  const handleChangePage = (_: any, page: any) => {
     setIsLoading(true);
 
-    dispatch(fetchHotels({...params, page: value + 1}))
+    dispatch(fetchHotels({ ...params, page }))
       .unwrap()
       .finally(() => setIsLoading(false));
   };
 
-  const handleChangeLimit = (event:any) => {
-    const { value: limit } = event.target;
-    setIsLoading(true);
-
-    dispatch(fetchHotels({...params, page: 1, limit}))
-      .unwrap()
-      .finally(() => setIsLoading(false));
-  }
-
   useEffect(() => {
     setIsLoading(true);
 
-    dispatch(fetchHotels({ ...params }))
+    dispatch(fetchHotels({ ...params, page: 1 }))
       .unwrap()
       .finally(() => setIsLoading(false));
   // eslint-disable-next-line
@@ -129,14 +121,11 @@ const HotelsList: React.FC = () => {
 
           {isShowPagination && (
             <Box className={classes.paginationWrap}>
-              <TablePagination
-                component="div"
-                count={total}
-                page={params.page - 1}
-                onPageChange={handleChangePage}
-                rowsPerPage={params.limit}
-                onRowsPerPageChange={handleChangeLimit}
-                rowsPerPageOptions={[15, 30, 60, 90]}
+              <Pagination
+                count={totalPages}
+                color="primary"
+                page={params.page}
+                onChange={handleChangePage}
               />
             </Box>
           )}

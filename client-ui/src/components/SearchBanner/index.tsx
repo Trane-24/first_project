@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
-// style
-import classes from './styles.module.scss';
-import BannerForm from './BannerForm';
 import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+// Components
+import BannerForm from './BannerForm';
+// MUI
 import { Box, Typography } from '@mui/material';
+// Styles
+import classes from './styles.module.scss';
 
 const sliderData = [
   { image: '/img/0.png', id: 1 },
@@ -54,8 +56,8 @@ const Banner: React.FC = () => {
           position: 'relative',
           zIndex: 1
         }}>
-          <Typography sx={{ fontSize: '40px' }}>Hotels, our new rental platform</Typography>
-          <Typography sx={{ fontSize: '18px' }}>Find your perfect Stay. We specialize in luxury vacation rentals. Let's get started on your next journey</Typography>
+          <Typography sx={{ fontSize: '40px' }}>Make your dream trip happen</Typography>
+          <Typography sx={{ fontSize: '18px' }}>augue neque gravida in fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla</Typography>
         </Box>
         <BannerForm isHomePage={isHomePage} />
       </div>
@@ -67,7 +69,7 @@ const Banner: React.FC = () => {
               alt="slide"
               className={classNames(
                 classes.img,
-                { [`${classes.imgAct}`] : index === currenSlide },
+                { [classes.imgAct]: index === currenSlide },
               )}
             />
         );

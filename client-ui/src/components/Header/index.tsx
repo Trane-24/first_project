@@ -10,7 +10,6 @@ import classes from './styles.module.scss';
 import TemporaryDrawer from 'components/Drawer';
 import PageNavLink from 'components/PageNavLink';
 
-
 const Header: React.FC = () => {
   return (
     <header className={classes.header}>

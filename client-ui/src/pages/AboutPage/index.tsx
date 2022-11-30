@@ -1,44 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+// utilites
+import { toTop } from 'utilites/utilites';
 // Styles
 import classes from './styles.module.scss';
 
 const AboutPage: React.FC = () => {
+
+  useEffect(() => {
+    toTop();
+  }, []);
+
   return (
     <section>
-      <div className={[classes.about, 'container'].join(' ')}>
+      <div className={[classes.block, 'container'].join(' ')}>
         <div>
           <h2 className={classes.title}>About</h2>
-          <p>With more than 30 years of combined experience delivering luxury vacations through our premium hotel partners, you can trust the owners of Hotels to ensure your vacation is everything you expect. We are travelers helping travelers, our expertise on all of our destinations offer our guests travel planning without unanswered questions.</p>
+          <p className={classes.subtitle}>mauris vitae ultricies leo integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis</p>
         </div>
 
-        <img src='img/about/about.png' alt='about'/>
+        <img src='img/about/about.jpeg' alt="about" className={classes.image} />
       </div>
-
-      <div className={classes.ourMission}>
-        <div className={[classes.ourMission_content, 'container'].join(' ')}>
-          <img src='img/about/ourMission.svg' alt='our_mission'/>
+  
+      <div style={{ backgroundColor: '#eee' }}>
+        <div className={[classes.ourMission, 'conainer'].join(' ')} >
+          <img src='img/about/ourMission.svg' alt="Our mission" />
           <h3 className={classes.title}>Our mission</h3>
-          <p>
-            is to offer our guests guidance, peace of mind and personal service throughout the vacation rental process.
-          </p>
+          <p>pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus</p>
         </div>
       </div>
 
-      <div className={[classes.hassleFreeTravel, 'container'].join(' ')}>
-        <img src='img/about/hassleFreeTravel.jpg' alt='hassleFreeTravel'/>
+      <div className={[classes.block, 'container'].join(' ')}>
+        <img src='img/about/hassleFreeTravel.jpg' alt="Hassle free travel" className={classes.image} />
         <div>
           <h3 className={classes.title}>Hassle free travel</h3>
-          <p>Travel has become more complex, with varying destination requirements and changing security measures, you can trust our staff to get you to your destination and back hassle free.</p>
+          <p className={classes.subtitle}>diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper</p>
         </div>
       </div>
 
-      <div className={classes.ourTeam}>
-        <div className={[classes.ourTeam_content, 'container'].join(' ')}>
+      <div style={{ backgroundColor: 'rgba(238, 238, 238, 0.6)' }}>
+        <div className={[classes.block, 'container'].join(' ')}>
           <div>
             <h3 className={classes.title}>Our team</h3>
-            <p>Hotels is an all-male team of Front-end technology specialists. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Saepe et omnis eaque nemo hic quae nulla iure enim</p>
+            <p className={classes.subtitle}>diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper</p>
           </div>
-          <img src='img/about/our-team.jpg' alt='our_team' />
+          <img src='img/about/our-team.jpeg' alt="our_team" className={classes.image} />
         </div>
       </div>
     </section>

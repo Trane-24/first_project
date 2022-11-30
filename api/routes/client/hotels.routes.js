@@ -14,7 +14,7 @@ router.get('/search', async (req, res) => {
     const params = { verified: true, $or: [{ name: {'$regex': regex} }, { country: {'$regex': regex} }, { city: {'$regex': regex} }] };
     if (hotelType) params['hotelType'] = { $in: hotelType.split(',') };
     const total = await Hotel.find(params).count();
-    const hotels = await Hotel.find(params, '-owner').skip((page-1)*limit).limit(limit)
+    const hotels = await Hotel.find(params, '-owner').sort({ _id: -1 }).skip((page-1)*limit).limit(limit)
       .populate('images', 'path')
       .populate({ path: 'hotelType', populate: { path: 'image' } })
 

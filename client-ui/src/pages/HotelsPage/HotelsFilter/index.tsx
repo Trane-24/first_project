@@ -38,7 +38,7 @@ const HotelsFilter: React.FC<Props> = ({ modal = false, onClose }) => {
   }, [])
 
   return (
-    <Paper style={{ minWidth: '280px', height : '556px', padding: '30px 0', boxShadow: 'rgb(0 0 0 / 8%) 0px 4px 32px' }}>
+    <Paper style={{ minWidth: '280px', padding: '30px 0', boxShadow: 'rgb(0 0 0 / 8%) 0px 4px 32px' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
         <Typography sx={{ pb: 1, pl: 2, fontSize: '22px', fontWeight: 500 }}>
           Filters

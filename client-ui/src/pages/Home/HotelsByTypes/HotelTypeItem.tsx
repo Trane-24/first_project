@@ -8,10 +8,10 @@ import { hotelsActions } from 'store/hotels/hotelsSlice';
 import { Box } from '@mui/material';
 // Models
 import IHotelType from 'models/HotelType';
-// Styles
-import classes from './styles.module.scss';
 // Ultiles
 import config from 'config';
+// Styles
+import classes from './styles.module.scss';
 
 interface Props {
   hotelType: IHotelType;

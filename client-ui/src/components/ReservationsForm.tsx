@@ -22,7 +22,7 @@ import IHotel from "models/Hotel";
 // Mui
 import { LoadingButton } from "@mui/lab";
 import { MobileDatePicker } from "@mui/x-date-pickers";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import {
   VisibilityOutlined as VisibilityOutlinedIcon,
   VisibilityOffOutlined as VisibilityOffOutlinedIcon
@@ -115,116 +115,117 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotel }) => {
   return (
     <React.Fragment>
       <Box sx={{p: {xs: 2, sm: 3, md: 5}, width: '100%'}}>
-        <Title>{`${hotel.name}`}</Title>
+        <Title>{`Reserve \`${hotel.name}\` hotel`}</Title>
 
-        {!currentUser && (
-          <React.Fragment>
-            <Title>Contact details</Title>
+        <form onSubmit={onSubmit} noValidate style={{ paddingTop: '20px' }}>
 
-            <Grid container spacing={1} sx={{ pt: 4, pb: 4 }}>
-              {/* email */}
-              <Grid item xs={12}>
-                <Controller
-                  control={control} name="email"
-                  rules={{ required: isRequired, pattern: isEmail }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Email"
-                      fullWidth
-                      required
-                      error={!!errors?.email}
-                      helperText={errors?.email ? errors.email.message : null}
-                    />
-                  )}
-                />
-              </Grid>
-              {/* firstName */}
-              <Grid item xs={12} md={6}>
-                <Controller
-                  control={control} name="firstName"
-                  rules={{ required: isRequired }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="First name"
-                      fullWidth
-                      required
-                      error={!!errors?.firstName}
-                      helperText={errors?.firstName?.message || ''}
-                    />
-                  )}
-                />
-              </Grid>
-              {/* lastName */}
-              <Grid item xs={12} md={6}>
-                <Controller
-                  control={control} name="lastName"
-                  rules={{ required: isRequired }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Last name"
-                      fullWidth
-                      required
-                      error={!!errors?.lastName}
-                      helperText={errors?.lastName?.message || ''}
-                    />
-                  )}
-                />
-              </Grid>
-              {/* phone */}
-              <Grid item xs={12}>
-                <Controller
-                  control={control} name="phone"
-                  rules={{ required: isRequired }}
-                  render={({ field: { value, onChange } }) => (
-                    <Phone
-                      value={value || ''}
-                      onChange={onChange}
-                      label="Phone"
-                      required
-                      error={!!errors?.phone}
-                      helperText={errors?.phone?.message || ''} 
-                    />
-                  )}
-                />
-              </Grid>
-              {/* password */}
-              <Grid item xs={12} sx={{ position: 'relative'}}>
-                <Controller
-                  control={control} name="password"
-                  rules={{  required: isRequired, pattern: isPassword }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Password"
-                      type={showPassword ? "text" : "password"}
-                      autoComplete="new-password"
-                      fullWidth
-                      required
-                      error={!!errors?.password}
-                      helperText={errors?.password ? errors.password.message : null}
-                    />
-                  )}
-                />
-                <Button
-                  sx={{ position: 'absolute', right: '0', height: '56px'}}
-                  onClick={handleShowPassword}
-                >
-                  {showPassword
-                    ? <VisibilityOffOutlinedIcon />
-                    : <VisibilityOutlinedIcon />
-                  }
-                </Button>
-              </Grid>
-            </Grid>
-          </React.Fragment>
-        )}
+          {!currentUser && (
+            <React.Fragment>
+              <Typography color="text.secondary">Contact details</Typography>
 
-        <Title>Request details</Title>
+              <Grid container spacing={1} sx={{ pt: 4, pb: 4 }}>
+                {/* email */}
+                <Grid item xs={12}>
+                  <Controller
+                    control={control} name="email"
+                    rules={{ required: isRequired, pattern: isEmail }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Email"
+                        fullWidth
+                        required
+                        error={!!errors?.email}
+                        helperText={errors?.email ? errors.email.message : null}
+                      />
+                    )}
+                  />
+                </Grid>
+                {/* firstName */}
+                <Grid item xs={12} md={6}>
+                  <Controller
+                    control={control} name="firstName"
+                    rules={{ required: isRequired }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="First name"
+                        fullWidth
+                        required
+                        error={!!errors?.firstName}
+                        helperText={errors?.firstName?.message || ''}
+                      />
+                    )}
+                  />
+                </Grid>
+                {/* lastName */}
+                <Grid item xs={12} md={6}>
+                  <Controller
+                    control={control} name="lastName"
+                    rules={{ required: isRequired }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Last name"
+                        fullWidth
+                        required
+                        error={!!errors?.lastName}
+                        helperText={errors?.lastName?.message || ''}
+                      />
+                    )}
+                  />
+                </Grid>
+                {/* phone */}
+                <Grid item xs={12}>
+                  <Controller
+                    control={control} name="phone"
+                    rules={{ required: isRequired }}
+                    render={({ field: { value, onChange } }) => (
+                      <Phone
+                        value={value || ''}
+                        onChange={onChange}
+                        label="Phone"
+                        required
+                        error={!!errors?.phone}
+                        helperText={errors?.phone?.message || ''} 
+                      />
+                    )}
+                  />
+                </Grid>
+                {/* password */}
+                <Grid item xs={12} sx={{ position: 'relative'}}>
+                  <Controller
+                    control={control} name="password"
+                    rules={{  required: isRequired, pattern: isPassword }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Password"
+                        type={showPassword ? "text" : "password"}
+                        autoComplete="new-password"
+                        fullWidth
+                        required
+                        error={!!errors?.password}
+                        helperText={errors?.password ? errors.password.message : null}
+                      />
+                    )}
+                  />
+                  <Button
+                    sx={{ position: 'absolute', right: '0', height: '56px'}}
+                    onClick={handleShowPassword}
+                  >
+                    {showPassword
+                      ? <VisibilityOffOutlinedIcon />
+                      : <VisibilityOutlinedIcon />
+                    }
+                  </Button>
+                </Grid>
+              </Grid>
+            </React.Fragment>
+          )}
 
-        <form onSubmit={onSubmit} noValidate>
+          <Typography color="text.secondary">Request details</Typography>
+
           <Grid container spacing={1} sx={{ pt: 4, pb: 4 }}>
             {/* startDate */}
             <Grid item xs={12}>

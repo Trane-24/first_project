@@ -1,22 +1,26 @@
 
 import React, {useEffect, useMemo} from 'react';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 // Hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useWindowDimensions } from 'hooks/useWindowDimensions';
-// Components
-import Title from 'components/Title';
+// Async
+import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
+// Selectors
+import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
+// Models
+import IHotelType from 'models/HotelType';
 // MUI
 import { Box } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
-import { fetchHotelTypes } from 'store/hotelTypes/hotelTypesAsync';
-// Styles
-import './styles.scss';
-import classNames from 'classnames';
+// Components
+import HotelTypeItem from './HotelTypeItem';
+import Title from 'components/Title';
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
-import IHotelType from 'models/HotelType';
-import HotelTypeItem from './HotelTypeItem';
+// Styles
+import './swiper.scss';
+import classes from './styles.module.scss';
 
 const HotelsByTypes: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +38,7 @@ const HotelsByTypes: React.FC = () => {
   }, [])
 
   return (
-    <Box className='hotelsByTypes'>
+    <Box className={classes.block}>
       <Box className={classNames({ container: width >= 1240 })}>
         <Title>Hotel types</Title>
         <Swiper
