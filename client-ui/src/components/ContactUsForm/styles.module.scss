@@ -27,17 +27,23 @@
   }
 }
 
-.getBtns {
+.getInTouch {
   display: flex;
   flex-direction: column;
   gap: 30px;
 
   @include onTablet {
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
   }
 
   @include onLaptop {
     justify-content: flex-start;
   }
+}
+
+.link {
+  display: flex;
+  gap: 8px;
 }

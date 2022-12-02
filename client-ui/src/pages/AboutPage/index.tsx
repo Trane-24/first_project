@@ -9,7 +9,6 @@ const AboutPage: React.FC = () => {
   useEffect(() => {
     toTop();
   }, []);
-
   return (
     <section>
       <div className={[classes.block, 'container'].join(' ')}>
@@ -22,7 +21,7 @@ const AboutPage: React.FC = () => {
       </div>
   
       <div style={{ backgroundColor: '#eee' }}>
-        <div className={[classes.ourMission, 'conainer'].join(' ')} >
+        <div className={[classes.ourMission, 'container'].join(' ')} >
           <img src='img/about/ourMission.svg' alt="Our mission" />
           <h3 className={classes.title}>Our mission</h3>
           <p>pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus</p>

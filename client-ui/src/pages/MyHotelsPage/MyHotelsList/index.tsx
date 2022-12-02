@@ -14,6 +14,7 @@ import MyHotelItem from "../MyHotelItem";
 import classes from './styles.module.scss';
 import { hotelsActions } from "store/hotels/hotelsSlice";
 import IHotel from "models/Hotel";
+import NoData from "components/NoData";
 
 const MyHotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -72,27 +73,34 @@ const MyHotelsList: React.FC = () => {
       {isLoading ? (
         <LinearProgress sx={{mt: 3, mb: 3}} />
       ) : (
-        <Box className={classes.list_content}>
-        <ul className={classes.list}>
-          {hotels?.map((hotel: IHotel) => (
-            <MyHotelItem hotel={hotel} key={hotel._id}/>
-          ))}
-        </ul>
+        <React.Fragment>
+          {!hotels?.length ? (
+            <NoData />
+          ) : (
+            <Box className={classes.list_content}>
+              <ul className={classes.list}>
+                {hotels?.map((hotel: IHotel) => (
+                  <MyHotelItem hotel={hotel} key={hotel._id}/>
+                ))}
+              </ul>
 
-        <Box>
-          <TablePagination
-            className={classes.pagination}
-            component="div"
-            labelRowsPerPage="Items"
-            count={total}
-            page={page - 1}
-            onPageChange={handleChangePage}
-            rowsPerPage={limit}
-            onRowsPerPageChange={handleChangeLimit}
-            rowsPerPageOptions={[15, 30, 50]}
-          />
-        </Box>
-      </Box>
+              <Box>
+                <TablePagination
+                  className={classes.pagination}
+                  component="div"
+                  labelRowsPerPage="Items"
+                  count={total}
+                  page={page - 1}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={limit}
+                  onRowsPerPageChange={handleChangeLimit}
+                  rowsPerPageOptions={[15, 30, 50]}
+                />
+              </Box>
+            </Box>
+          )}
+          
+        </React.Fragment>
       )}
 
     </div>

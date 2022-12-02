@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // Hooks
 import useDialog from 'hooks/useDialog';
+import { useWindowDimensions } from 'hooks/useWindowDimensions';
 // Selecgors
 import { selectIsAuthorization } from 'store/auth/authSelectors';
 // MUI
 import { Avatar, Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Logout } from '@mui/icons-material';
 // Icon
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
@@ -25,7 +27,6 @@ import SignInForm from 'components/SignIn.form';
 import SignUpForm from 'components/SignUp.form';
 import { selectCurrentUser } from 'store/users/usersSelectors';
 import { usersActions } from 'store/users/usersSlice';
-import { Logout } from '@mui/icons-material';
 import { authActions } from 'store/auth/authSlice';
 
 const UserMenu:React.FC = () => {
@@ -51,6 +52,11 @@ const UserMenu:React.FC = () => {
     dispatch(usersActions.removeCurrentUser());
   }
 
+  const { width } = useWindowDimensions();
+  const isMobile = useMemo(() => {
+    return width < 600;
+  }, [ width ])
+
   const { Dialog:SignInDialog, openDialog:openSignInDialog, closeDialog:closeSignInDialog } = useDialog();
   const { Dialog:SignUpDialog, openDialog:openSignUpDialog, closeDialog:closeSignUpDialog } = useDialog();
 
@@ -75,49 +81,32 @@ const UserMenu:React.FC = () => {
               alignItems: 'center',
               textAlign: 'center',
               cursor: 'pointer',
-              '@media (max-width: 600px)': {
-                display: 'none',
-              }
             }}
             onClick={handleClick}
           >
-            <Typography>{`Welcome, ${currentUser?.firstName}`}</Typography>
-            <Tooltip title="Account settings">
-              <IconButton
-                size="small"
-                sx={{ ml: 0.5 }}
-                aria-controls={open ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <ExpandMoreIcon sx={{ color: '#000' }} />
-              </IconButton>
-            </Tooltip>
-          </Box>
+            {isMobile ? (
+              <Tooltip title="Account settings">
+                <IconButton>
+                  <Avatar sx={{ backgroundColor: '#53B8E0' }}>{currentUser?.firstName.slice(0,1)}</Avatar>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <React.Fragment>
+              <Typography>{`Welcome, ${currentUser?.firstName}`}</Typography>
 
-          <Box
-            sx={{
-              display: 'none',
-              alignItems: 'center',
-              textAlign: 'center',
-              cursor: 'pointer',
-              '@media (max-width: 600px)': {
-                display: 'flex',
-              }
-            }}
-            onClick={handleClick}
-          >
-            <Tooltip title="Account settings">
-              <IconButton
-                size="small"
-                sx={{ ml: 0.5 }}
-                aria-controls={open ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <Avatar sx={{ backgroundColor: '#53B8E0' }}>{currentUser?.firstName.slice(0,1)}</Avatar>
-              </IconButton>
-            </Tooltip>
+              <Tooltip title="Account settings">
+                <IconButton
+                  size="small"
+                  sx={{ ml: 0.5 }}
+                  // aria-controls={open ? 'account-menu' : undefined}
+                  // aria-haspopup="true"
+                  // aria-expanded={open ? 'true' : undefined}
+                >
+                  <ExpandMoreIcon sx={{ color: '#000' }} />
+                </IconButton>
+              </Tooltip>
+            </React.Fragment>
+            )}
           </Box>
 
           <Menu

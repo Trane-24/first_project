@@ -9,6 +9,7 @@ import Phone from "components/Phone";
 // MUI
 import { Box, Button, Chip, Divider, Grid, TextField, Typography } from "@mui/material";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 // Utilites
 import { isCountLetters, isRequired } from "utilites/validation";
 // Styles
@@ -66,10 +67,6 @@ const ContactUsForm: React.FC = () => {
       </Dialog>
 
       <Box className={classes.contactUs}>
-          {/* <Box sx={{ textAlign: 'center' }}>
-            <Title>Contact us</Title>
-          </Box> */}
-
           <Box className={classes.contactUsContent}>
             <Title>Send us a message</Title>
             <form onSubmit={onSubmit} noValidate className={classes.form}>
@@ -194,24 +191,24 @@ const ContactUsForm: React.FC = () => {
                   <Chip label="OR" />
                 </Divider>
           
-                <Box className={classes.getBtns}>
+                <Box className={classes.getInTouch}>
                   <Title>Get in touch</Title>
 
-                  <Button
-                    variant="contained"
+                  <a
+                    className={classes.link}
                     href={'mailto:test@test.com'}
                   >
                     <EmailOutlinedIcon />
                     <Typography>test@test.com</Typography>
-                  </Button>
+                  </a>
 
-                  <Button
-                  variant="contained"
-                  href={'tel:+380999999999'}
+                  <a
+                    className={classes.link}
+                    href={'tel:+380999999999'}
                   >
-                    <EmailOutlinedIcon />
+                    <LocalPhoneOutlinedIcon />
                     <Typography>+380999999999</Typography>
-                  </Button>
+                  </a>
                 </Box>
               </React.Fragment>
             )}

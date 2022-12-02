@@ -1,20 +1,29 @@
-import { Box, Grid, TablePagination, LinearProgress,
-  Typography, MenuItem, Drawer, Chip, Pagination
-} from '@mui/material';
-import HotelItem from 'components/HotelItem';
-import Title from 'components/Title';
-import { useAppDispatch } from 'hooks/useAppDispatch';
-import IHotel from 'models/Hotel';
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchHotels } from 'store/hotels/hotelsAsync';
-import { selectHotels, selectParams, selectTotal } from 'store/hotels/hotelsSelectors';
-import { hotelsActions } from 'store/hotels/hotelsSlice';
-import classes from './styles.module.scss';
-import FilterListIcon from '@mui/icons-material/FilterList';
+// Hooks
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import NoData from 'components/NoData';
+// Components
+import HotelItem from 'components/HotelItem';
+import Title from 'components/Title';
 import HotelsFilter from '../HotelsFilter';
+// Async
+import { fetchHotels } from 'store/hotels/hotelsAsync';
+// Selectors
+import { selectHotels, selectParams, selectTotal } from 'store/hotels/hotelsSelectors';
 import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
+// Slice
+import { hotelsActions } from 'store/hotels/hotelsSlice';
+// Models
 import IHotelType from 'models/HotelType';
+import IHotel from 'models/Hotel';
+// MUI
+import { Box, Grid, LinearProgress,
+  Typography, MenuItem, Drawer, Chip, Pagination
+} from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
+// Styles
+import classes from './styles.module.scss';
 
 const HotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -106,7 +115,7 @@ const HotelsList: React.FC = () => {
       ) : (
         <Box>
           {isEmptyFilter && !hotels?.length ? (
-            <p>Empty List</p>
+            <NoData />
           ) : !isEmptyFilter && !hotels?.length ? (
             <p>No data matching your search or filter criteria</p>
           ) : (

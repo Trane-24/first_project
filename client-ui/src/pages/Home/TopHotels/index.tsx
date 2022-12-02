@@ -7,16 +7,18 @@ import { useWindowDimensions } from 'hooks/useWindowDimensions';
 import HotelItem from 'components/HotelItem';
 import Title from 'components/Title';
 // MUI
-import { Box } from '@mui/material';
+import { Box, MenuItem } from '@mui/material';
 import IHotel from 'models/Hotel';
 import { fetchTopHotels } from 'store/hotels/hotelsAsync';
 import { selectHotels } from 'store/hotels/hotelsSelectors';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 // Styles
 import './styles.scss';
 import classNames from 'classnames';
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { NavLink } from 'react-router-dom';
 
 const TopHotels: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -40,7 +42,15 @@ const TopHotels: React.FC = () => {
   return (
     <Box className='topHotels'>
       <Box className={classNames({ container: width >= 1240 })}>
-        <Title>Top Hotels</Title>
+        <Box className="header">
+          <Title>Top Hotels</Title>
+
+          <NavLink to="/hotels" className="btn">
+            View All
+            <ArrowForwardOutlinedIcon />
+          </NavLink>
+        </Box>
+
         <Swiper
           style={{ padding: ' 30px 3px 3px' }}
           slidesPerView={slidesPerViewCount}

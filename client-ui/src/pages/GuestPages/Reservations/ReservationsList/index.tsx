@@ -16,6 +16,7 @@ import ReservationsItem from "../ReservationItem";
 import classes from './styles.module.scss';
 // Types
 import ReservationStatuses from "types/ReservationStatuses";
+import NoData from "components/NoData";
 
 const ReservationsList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -77,28 +78,34 @@ const ReservationsList: React.FC = () => {
       {isLoading ? (
         <LinearProgress sx={{mt: 3, mb: 3}} />
       ) : (
-        <Box className={classes.list_content}>
-        <ul className={classes.list}>
-          {reservations?.map(reservation => (
-            <ReservationsItem reservation={reservation} key={reservation._id}/>
-          ))}
-        </ul>
+        <React.Fragment>
+          {!reservations?.length ? (
+            <NoData />
+          ) : (
+            <Box className={classes.list_content}>
+              <ul className={classes.list}>
+                {reservations?.map(reservation => (
+                  <ReservationsItem reservation={reservation} key={reservation._id}/>
+                ))}
+              </ul>
 
-        <Box>
-          <TablePagination
-            className={classes.pagination}
-            component="div"
-            labelRowsPerPage="Items"
-            count={total}
-            page={page - 1}
-            onPageChange={handleChangePage}
-            rowsPerPage={limit}
-            onRowsPerPageChange={handleChangeLimit}
-            rowsPerPageOptions={[15, 30, 50]}
-          />
-        </Box>
-
-      </Box>
+              <Box>
+                <TablePagination
+                  className={classes.pagination}
+                  component="div"
+                  labelRowsPerPage="Items"
+                  count={total}
+                  page={page - 1}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={limit}
+                  onRowsPerPageChange={handleChangeLimit}
+                  rowsPerPageOptions={[15, 30, 50]}
+                />
+              </Box>
+            </Box>
+          )}
+          
+        </React.Fragment>
       )}
 
     </div>

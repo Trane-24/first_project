@@ -37,7 +37,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=3000 react-scripts start",
+    "start": "cross-env PORT=3000 react-scripts start",
     "test": "nodemon ./App/App.test.tsx"
   },
   "eslintConfig": {
@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "cross-env": "^7.0.3"
   }
 }

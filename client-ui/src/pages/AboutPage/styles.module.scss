@@ -3,7 +3,13 @@
 .block {
   padding: 60px 0;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 40px;
+
+  @include on900 {
+    flex-direction: row;
+  }
 }
 
 .ourMission {
@@ -32,8 +38,12 @@
 }
 
 .image {
-  width: 50%;
+  width: 100%;
   border-radius: 8px;
   height: 350px;
   object-fit: cover;
+
+  @include on900 {
+    width: 50%;
+  }
 }

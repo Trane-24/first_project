@@ -80,7 +80,7 @@ const HotelInfo: React.FC = () => {
         <ReservationForm onClose={closeDialogForm} hotel={hotel} />
       </DialogForm>
 
-      <DialogSwiper maxWidth="md">
+      <DialogSwiper maxWidth="lg">
         <PhotoSwiper images={hotel.images} onClose={closeDialogSwiper} />
       </DialogSwiper>
 
