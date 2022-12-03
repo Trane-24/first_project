@@ -106,7 +106,7 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 196px)',
+    maxHeight: 'calc(100vh - 277px)',
     overflowY: 'scroll',
     '@media (min-width: 600px)': {
       maxHeight: 'calc(100vh - 216px)',
@@ -116,7 +116,6 @@ const useStyles = makeStyles({
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
   image: {
-    // objectFit: 'contain',
     maxHeight: 'calc(100vh - 202px)',
     '@media (min-width: 600px)': {
       maxHeight: 'calc(100vh - 222px)',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 // hooks
 import useDialog from 'hooks/useDialog';
@@ -17,16 +17,29 @@ import {
 } from '@mui/material';
 // Components
 import HotelsForm from './HotelsForm';
+import { makeStyles } from '@mui/styles';
 
 const HotelHeader:React.FC = () => {
   const dispatch = useAppDispatch();
   // State
   const hotelTypes = useSelector(selectHotelTypes);
   const params = useSelector(selectParams);
+  // Styles
+  const classes = useStyles();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeType = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: hotelType } = e.target;
     dispatch(fetchHotels({ ...params, hotelType, page: 1 }));
+  }
+
+  const onChangeStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: verified } = e.target;
+    // setStatus(verified);
+    dispatch(fetchHotels({
+      ...params,
+      verified,
+      page: 1
+    }));
   }
 
   useEffect(() => {
@@ -42,16 +55,16 @@ const HotelHeader:React.FC = () => {
         <HotelsForm onClose={closeDialog} />
       </Dialog>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <Typography variant='h5'>Hotels</Typography>
-        <Box>
+      <Box className={classes.header}>
+        <Typography variant='h5' className={classes.title}>Hotels</Typography>
+        <Box className={classes.headerContent}>
           <TextField
             select
             label="Hotel Types"
-            sx={{ width: '200px', pr: 1}}
+            className={classes.textFild}
             size='small'
             value={params.hotelType}
-            onChange={onChange}
+            onChange={onChangeType}
           >
             <MenuItem value=" ">
               Any
@@ -63,8 +76,30 @@ const HotelHeader:React.FC = () => {
             ))}
           </TextField>
 
+          <TextField
+            select
+            label="Verified"
+            className={classes.textFild}
+            size='small'
+            value={params.verified}
+            onChange={onChangeStatus}
+          >
+            <MenuItem value=" ">
+              All
+            </MenuItem>
+              
+            <MenuItem value={'true'}>
+              Verified
+            </MenuItem>
+
+            <MenuItem value={'false'}>
+              Unverified
+            </MenuItem>
+          </TextField>
+
           <Button
             sx={{ height: '40px' }}
+            size='small'
             variant='contained'
             onClick={openDialog}
           >
@@ -77,3 +112,42 @@ const HotelHeader:React.FC = () => {
 }
 
 export default HotelHeader;
+
+const useStyles = makeStyles({
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    '@media (min-width: 700px)': {
+      flexDirection: 'row',
+    }
+  },
+  title: {
+    alignSelf: 'flex-start',
+    marginBottom: '10px',
+    '@media (min-width: 700px)': {
+      marginBottom: '0',
+      alignSelf: 'center',
+    }
+  },
+  headerContent: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    // alignItems: 'stretch',
+    gap: '10px',
+    '@media (min-width: 700px)': {
+      flexDirection: 'row',
+      width: 'max-content',
+    }
+  },
+  textFild: {
+    width: '100%',
+    paddingRight: '0',
+    '@media (min-width: 700px)': {
+      width: '200px',
+      paddingRight: '8px',
+    }
+  }
+});

@@ -70,7 +70,7 @@ export const updateHotel = createAsyncThunk('hotels/Update hotels', async (data:
     if (images.length) {
       nextData['imagesIds'] = images.map((asset: IAsset) => asset._id);
     }
-    console.log(nextData)
+
     const { data: hotel } = await HttpService.put(`${url}/${hotelId}`, nextData)
     return hotel;
   } catch (e: any) {

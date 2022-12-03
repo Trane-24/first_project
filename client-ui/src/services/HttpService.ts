@@ -5,7 +5,7 @@ class HttpService {
   public static async get(path: string, params: any = {}) {
     const nextParams = new URLSearchParams();
     Object.keys(params).forEach((key: string) => {
-      if (params[key] || key === 'verified') {
+      if (params[key]) {
         nextParams.append(key, params[key])
       }
     });

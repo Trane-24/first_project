@@ -96,9 +96,9 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 202px)',
+    maxHeight: 'calc(100vh - 343px)',
     overflowY: 'scroll',
-    '@media (min-width: 600px)': {
+    '@media (min-width: 700px)': {
       maxHeight: 'calc(100vh - 222px)',
     },
   },

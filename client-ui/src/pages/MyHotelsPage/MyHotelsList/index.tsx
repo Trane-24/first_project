@@ -19,7 +19,7 @@ import NoData from "components/NoData";
 const MyHotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
   // State
-  const [tabValue, setTabValue] = useState<string>('verified');
+  const [tabValue, setTabValue] = useState<string>('true');
   const params = useSelector(selectParams);
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const MyHotelsList: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchCurrentUserHotels({
-      verified: tabValue === 'verified',
+      verified: tabValue,
       limit: limit,
       page: page,
     }))
@@ -66,8 +66,8 @@ const MyHotelsList: React.FC = () => {
   return (
     <div>
       <Tabs value={tabValue} onChange={handleTabValue} centered>
-        <Tab label="Verified" value="verified" />
-        <Tab label="Not verified" value="notVerified" />
+        <Tab label="Verified" value="true" />
+        <Tab label="Not verified" value="false" />
       </Tabs>
 
       {isLoading ? (

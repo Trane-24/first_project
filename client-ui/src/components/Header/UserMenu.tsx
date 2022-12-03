@@ -7,7 +7,7 @@ import { useWindowDimensions } from 'hooks/useWindowDimensions';
 // Selecgors
 import { selectIsAuthorization } from 'store/auth/authSelectors';
 // MUI
-import { Avatar, Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Logout } from '@mui/icons-material';
 // Icon
@@ -17,6 +17,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 // Style
 import classes from './styles.module.scss';
 // Services
@@ -71,9 +72,9 @@ const UserMenu:React.FC = () => {
   
       {isAuthorization ? (
         <React.Fragment>
-          <MenuItem sx={{ mr: 1}}>
+          <IconButton sx={{ mr: 1}}>
             <SupportAgentIcon />
-          </MenuItem>
+          </IconButton>
 
           <Box
             sx={{
@@ -87,7 +88,7 @@ const UserMenu:React.FC = () => {
             {isMobile ? (
               <Tooltip title="Account settings">
                 <IconButton>
-                  <Avatar sx={{ backgroundColor: '#53B8E0' }}>{currentUser?.firstName.slice(0,1)}</Avatar>
+                  <AccountCircleOutlinedIcon />
                 </IconButton>
               </Tooltip>
             ) : (

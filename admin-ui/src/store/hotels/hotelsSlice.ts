@@ -15,6 +15,7 @@ const initialState: IState = {
     limit: 20,
     page: 1,
     hotelType: ' ',
+    verified: ' ',
   }
 };
 

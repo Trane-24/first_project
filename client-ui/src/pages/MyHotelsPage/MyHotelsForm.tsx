@@ -41,7 +41,6 @@ interface IForm {
 }
 
 const MyHotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
-  console.log(hotel)
   const dispatch = useAppDispatch();
 
   const currentUser = useSelector(selectCurrentUser);

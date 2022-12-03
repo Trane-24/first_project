@@ -17,7 +17,7 @@ import { selectCurrentUser } from 'store/users/usersSelectors';
 import UserRoles from 'types/UserRoles';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
 // utilites
 import { isEmail, isMatch, isRequired } from 'utilites/validation';
 import MessageInfo from 'components/MessageInfo';
@@ -116,10 +116,10 @@ const ProfilePage: React.FC = () => {
   });
 
   return (
-    <Paper variant="outlined" sx={{ margin: '80px auto 0', maxWidth: '600px', p: 5}}>
+    <Paper variant="outlined" sx={{ margin: '0 auto', maxWidth: '600px', p: {xs: 1, sm: 3}}}>
       <Title>Profile</Title>
       <form onSubmit={onSubmit} noValidate>
-          <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
+          <Grid container columnSpacing={1} rowSpacing={0} sx={{ pb: 4 }}>
             {/* firstName */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -203,18 +203,16 @@ const ProfilePage: React.FC = () => {
                     helperText={errors.newPassword && confirmPass !== '' && errors.newPassword.type === 'required'
                       ? errors.newPassword.message : ''
                     }
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton onClick={handeShowPassword}>
+                          {showPassword ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
+                        </IconButton>
+                      )
+                    }}
                   />
                 )}
               />
-              <Button
-                sx={{ position: 'absolute', right: '0', top: '32px', height: '56px'}}
-                onClick={handeShowPassword}
-              >
-                {showPassword
-                  ? <VisibilityOffOutlinedIcon />
-                  : <VisibilityOutlinedIcon />
-                }
-              </Button>
             </Grid>
 
             {/* confirmPassword */}
@@ -238,18 +236,16 @@ const ProfilePage: React.FC = () => {
                     helperText={errors.confirmPassword && newPass !== '' && errors.confirmPassword.type === 'required'
                       ? errors.confirmPassword.message : ''
                     }
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton onClick={handeShowPassword2}>
+                          {showPassword2 ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
+                        </IconButton>
+                      )
+                    }}
                   />
                 )}
               />
-              <Button
-                sx={{ position: 'absolute', right: '0', top: '32px', height: '56px'}}
-                onClick={handeShowPassword2}
-              >
-                {showPassword2
-                  ? <VisibilityOffOutlinedIcon />
-                  : <VisibilityOutlinedIcon />
-                }
-              </Button>
             </Grid>
 
             <Grid item xs={12}>

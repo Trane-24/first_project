@@ -35,8 +35,6 @@ type Props = {
 }
 
 const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
-  console.log(hotel);
-  
   const classes = useStyle();
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -132,22 +130,22 @@ const HotelItem:React.FC<Props> = ({ hotel, onClose }) => {
               <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotel.name}</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid item xs={12} sm={6} md={2} className={classes.item}>
               <Typography className={classes.title}>Hotel type</Typography>
               <Typography>{hotel.hotelType ? hotel.hotelType.name : '-'}</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid item xs={12} sm={6} md={2} className={classes.item}>
               <Typography className={classes.title}>Country</Typography>
               <Typography>{hotel.country ? hotel.country : '-'}</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid item xs={12} sm={6} md={2} className={classes.item}>
               <Typography className={classes.title}>City</Typography>
               <Typography>{hotel.city ? hotel.city : '-'}</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid item xs={12} sm={6} md={2} className={classes.item}>
               <Typography className={classes.title}>Owner</Typography>
               <Typography>{`${hotel.owner.firstName} ${hotel.owner.lastName}`}</Typography>
             </Grid>
@@ -230,15 +228,18 @@ const useStyle = makeStyles({
     letterSpacing: '0.17px',
     color: 'rgba(0, 0, 0, 0.87)',
   },
-  // info: {
-  //   display: 'flex',
-  //   alignItems: 'center'
-  //   // flexDerection: 'colum',
-  // },
   img: {
     width: '100%',
     height: '100%',
     maxHeight: '200px',
     objectFit: 'cover',
-  }
+  },
+  item: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    '@media (min-width: 600px)': {
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+    },
+  },
 });
