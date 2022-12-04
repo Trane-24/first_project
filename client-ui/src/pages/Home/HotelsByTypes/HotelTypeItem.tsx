@@ -23,6 +23,7 @@ const HotelTypeItem: React.FC<Props> = ({ hotelType }) => {
   const addHotelType = (value: string) => {
     dispatch(hotelsActions.changeHotelType(value));
   };
+  console.log(hotelType)
 
   const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path}` : '/img/hotel-no-available.png';
 

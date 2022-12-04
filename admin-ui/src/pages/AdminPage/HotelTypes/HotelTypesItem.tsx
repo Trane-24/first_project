@@ -94,11 +94,11 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
           <Grid item xs={12} sm={4} sx={{ order: { xs: 3, sm: 0}}}>
             <img className={classes.img} src={imgUrl} alt={hotelType.name} />
           </Grid>
-          <Grid item xs={4} sm={2}>
+          <Grid item xs={11} sm={2}>
             <Typography className={classes.title}>Type name</Typography>
             <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotelType.name}</Typography>
           </Grid>
-          <Grid item xs={7} sm={5}>
+          <Grid item xs={12} sm={5} sx={{order: { xs: 3, sm: 0}}}>
             <Typography className={classes.title}>Description</Typography>
             <Typography>{hotelType.description || '-'}</Typography>
           </Grid>

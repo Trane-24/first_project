@@ -48,11 +48,22 @@ const HotelTypesList:React.FC<Props> = ({ ownerId }) => {
 
   return (
     <Box className={classes.list}>
-      <Box className={classes.items}>
-        {hotelTypes.map((hotelType: IHotelType) => (
-          <HotelTypesItem key={hotelType._id} hotelType={hotelType} />
-        ))}
-      </Box>
+      {!!hotelTypes.length ? (
+        <Box className={classes.items}>
+          {hotelTypes.map((hotelType: IHotelType) => (
+            <HotelTypesItem key={hotelType._id} hotelType={hotelType} />
+          ))}
+        </Box>
+      ) : (
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+          <p style={{ position: 'absolute'}}>List is empty</p>
+          <img
+            className={classes.image}
+            src="/images/list_is_empty.jpg"
+            alt="reservation_is_empty"
+          />
+        </div>
+      )}
     </Box>
   )
 }
@@ -78,4 +89,10 @@ const useStyles = makeStyles({
     marginTop: '6px',
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
+  image: {
+    maxHeight: 'calc(100vh - 148px)',
+    '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 156px)',
+    },
+  }
 })
