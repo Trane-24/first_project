@@ -93,7 +93,7 @@ const UserItem: React.FC<Props> = ({ user }) => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Typography className={classes.title}>Phone</Typography>
-            <Typography className={classes.text}>{user.phone ? formatPhone(user.phone) : ''}</Typography>
+            <Typography className={classes.text}>{user.phone ? formatPhone(user.phone) : '-'}</Typography>
           </Grid>
 
           <Grid item xs={2} md={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 } }}>

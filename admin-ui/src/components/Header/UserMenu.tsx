@@ -49,12 +49,14 @@ const UserMenu:React.FC = () => {
             </IconButton>
           </Box>
         ) : (
-          <Box ref={menuRef} sx={{display: 'flex'}}>
+          <React.Fragment>
             <Typography sx={{ color: '#fff' }}>
               {`Welcome, ${currentUser?.firstName} ${currentUser?.lastName}`}
             </Typography>
-            <ExpandMoreIcon sx={{ color: '#fff' }} />
-          </Box>
+            <Box ref={menuRef} sx={{display: 'flex'}}>
+              <ExpandMoreIcon sx={{ color: '#fff' }} />
+            </Box>
+          </React.Fragment>
         )}
        
       </Box>
