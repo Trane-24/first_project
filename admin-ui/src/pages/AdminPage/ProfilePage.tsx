@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
@@ -7,6 +7,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 // components
 import Title from 'components/Title';
 import Phone from 'components/Phone';
+import MessageInfo from 'components/MessageInfo';
 // actions
 import { appActions } from 'store/app/appSlice';
 // async
@@ -17,12 +18,11 @@ import { selectCurrentUser } from 'store/users/usersSelectors';
 import UserRoles from 'types/UserRoles';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
-// utilites
-import { isEmail, isMatch, isRequired } from 'utilites/validation';
-import MessageInfo from 'components/MessageInfo';
+import { Box, Grid, IconButton, Paper, TextField } from '@mui/material';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+// utilites
+import { isEmail, isMatch, isRequired } from 'utilites/validation';
 
 interface IForm {
   firstName: string;
@@ -78,12 +78,14 @@ const ProfilePage: React.FC = () => {
   }, [newPass]);
 
   const passwrdHas1SpecialChar = useMemo(() => {
+    // eslint-disable-next-line
     const isSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPass || '');
     return newPass ? isSpecial : false;
   }, [newPass]);
 
   const passwordIsCorrect = useMemo(() => {
     return passwordHas8Characters && passwordHas1UpperChar && passwrdHas1SpecialChar;
+    // eslint-disable-next-line
   }, [newPass]);
 
   const onSubmit = handleSubmit((data: IForm) => {

@@ -50,6 +50,7 @@ const ReservationHeader: React.FC = () => {
     return () => {
       dispatch(reservationAction.setInitialField('params'));
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

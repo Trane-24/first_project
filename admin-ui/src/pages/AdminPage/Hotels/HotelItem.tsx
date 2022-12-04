@@ -17,7 +17,7 @@ import HotelsForm from "./HotelsForm";
 // MUI
 import { makeStyles } from "@mui/styles";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Divider,
+  Accordion, AccordionDetails, AccordionSummary, Divider,
   Grid, IconButton, Menu, MenuItem, Tooltip, Typography
 } from "@mui/material";
 import {

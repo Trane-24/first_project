@@ -15,10 +15,9 @@ import ReservationStatuses from 'types/ReservationStatuses';
 import { makeStyles } from '@mui/styles';
 import {
   Accordion, AccordionDetails, AccordionSummary, Box,
-  Button,
-  Chip,
-  Divider, Grid, IconButton, Link, ListItemIcon, Menu,
-  MenuItem, Tooltip, Typography
+  Button, Chip, Divider, Grid, IconButton,
+  ListItemIcon, Menu, MenuItem, Tooltip,
+  Typography
 } from '@mui/material';
 import {
   DeleteOutline as DeleteOutlineIcon,

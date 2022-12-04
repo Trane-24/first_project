@@ -15,7 +15,7 @@ import UserRoles from 'types/UserRoles';
 import Phone from 'components/Phone';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 // utilites
 import { isEmail, isRequired } from 'utilites/validation';
 

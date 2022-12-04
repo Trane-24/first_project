@@ -13,7 +13,7 @@ import UserRoles from 'types/UserRoles';
 // Components
 import UsersForm from './UsersForm';
 // MUI
-import { Box, Button, TextField, Typography, debounce, Grid } from '@mui/material';
+import { Box, Button, TextField, Typography, debounce } from '@mui/material';
 // utilites
 import { capitalizeFirstLetter } from 'utilites/stringFormatter';
 import { makeStyles } from '@mui/styles';
