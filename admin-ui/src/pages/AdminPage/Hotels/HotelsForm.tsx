@@ -246,7 +246,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
       </DialogContent>
 
       <DialogActions>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
           <Button variant="outlined" onClick={onClose}>
             Cancel
           </Button>
@@ -256,7 +256,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
             variant="contained"
             onClick={onSubmit}
           >
-            {`${hotel ? 'Update' : 'Create'} Hotel`}
+            {hotel ? 'Save' : 'Create'}
           </LoadingButton>
         </Box>
       </DialogActions>

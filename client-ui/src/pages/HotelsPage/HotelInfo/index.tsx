@@ -145,7 +145,7 @@ const HotelInfo: React.FC = () => {
             </Box>
 
             <Box className={classes.info}>
-              <Grid container>
+              <Grid container spacing={2}>
                 <Grid item xs={12} sm={4} className={classes.info_item}>
                   <Typography className={classes.subtitle}>Country</Typography>
                   <Typography>{country}</Typography>

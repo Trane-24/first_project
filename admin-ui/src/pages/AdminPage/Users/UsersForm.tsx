@@ -72,7 +72,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   return (
     <React.Fragment>
       <DialogTitle>
-        <Typography variant="h5">{`${user ? 'Update' : 'Create'} user`}</Typography>
+        <Typography variant="h5">{`${user ? 'Update' : 'Create'} ${user ? user.role : role}`}</Typography>
       </DialogTitle>
 
       <DialogContent dividers>
@@ -142,7 +142,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
         </form>
       </DialogContent>
 
-      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
         <Button
           variant="outlined"
           onClick={onClose}
@@ -153,7 +153,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
           loading={isLoading}
           onClick={onSubmit}
           variant='contained'
-        >{`${user ? 'Update' : 'Create'} user`}</LoadingButton>
+        >{user ? 'Save' : 'Create'}</LoadingButton>
       </DialogActions>
     </React.Fragment>
   );

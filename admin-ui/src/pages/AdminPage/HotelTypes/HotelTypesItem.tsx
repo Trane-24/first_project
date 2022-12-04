@@ -117,12 +117,12 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
             >
               <MenuItem component="div" onClick={handleOpenEditModal} sx={{ display: 'flex', gap: 1.5 }}>
                 <EditIcon fontSize="small" />
-                Edit
+                Edit hotel type
               </MenuItem>
 
               <MenuItem component="div" onClick={handleOpenDeleteModal} sx={{ display: 'flex', gap: 1 }}>
                 <DeleteOutlineIcon />
-                Delete
+                Delete hotel type
               </MenuItem>
             </Menu>
           </Grid>

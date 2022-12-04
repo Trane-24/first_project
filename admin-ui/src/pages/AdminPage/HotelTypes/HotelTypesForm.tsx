@@ -117,7 +117,7 @@ const HotelTypesForm: React.FC<Props> = ({ hotelType, onClose }) => {
         </form>
       </DialogContent>
 
-      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
+      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
@@ -127,7 +127,7 @@ const HotelTypesForm: React.FC<Props> = ({ hotelType, onClose }) => {
           variant="contained"
           onClick={onSubmit}
         >
-          {hotelType ? 'Update' : 'Create'}
+          {hotelType ? 'Save' : 'Create'}
         </LoadingButton>
       </DialogActions>
     </React.Fragment>

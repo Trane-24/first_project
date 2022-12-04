@@ -139,7 +139,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
       </DialogOwner>
 
       <DialogHotel maxWidth="md">
-        <HotelItem hotel={reservation.hotel} onClose={closeDialogHotel}/>
+        <HotelItem hotel={reservation.hotel} onClose={closeDialogHotel} defaultExpanded={true} />
       </DialogHotel>
 
       <Accordion disableGutters>
@@ -151,23 +151,30 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
           onClick={handleIsActive}
         >
             <Grid container sx={{ display: 'flex', alignItems: 'center'}} spacing={2}>
-              <Grid item xs={11} sm={4} sx={{ order: { xs: -2, sm: 0}}}>
+              <Grid item xs={11} md={4} sx={{ order: { xs: -1, md: 0 }}}>
                 <Typography sx={{ fontWeight: 600 }}>{reservation.hotel.name}</Typography>
               </Grid>
 
-              <Grid item xs={12} sm={3}>
-                <Typography className={classes.title}>
-                  Date
-                </Typography>
-                <Typography className={classes.text}>
-                  {formatStartAndEndDates(reservation.startDate, reservation.endDate)}
-                </Typography>
-                {reservation.status === ReservationStatuses.Submitted && <Chip size="small" color="info" label="Submitted" icon={<DoneIcon />} />}
-                {reservation.status === ReservationStatuses.Cancelled && <Chip size="small" color="error" label="Cancelled" icon={<CloseIcon />} />}
-                {reservation.status === ReservationStatuses.Completed && <Chip size="small" color="success" label="Completed" icon={<DoneAllIcon />} />}
+              <Grid item xs={12} md={3}>
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'row', sm: 'column' }, justifyContent: 'space-between' }}>
+                  <Typography className={classes.title} sx={{ display: { sm: 'none' } }}>
+                    Date
+                  </Typography>
+                  <Typography className={classes.text}>
+                    {formatStartAndEndDates(reservation.startDate, reservation.endDate)}
+                  </Typography>
+                </Box>
+                <Box sx={{ pt: { xs: 2, md: 0.5 }, display: 'flex', flexDirection: { xs: 'row', sm: 'column' }, justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <Typography className={classes.title} sx={{ display: { sm: 'none' } }}>
+                    Status
+                  </Typography>
+                  {reservation.status === ReservationStatuses.Submitted && <Chip size="small" color="info" label="Submitted" icon={<DoneIcon />} />}
+                  {reservation.status === ReservationStatuses.Cancelled && <Chip size="small" color="error" label="Cancelled" icon={<CloseIcon />} />}
+                  {reservation.status === ReservationStatuses.Completed && <Chip size="small" color="success" label="Completed" icon={<DoneAllIcon />} />}
+                </Box>
               </Grid>
 
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={12} sm={6} md={2} sx={{ display: 'flex', flexDirection: { xs: 'row', sm: 'column' }, justifyContent: 'space-between' }}>
                 <Typography className={classes.title}>
                   Owner
                 </Typography>
@@ -176,7 +183,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={6} sm={2}>
+              <Grid item xs={12} sm={6} md={2} sx={{ display: 'flex', flexDirection: { xs: 'row', sm: 'column' }, justifyContent: 'space-between' }}>
                 <Typography className={classes.title}>
                   Guest
                 </Typography>
@@ -185,7 +192,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, sm: 0 } }}>
+              <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 } }}>
                 <Tooltip title="User menu" ref={menuRef}>
                   <IconButton onClick={handleOpenMenu}>
                     <MoreVertIcon />
@@ -205,14 +212,14 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 <ListItemIcon>
                   <EditIcon fontSize='small'/>
                 </ListItemIcon>
-                Edit
+                Edit reservation
               </MenuItem>
 
               <MenuItem component="div" onClick={handleOpenDeleteModal}>
                 <ListItemIcon>
                   <DeleteOutlineIcon />
                 </ListItemIcon>
-                Delete
+                Delete reservation
               </MenuItem>
             </Menu>
         </AccordionSummary>
@@ -220,7 +227,7 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
         <AccordionDetails sx={{ backgroundColor: isActive ? '#ededed' : '#fff' }}>
           <Divider sx={{ mb: 2 }} />
 
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item xs={8}>
               <Typography className={classes.title}>
                 Notes

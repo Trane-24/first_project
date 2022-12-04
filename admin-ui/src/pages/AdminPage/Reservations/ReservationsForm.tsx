@@ -335,7 +335,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
         </form>
       </DialogContent>
 
-      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
+      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
@@ -345,7 +345,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
           variant="contained"
           onClick={onSubmit}
         >
-          {`${reservation ? 'Update' : 'Add'} reservation`}
+          {reservation ? 'Save' : 'Create'}
         </LoadingButton>
       </DialogActions>
 
