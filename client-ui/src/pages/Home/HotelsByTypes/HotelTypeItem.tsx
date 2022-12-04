@@ -23,17 +23,16 @@ const HotelTypeItem: React.FC<Props> = ({ hotelType }) => {
   const addHotelType = (value: string) => {
     dispatch(hotelsActions.changeHotelType(value));
   };
-  console.log(hotelType)
 
-  const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path}` : '/img/hotel-no-available.png';
+  const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path.replace('\\', '/')}` : '/img/hotel-no-available.png';
 
   return (
     <Link to={`/hotels`} onClick={() => addHotelType(hotelType._id)}>
       <Box className={classes.item}>
-        <div style={{
-           backgroundImage:
-           `linear-gradient(0deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.5) 100%), url(${imgUrl})`,
-        }} className={classes.img}/>
+        <div
+          style={{ backgroundImage: `linear-gradient(0deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.5) 100%), url('${imgUrl}')` }}
+          className={classes.img}
+        />
         <h4 className={classes.title}>{hotelType.name}</h4>
       </Box>
     </Link>
