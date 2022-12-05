@@ -7,7 +7,7 @@ import { Box, Tab, Tabs, LinearProgress, TablePagination } from "@mui/material";
 // Asyncs
 import { fetchCurrentUserHotels } from "store/hotels/hotelsAsync";
 // Selectors
-import { selectHotels, selectParams, selectTotal } from "store/hotels/hotelsSelectors";
+import { selectHotels, selectMyHotels, selectMyHotelsTotal, selectParams, selectTotal } from "store/hotels/hotelsSelectors";
 // Components
 import MyHotelItem from "../MyHotelItem";
 // Styles
@@ -20,17 +20,17 @@ const MyHotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
   // State
   const [tabValue, setTabValue] = useState<string>('true');
-  const params = useSelector(selectParams);
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(params.page);
-  const [limit, setLimit] = useState<number>(params.limit);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(20);
   // Selectors
-  const total = useSelector(selectTotal);
+  const total = useSelector(selectMyHotelsTotal);
 
   const handleTabValue = (_: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
     setPage(1);
+    setLimit(20);
   };
 
   const handleChangePage = (_: any, num: number) => {
@@ -42,7 +42,7 @@ const MyHotelsList: React.FC = () => {
     setPage(1);
   }
 
-  const hotels = useSelector(selectHotels);
+  const hotels = useSelector(selectMyHotels);
 
   useEffect(() => {
     setIsLoading(true);
@@ -58,7 +58,8 @@ const MyHotelsList: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(hotelsActions.setInitialField('params'));
+      dispatch(hotelsActions.setInitialField('myHotels'));
+      dispatch(hotelsActions.setInitialField('myHotelsTotal'));
     }
     // eslint-disable-next-line
   }, [])

@@ -12,6 +12,7 @@ import HotelInfo from 'pages/HotelsPage/HotelInfo';
 import MyHotelsPage from 'pages/MyHotelsPage';
 import Reservations from 'pages/GuestPages/Reservations';
 import ContactUs from 'pages/ContactUs';
+import HelpdeskPage from 'pages/Helpdesk';
 
 const AppRouting:React.FC = () => {
   return (
@@ -33,15 +34,22 @@ const AppRouting:React.FC = () => {
       } />
 
       <Route path="/reservations" element={
-        <PrivateRoute>
-          <Reservations />
-        </PrivateRoute>
+          <PrivateRoute>
+            <Reservations />
+          </PrivateRoute>
       } />
 
       <Route path="/my-hotels" element={
-        <PrivateRoute>
-          <MyHotelsPage />
-        </PrivateRoute>
+          <PrivateRoute>
+            <MyHotelsPage />
+          </PrivateRoute>
+      } />
+
+      
+      <Route path="/helpdesk" element={
+          <PrivateRoute>
+            <HelpdeskPage />
+          </PrivateRoute>
       } />
 
       <Route path="/hotels" element={<HotelsPage />} />

@@ -14,9 +14,13 @@ import AppRouting from './App.routing';
 import Notifications from 'components/Notifications';
 import Header from '../components/Header';
 import Footer from 'components/Footer';
+import { useLocation, useNavigate } from 'react-router-dom';
+import UserRoles from 'types/UserRoles';
 
 const App:React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   // state
   const isAuthorization = useSelector(selectIsAuthorization);
@@ -26,6 +30,16 @@ const App:React.FC = () => {
     dispatch(AuthAsync.checkIsAuthorization({}));
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (currentUser && currentUser.role === UserRoles.Owner && pathname === '/reservations') {
+      navigate('/my-hotels')
+    }
+    if (currentUser && currentUser.role === UserRoles.Guest && pathname === '/my-hotels') {
+      navigate('/reservations')
+    }
+    // eslint-disable-next-line
+  }, [currentUser]);
 
   if (isAuthorization === null || (isAuthorization && !currentUser)) return <LinearProgress />;
 

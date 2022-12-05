@@ -83,7 +83,6 @@ const SignUpForm:React.FC<Props> = ({ onClose }) => {
                     {...field}
                     label="Email"
                     fullWidth
-                    autoComplete="email"
                     required
                     error={!!errors?.email}
                     helperText={errors?.email ? errors.email.message : null}
@@ -148,7 +147,7 @@ const SignUpForm:React.FC<Props> = ({ onClose }) => {
                     {...field}
                     label="Password"
                     type={showPassword ? "text" : "password"}
-                    autoComplete="password"
+                    autoComplete="new-password"
                     fullWidth
                     required
                     error={!!errors?.password}

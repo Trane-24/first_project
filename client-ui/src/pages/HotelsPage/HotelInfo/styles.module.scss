@@ -46,7 +46,7 @@
   width: 100%;
 
   @include on900 {
-    max-width: 60%;
+    min-width: 60%;
   }
 }
 

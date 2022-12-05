@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 // Hooks
 import useDialog from "hooks/useDialog";
 // Components
 import Title from "components/Title";
 import Phone from "components/Phone";
+// Selectors
+import { selectCurrentUser } from "store/users/usersSelectors";
 // MUI
 import { Box, Button, Chip, Divider, Grid, TextField, Typography } from "@mui/material";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
@@ -14,7 +18,6 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { isCountLetters, isRequired } from "utilites/validation";
 // Styles
 import classes from './styles.module.scss';
-import { useLocation } from "react-router-dom";
 
 interface IForm {
   subject: string;
@@ -32,15 +35,17 @@ const chatId = '-898556886';
 const ContactUsForm: React.FC = () => {
   const {Dialog, openDialog, closeDialog} = useDialog();
   const { pathname } = useLocation();
+  // Selectors
+  const currentUser = useSelector(selectCurrentUser);
 
   const isContactUs = pathname === '/contact-us';
 
   const { handleSubmit, control, formState: { errors }, reset} = useForm({
     defaultValues: {
       subject: '',
-      phone: '',
-      firstName: '',
-      lastName: '',
+      phone: currentUser?.phone || '',
+      firstName: currentUser?.firstName || '',
+      lastName: currentUser?.lastName || '',
       message: '',
     }
   });
@@ -52,6 +57,15 @@ const ContactUsForm: React.FC = () => {
     openDialog();
     reset();
   });
+
+  useEffect(() => {
+    reset({
+      phone: currentUser?.phone ? currentUser.phone : '',
+      firstName: currentUser ? currentUser.firstName : '',
+      lastName: currentUser ? currentUser.lastName : '',
+    });
+    // eslint-disable-next-line
+  }, [currentUser])
 
   return (
     <React.Fragment>

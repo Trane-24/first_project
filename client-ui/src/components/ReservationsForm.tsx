@@ -22,7 +22,7 @@ import IHotel from "models/Hotel";
 // Mui
 import { LoadingButton } from "@mui/lab";
 import { MobileDatePicker } from "@mui/x-date-pickers";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import {
   VisibilityOutlined as VisibilityOutlinedIcon,
   VisibilityOffOutlined as VisibilityOffOutlinedIcon
@@ -114,11 +114,12 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotel }) => {
 
   return (
     <React.Fragment>
-      <Box sx={{p: {xs: 2, sm: 3, md: 5}, width: '100%'}}>
+      <DialogTitle>
         <Title>{`Reserve \`${hotel.name}\` hotel`}</Title>
+      </DialogTitle>
 
-        <form onSubmit={onSubmit} noValidate style={{ paddingTop: '20px' }}>
-
+      <DialogContent dividers>
+        <form noValidate style={{ paddingTop: '20px' }}>
           {!currentUser && (
             <React.Fragment>
               <Typography color="text.secondary">Contact details</Typography>
@@ -294,24 +295,26 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotel }) => {
               />
             </Grid>
           </Grid>
-
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
-            <Button variant="outlined" onClick={onClose}>
-              Cancel
-            </Button>
-
-            <LoadingButton
-              loading={isLoading}
-              type="submit"
-              variant="contained"
-            >
-              Reserve
-            </LoadingButton>
-          </Box>
         </form>
+      </DialogContent>
 
-      </Box>
-    </React.Fragment>
+      <DialogActions>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
+          <Button variant="outlined" onClick={onClose}>
+            Cancel
+          </Button>
+
+          <LoadingButton
+            loading={isLoading}
+            variant="contained"
+            onClick={onSubmit}
+          >
+            Reserve
+          </LoadingButton>
+        </Box>
+      </DialogActions>
+
+      </React.Fragment>
   )
 };
 

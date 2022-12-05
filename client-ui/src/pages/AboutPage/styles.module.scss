@@ -12,6 +12,14 @@
   }
 }
 
+.revers {
+  flex-direction: column-reverse;
+  
+  @include on900 {
+    flex-direction: row;
+  }
+}
+
 .ourMission {
   @include flex-center;
   flex-direction: column;

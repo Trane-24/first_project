@@ -15,7 +15,7 @@ const HomePage:React.FC = () => {
   }, []);
 
   return (
-    <section>
+    <section style={{ overflowX: 'hidden'}}>
       <SearchBanner />
       <TopHotels />
       <HotelsByTypes />

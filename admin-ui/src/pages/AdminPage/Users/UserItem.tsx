@@ -124,7 +124,7 @@ const UserItem: React.FC<Props> = ({ user }) => {
           )}
 
           {user.role === UserRoles.Owner && (
-            <MenuItem component={NavLink} to={`/admin/guests/${user._id}/reservations`}>
+            <MenuItem component={NavLink} to={`/admin/owners/${user._id}/hotels`}>
               <ListItemIcon>
                 <HomeWorkOutlined fontSize='small'/>
               </ListItemIcon>

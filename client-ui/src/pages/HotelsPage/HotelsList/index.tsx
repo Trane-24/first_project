@@ -68,6 +68,8 @@ const HotelsList: React.FC = () => {
   useEffect(() => {
     return () => {
       dispatch(hotelsActions.setInitialField('params'));
+      dispatch(hotelsActions.setInitialField('hotels'));
+      dispatch(hotelsActions.setInitialField('total'));
     }
   // eslint-disable-next-line
   }, [])

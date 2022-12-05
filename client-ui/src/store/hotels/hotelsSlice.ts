@@ -4,15 +4,19 @@ import { createHotel, deleteHotel, fetchCurrentUserHotels, fetchHotel, fetchHote
 
 interface IState {
   hotels: IHotel[] | null;
+  myHotels: IHotel[] | null;
   hotel: IHotel | null;
   total: number;
+  myHotelsTotal: number;
   params: any;
 }
 
 const initialState: IState = {
   hotels: null,
+  myHotels: null,
   hotel: null,
   total: 0,
+  myHotelsTotal: 0,
   params: {
     limit: 15,
     page: 1,
@@ -51,16 +55,14 @@ const hotelsSlice = createSlice({
       state.hotels = action.payload.data;
       state.total = action.payload.total;
     })
+    // fetch top hotels
     .addCase(fetchTopHotels.fulfilled, (state, action) => {
       state.hotels = action.payload.data;
     })
     // fetch curren user hotels
-    .addCase(fetchCurrentUserHotels.pending, (state, action) => {
-      state.params = action.meta.arg;
-    })
     .addCase(fetchCurrentUserHotels.fulfilled, (state, action) => {
-      state.hotels = action.payload.data;
-      state.total = action.payload.total;
+      state.myHotels = action.payload.data;
+      state.myHotelsTotal = action.payload.total;
     })
     // create hotel
     .addCase(createHotel.fulfilled, (state, action) => {

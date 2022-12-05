@@ -4,31 +4,33 @@ import { useDispatch, useSelector } from 'react-redux';
 // Hooks
 import useDialog from 'hooks/useDialog';
 import { useWindowDimensions } from 'hooks/useWindowDimensions';
-// Selecgors
+// Actions
+import { usersActions } from 'store/users/usersSlice';
+import { authActions } from 'store/auth/authSlice';
+// Selectors
 import { selectIsAuthorization } from 'store/auth/authSelectors';
+import { selectCurrentUser } from 'store/users/usersSelectors';
 // MUI
 import { Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Logout } from '@mui/icons-material';
 // Icon
-import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
-import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
-import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-// Style
-import classes from './styles.module.scss';
+import {
+  HouseOutlined as HouseOutlinedIcon,
+  ExitToAppOutlined as ExitToAppOutlinedIcon,
+  AppRegistration as AppRegistrationIcon,
+  HomeWorkOutlined as HomeWorkOutlinedIcon,
+  PersonOutlined as PersonOutlinedIcon,
+  SupportAgent as SupportAgentIcon,
+  AccountCircleOutlined as AccountCircleOutlinedIcon,
+} from '@mui/icons-material';
 // Services
 import StorageService from 'services/StorageService';
-
 // Components
 import SignInForm from 'components/SignIn.form';
 import SignUpForm from 'components/SignUp.form';
-import { selectCurrentUser } from 'store/users/usersSelectors';
-import { usersActions } from 'store/users/usersSlice';
-import { authActions } from 'store/auth/authSlice';
+// Style
+import classes from './styles.module.scss';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
@@ -72,7 +74,7 @@ const UserMenu:React.FC = () => {
   
       {isAuthorization ? (
         <React.Fragment>
-          <IconButton sx={{ mr: 1}}>
+          <IconButton sx={{ mr: 1}} component={NavLink} to="/helpdesk">
             <SupportAgentIcon />
           </IconButton>
 
@@ -99,9 +101,6 @@ const UserMenu:React.FC = () => {
                 <IconButton
                   size="small"
                   sx={{ ml: 0.5 }}
-                  // aria-controls={open ? 'account-menu' : undefined}
-                  // aria-haspopup="true"
-                  // aria-expanded={open ? 'true' : undefined}
                 >
                   <ExpandMoreIcon sx={{ color: '#000' }} />
                 </IconButton>

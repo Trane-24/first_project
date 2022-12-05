@@ -12,7 +12,7 @@ import "swiper/css/thumbs";
 
 import "./styles.scss";
 // MUI
-import { Box, MenuItem } from "@mui/material";
+import { Box, IconButton, MenuItem } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 // import required modules
@@ -35,21 +35,16 @@ const PhotoSwiper: React.FC<Props> = ({ images, onClose }) => {
 
   return (
     <Box className="swiper_content">
-      <MenuItem className="close_btn" onClick={onClose}>
+      <IconButton className="close_btn" onClick={onClose}>
         <CloseIcon />
-      </MenuItem>
+      </IconButton>
 
       <Swiper
-        style={{
-          // "--swiper-navigation-color": "#fff",
-          // "--swiper-pagination-color": "#fff",
-        }}
         spaceBetween={5}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
         className="generalSwiper"
-        // class="swiper-button-prev swiper-button-white"
       >
         {images.map((image: any) => (
           <SwiperSlide>

@@ -4,6 +4,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // Hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
+// Framer motion
+import { motion } from 'framer-motion';
 // Actions
 import { hotelsActions } from 'store/hotels/hotelsSlice';
 // Selectors
@@ -15,6 +17,8 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { StyledTextField } from 'components/Controls';
 // Styles
 import classes from './styles.module.scss';
+import { fetchHotels } from 'store/hotels/hotelsAsync';
+import { textAnimationRight } from 'utilites/animations';
 
 interface Props {
   isHomePage?: boolean;
@@ -45,7 +49,13 @@ const BannerForm: React.FC<Props> = ({ isHomePage = false }) => {
   
   const searchWatcher = watch('search');
 
-  const clear = () => setValue('search', '');
+  const clear = () => {
+    setValue('search', '');
+
+    if (!isHomePage) {
+      dispatch(fetchHotels({ ...params, search: '' }));
+    }
+  };
 
   return (
     <Box className={classes.form_container}>
@@ -69,13 +79,16 @@ const BannerForm: React.FC<Props> = ({ isHomePage = false }) => {
             />
           )}
         />
-        <Button
-          sx={{ height: '56px', width: '220px' }}
-          variant="contained"
-          type="submit"
-        >
-          Search
-        </Button>
+        <motion.div variants={textAnimationRight} custom={2}>
+          <Button
+            className={classes.button}
+            variant="contained"
+            type="submit"
+          >
+            Search
+          </Button>
+        </motion.div>
+        
       </form>
     </Box>
   );

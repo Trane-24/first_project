@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+// Framer motion
+import { motion } from 'framer-motion';
 // Components
 import BannerForm from './BannerForm';
 // MUI
 import { Box, Typography } from '@mui/material';
 // Styles
 import classes from './styles.module.scss';
+// Utilites
+import { textAnimation } from 'utilites/animations';
 
 const sliderData = [
   { image: '/img/0.png', id: 1 },
@@ -45,9 +49,15 @@ const Banner: React.FC = () => {
   }, [currenSlide]);
 
   return (
-    <section className={classes.banner} style={{
-      padding: isHomePage ? '120px 0' : '40px 0',
-    }}>
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ amount: 0.2}}
+      className={classes.banner}
+      style={{
+        padding: isHomePage ? '120px 0' : '40px 0',
+      }}
+    >
       <div className='container'>
         <Box sx={{
           color: '#fff',
@@ -56,9 +66,15 @@ const Banner: React.FC = () => {
           position: 'relative',
           zIndex: 1
         }}>
-          <Typography sx={{ fontSize: '40px' }}>Make your dream trip happen</Typography>
-          <Typography sx={{ fontSize: '18px' }}>augue neque gravida in fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla</Typography>
+          <motion.div custom={1} variants={textAnimation}>
+            <Typography sx={{ fontSize: '40px' }}>Make your dream trip happen</Typography>
+          </motion.div>
+
+          <motion.div custom={2} variants={textAnimation}>
+            <Typography sx={{ fontSize: '18px' }}>augue neque gravida in fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla</Typography>
+          </motion.div>
         </Box>
+
         <BannerForm isHomePage={isHomePage} />
       </div>
       {sliderData.map((slide, index: number) => {
@@ -75,7 +91,7 @@ const Banner: React.FC = () => {
         );
       })}
       <div className={classes.imgShadow} />
-    </section>
+    </motion.section>
   );
 };
 
