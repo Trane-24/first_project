@@ -38,7 +38,10 @@
   },
   "scripts": {
     "start": "cross-env PORT=3000 react-scripts start",
-    "test": "nodemon ./App/App.test.tsx"
+    "test": "nodemon ./App/App.test.tsx",
+    "build": "cross-env REACT_APP_STAGE=development react-scripts build --scripts-prepend-node-path",
+    "build:qa": "cross-env REACT_APP_STAGE=qa react-scripts build --scripts-prepend-node-path",
+    "build:prod": "cross-env REACT_APP_STAGE=production react-scripts build --scripts-prepend-node-path"
   },
   "eslintConfig": {
     "extends": [
