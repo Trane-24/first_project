@@ -43,7 +43,7 @@ const ReservationHeader: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchReservation({ ...stateParams}))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [stateParams]);
 
   useEffect(() => {

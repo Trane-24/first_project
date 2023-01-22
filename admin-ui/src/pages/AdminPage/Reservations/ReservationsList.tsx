@@ -53,7 +53,7 @@ const ReservationList: React.FC<Props> = ({ guestId }) => {
     return () => {
       dispatch(reservationAction.setInitialField('params'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [guestId]);
 
   if (isLoading) return <LinearProgress />

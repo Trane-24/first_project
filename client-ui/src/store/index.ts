@@ -7,6 +7,7 @@ import hotelsReducer from "./hotels/hotelsSlice";
 import hotelTypesReducer from "./hotelTypes/hotelTypesSlice";
 import assetsReducer from "./assets/assetsSlice";
 import reservationsReducer from "./reservations/reservationsSlice";
+import helpdeskReducer from "./helpdesk/helpdeskSlice";
 // middlewares
 import errorMiddleware from "../middlewares/errorMiddelware";
 
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   hotelTypes: hotelTypesReducer,
   assets: assetsReducer,
   reservations: reservationsReducer,
+  helpdesk: helpdeskReducer,
 });
 
 export const setupStore = () => {

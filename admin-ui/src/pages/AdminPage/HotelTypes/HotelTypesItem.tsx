@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
-import config from "config";
 // hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
 import useDialog from "hooks/useDialog";
@@ -33,7 +32,7 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
   const classes = useStyle();
   const dispatch = useAppDispatch();
 
-  const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path}` : '/images/hotel-no-available.png';
+  const imgUrl = hotelType.image ? hotelType.image.path : '/images/hotel-no-available.png';
 
   // menu
   const menuRef = useRef();

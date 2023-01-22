@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 // Hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
@@ -7,7 +7,7 @@ import { Box, Tab, Tabs, LinearProgress, TablePagination } from "@mui/material";
 // Asyncs
 import { fetchCurrentUserHotels } from "store/hotels/hotelsAsync";
 // Selectors
-import { selectHotels, selectMyHotels, selectMyHotelsTotal, selectParams, selectTotal } from "store/hotels/hotelsSelectors";
+import { selectMyHotels, selectMyHotelsTotal } from "store/hotels/hotelsSelectors";
 // Components
 import MyHotelItem from "../MyHotelItem";
 // Styles
@@ -53,7 +53,7 @@ const MyHotelsList: React.FC = () => {
     }))
       .unwrap()
       .finally(() => setIsLoading(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [tabValue, page, limit])
 
   useEffect(() => {

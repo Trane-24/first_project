@@ -16,7 +16,6 @@ import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import classes from './styles.module.scss';
 import { useSelector } from "react-redux";
 import { selectHotel } from "store/hotels/hotelsSelectors";
-import config from "config";
 import PhotoSwiper from "./PhotoSwiper";
 
 const HotelInfo: React.FC = () => {
@@ -25,7 +24,7 @@ const HotelInfo: React.FC = () => {
   // Selectors
   const hotel = useSelector(selectHotel);
 
-  const imgUrl = hotel?.images?.length !== 0 ? `${config.serverURL}/${hotel?.images[0].path}` : '/img/hotel-no-available.png';
+  const imgUrl = hotel?.images?.length !== 0 ? hotel?.images[0].path : '/img/hotel-no-available.png';
   // State
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeImgUrl, setActiveImgUrl] = useState(imgUrl);
@@ -53,7 +52,7 @@ const HotelInfo: React.FC = () => {
     dispatch(fetchHotel(hotelId))
       .unwrap()
       .finally(() => setIsLoading(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [hotelId])
 
   useEffect(() => {
@@ -119,7 +118,7 @@ const HotelInfo: React.FC = () => {
               {hotel.images.length > 1 && (
                 <Box className={classes.images_select}>
                   {hotel.images.map((image, ind) => {
-                    const url = `${config.serverURL}/${image.path}`;
+                    const url = image.path;
 
                     if (ind <= 3) {
                       return (
@@ -167,7 +166,7 @@ const HotelInfo: React.FC = () => {
 
                 <Grid item xs={12}>
                   <Typography className={classes.subtitle}>Description</Typography>
-                  <Typography>{description}</Typography>
+                  <Typography className={classes.text}>{description}</Typography>
                 </Grid>
               </Grid>
             </Box>

@@ -8,8 +8,6 @@ import { hotelsActions } from 'store/hotels/hotelsSlice';
 import { Box } from '@mui/material';
 // Models
 import IHotelType from 'models/HotelType';
-// Ultiles
-import config from 'config';
 // Styles
 import classes from './styles.module.scss';
 
@@ -24,7 +22,7 @@ const HotelTypeItem: React.FC<Props> = ({ hotelType }) => {
     dispatch(hotelsActions.changeHotelType(value));
   };
 
-  const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path.replace('\\', '/')}` : '/img/hotel-no-available.png';
+  const imgUrl = hotelType.image ? hotelType.image.path.replace('\\', '/') : '/img/hotel-no-available.png';
 
   return (
     <Link to={`/hotels`} onClick={() => addHotelType(hotelType._id)}>

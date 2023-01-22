@@ -45,7 +45,7 @@ const Banner: React.FC = () => {
     auto();
 
     return () => clearInterval(slideInterval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [currenSlide]);
 
   return (

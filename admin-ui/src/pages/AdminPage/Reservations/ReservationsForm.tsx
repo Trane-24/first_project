@@ -86,7 +86,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   const debouncedChangeHandler = useCallback(
     debounce(changeQueryValue, 1000)
   , []);
@@ -130,23 +130,25 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     dispatch(fetchUsers({ role: 'guest', search: valueGuest}))
       .unwrap()
       .finally(() => setIsLoadingGuests(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [valueGuest]);
 
   useEffect(() => {
     dispatch(fetchHotels({ search: valueHotel }))
       .unwrap()
       .finally(() => setIsLoadingHotels(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [valueHotel]);
 
   useEffect(() => {
     const newStartDate = dayjs(startDate).format('YYYY-MM-DD');
     const newEndDate = dayjs(endDate).format('YYYY-MM-DD');
     if (newStartDate >= newEndDate && !!endDate) {
-      setValue('endDate', dayjs(startDate).add(1, 'day').format('YYYY-MM-DD'));
+      setValue('endDate', startDate
+        ? dayjs(startDate).add(1, 'day').format('YYYY-MM-DD')
+        : dayjs(endDate).format('YYYY-MM-DD'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [startDate, endDate])
 
   return (

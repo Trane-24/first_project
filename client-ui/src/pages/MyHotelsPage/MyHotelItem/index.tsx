@@ -44,7 +44,7 @@ const MyHotelItem:React.FC<Props> = ({ hotel, onClose }) => {
     return page !== 'reservations';
   }, [page]);
 
-  const imgUrl = hotel.images?.length !== 0 ? `${config.serverURL}/${hotel.images[0].path}` : '/images/hotel-no-available.png';
+  const imgUrl = hotel.images?.length !== 0 ? hotel.images[0].path : '/images/hotel-no-available.png';
 
   // menu
   const menuRef = useRef();

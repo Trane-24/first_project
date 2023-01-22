@@ -40,7 +40,7 @@ const HotelsByTypes: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchHotelTypes({}))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [])
 
   return (

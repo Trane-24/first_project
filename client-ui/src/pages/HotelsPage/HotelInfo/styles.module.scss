@@ -30,7 +30,7 @@
   height: 100%;
   border: 1px solid rgba(128, 128, 128, 0.5);
   border-radius: 8px;
-  overflow: hidden;
+  // overflow: hidden;
   margin-bottom: 20px;
 
   @include on900 {
@@ -103,6 +103,10 @@
   @include onTablet {
     padding: 20px;
   }
+
+  @include on900 {
+    max-width: 40%;
+  }
 }
 
 .info_item {
@@ -117,4 +121,9 @@
 .subtitle {
   color: gray;
   padding-bottom: 5px;
+}
+
+.text {
+  white-space: pre-line;
+  word-wrap: break-word;
 }

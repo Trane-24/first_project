@@ -1,0 +1,51 @@
+@import '../../../styles/utils/mixins';
+
+.message {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 70%;
+  align-self: flex-end;
+
+  @include onTablet {
+    max-width: 50%;
+  }
+}
+
+.messageContent {
+  background-color: #49AAD1;
+  padding: 10px 15px;
+  border-radius: 8px 8px 0 8px;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adminContent {
+  background-color: #DAE6EA;
+  border-radius: 8px 8px 8px 0;
+  color: #000;
+}
+
+.text {
+  white-space: pre-line;
+  align-self: flex-end;
+}
+
+.time {
+  align-self: flex-end;
+  color: #98CBE2;
+  font-size: 14px;
+}
+
+.adminTime {
+  color: #8C9597;
+  align-self: flex-start;
+}
+
+.admin {
+  align-self: flex-start;
+}

@@ -67,7 +67,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
     setQueryValue(e.target.value)
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   const debouncedChangeHandler = useCallback(
     debounce(changeQueryValue, 1000)
   , []);
@@ -98,7 +98,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
     dispatch(fetchUsers({ ...usersParams, role: 'owner', search: queryValue }))
       .unwrap()
       .finally(() => setIsLoadingInp(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [queryValue]);
 
   return (

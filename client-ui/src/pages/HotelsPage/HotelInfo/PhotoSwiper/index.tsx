@@ -12,12 +12,11 @@ import "swiper/css/thumbs";
 
 import "./styles.scss";
 // MUI
-import { Box, IconButton, MenuItem } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import config from "config";
 
 interface Props {
   images: any;
@@ -49,7 +48,7 @@ const PhotoSwiper: React.FC<Props> = ({ images, onClose }) => {
         {images.map((image: any) => (
           <SwiperSlide>
             <img
-              src={`${config.serverURL}/${image.path}`}
+              src={image.path}
               alt={image.path}
               key={image.path}
             />
@@ -69,7 +68,7 @@ const PhotoSwiper: React.FC<Props> = ({ images, onClose }) => {
         {images.map((image: any) => (
           <SwiperSlide>
             <img
-              src={`${config.serverURL}/${image.path}`}
+              src={image.path}
               alt={image.path}
               key={image.path}
              />

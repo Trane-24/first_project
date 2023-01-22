@@ -7,7 +7,6 @@ import { selectAssets, selectAssetsIdsToDelete, selectFile } from 'store/assets/
 import { assetsActions } from 'store/assets/assetsSlice';
 import { DeleteOutline as DeleteOutlineIcon, Close as CloseIcon } from '@mui/icons-material';
 import { makeStyles } from '@material-ui/styles';
-import config from 'config';
 import IFile from 'models/File';
 
 type Props ={
@@ -101,7 +100,7 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, multiple 
                 <img
                   className={classes.img}
                   alt='file'
-                  src={`${config.serverURL}/${asset.path}`}
+                  src={asset.path}
                 />
 
                 <Box className={assetsIdsToDelete.includes(asset._id) ? [classes.hoverBox, classes.activeHoverBox].join(' ') : classes.hoverBox}>

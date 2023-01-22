@@ -6,7 +6,6 @@ import IHotel from "models/Hotel";
 // Styles
 import classes from './styles.module.scss';
 // untils
-import config from "config";
 import { Link } from "react-router-dom";
 import useDialog from "hooks/useDialog";
 import ReservationForm from "components/ReservationsForm";
@@ -18,7 +17,7 @@ interface Props {
 const HotelItem: React.FC<Props> = ({ hotel }) => {
   const { Dialog, openDialog, closeDialog} = useDialog();
 
-  const imgUrl = hotel.images?.length !== 0 ? `${config.serverURL}/${hotel.images[0].path}` : '/img/hotel-no-available.png';
+  const imgUrl = hotel.images?.length !== 0 ? hotel.images[0].path : '/img/hotel-no-available.png';
 
   return (
     <React.Fragment>

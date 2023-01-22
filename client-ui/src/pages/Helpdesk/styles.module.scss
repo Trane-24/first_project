@@ -1,0 +1,32 @@
+@import '../../styles/utils/mixins';
+
+.helpdesk {
+  height: 100%;
+  padding: 25px 0 50px;
+  background-color: #f5f6f7;
+}
+
+.helpdeskContent {
+  margin-top: 20px;
+  border: 1px solid #49AAD1;
+  border-radius: 5px;
+}
+
+.list {
+  height: calc(100vh - (338px));
+  padding: 10px 14px;
+  border-radius: 8px 8px 0 0;
+  overflow-y: scroll;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @include onTablet {
+    height: calc(100vh - (348px));
+  }
+
+  @include onLaptop {
+    height: calc(100vh - (354px));
+  }
+}

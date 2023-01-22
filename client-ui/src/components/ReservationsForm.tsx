@@ -107,9 +107,11 @@ const ReservationForm: React.FC<Props> = ({ onClose, hotel }) => {
     const newStartDate = dayjs(startDate).format('YYYY-MM-DD');
     const newEndDate = dayjs(endDate).format('YYYY-MM-DD');
     if (newStartDate >= newEndDate && !!endDate) {
-      setValue('endDate', dayjs(startDate).add(1, 'day').format('YYYY-MM-DD'));
+      setValue('endDate', startDate
+        ? dayjs(startDate).add(1, 'day').format('YYYY-MM-DD')
+        : dayjs(endDate).format('YYYY-MM-DD'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [startDate, endDate])
 
   return (

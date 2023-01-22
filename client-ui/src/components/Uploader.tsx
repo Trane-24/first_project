@@ -101,7 +101,7 @@ const Uploader:React.FC<Props> = ({ assets: initialAssets = undefined, multiple 
                 <img
                   className={classes.img}
                   alt='file'
-                  src={`${config.serverURL}/${asset.path}`}
+                  src={asset.path}
                 />
 
                 <Box className={assetsIdsToDelete.includes(asset._id) ? [classes.hoverBox, classes.activeHoverBox].join(' ') : classes.hoverBox}>
