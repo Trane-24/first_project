@@ -79,7 +79,7 @@ const UsersList:React.FC = () => {
       ) : (
         <div style={{ display: 'flex', justifyContent: 'center'}}>
           {params.search ? (
-            <p style={{ position: 'absolute'}}>No users found for the specified search keyword</p>
+            <p style={{ position: 'absolute', maxWidth: '300px', textAlign: 'center'}}>No users found for the specified search keyword</p>
           ) : (
             <p style={{ position: 'absolute'}}>List is empty</p>
           )}
@@ -106,7 +106,7 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 196px)',
+    maxHeight: 'calc(100vh - 277px)',
     overflowY: 'scroll',
     '@media (min-width: 600px)': {
       maxHeight: 'calc(100vh - 216px)',
@@ -116,10 +116,9 @@ const useStyles = makeStyles({
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
   image: {
-    // objectFit: 'contain',
-    maxHeight: 'calc(100vh - 202px)',
+    maxHeight: 'calc(100vh - 225px)',
     '@media (min-width: 600px)': {
-      maxHeight: 'calc(100vh - 222px)',
+      maxHeight: 'calc(100vh - 156px)',
     },
   }
 })

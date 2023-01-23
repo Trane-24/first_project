@@ -37,8 +37,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "test": "nodemon ./App/App.test.tsx"
+    "start": "cross-env REACT_APP_STAGE=development react-scripts start",
+    "start:prod": "cross-env REACT_APP_STAGE=production react-scripts start",
+    "test": "nodemon ./App/App.test.tsx",
+    "build": "cross-env REACT_APP_STAGE=development react-scripts build --scripts-prepend-node-path",
+    "build:prod": "cross-env REACT_APP_STAGE=production react-scripts build --scripts-prepend-node-path"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +62,7 @@
     ]
   },
   "devDependencies": {
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "cross-env": "^7.0.3"
   }
 }

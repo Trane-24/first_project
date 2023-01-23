@@ -1,5 +1,5 @@
 import IAsset from "./Asset";
-import IUser from "./User";
+import IHotelType from "./HotelType";
 
 interface IHotel {
   _id: string;
@@ -8,7 +8,8 @@ interface IHotel {
   city?: string;
   images: IAsset[];
   description?: string;
-  owner: IUser;
+  hotelType: IHotelType;
+  verified: boolean;
 }
 
 export default IHotel;

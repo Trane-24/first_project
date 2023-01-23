@@ -63,24 +63,37 @@ const HotelList:React.FC<Props> = ({ ownerId }) => {
 
   return (
     <Box className={classes.list}>
-      <Box className={classes.items}>
-        {hotels.map((hotel: IHotel) => (
-          <HotelItem key={hotel._id} hotel={hotel} />
-        ))}
-      </Box>
-      <Box>
-        <TablePagination
-          className={classes.pagination}
-          component="div"
-          labelRowsPerPage="Items"
-          count={total}
-          page={params.page - 1}
-          onPageChange={handleChangePage}
-          rowsPerPage={params.limit}
-          onRowsPerPageChange={handleChangeLimit}
-          rowsPerPageOptions={[20, 50, 100]}
-        />
-      </Box>
+      {!!hotels.length ? (
+        <React.Fragment>
+          <Box className={classes.items}>
+            {hotels.map((hotel: IHotel) => (
+              <HotelItem key={hotel._id} hotel={hotel} />
+            ))}
+          </Box>
+          <Box>
+            <TablePagination
+              className={classes.pagination}
+              component="div"
+              labelRowsPerPage="Items"
+              count={total}
+              page={params.page - 1}
+              onPageChange={handleChangePage}
+              rowsPerPage={params.limit}
+              onRowsPerPageChange={handleChangeLimit}
+              rowsPerPageOptions={[20, 50, 100]}
+            />
+          </Box>
+        </React.Fragment>
+      ) : (
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+          <p style={{ position: 'absolute'}}>List is empty</p>
+          <img
+            className={classes.image}
+            src="/images/list_is_empty.jpg"
+            alt="reservation_is_empty"
+          />
+        </div>
+      )}
     </Box>
   )
 }
@@ -96,9 +109,9 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 202px)',
+    maxHeight: 'calc(100vh - 335px)',
     overflowY: 'scroll',
-    '@media (min-width: 600px)': {
+    '@media (min-width: 700px)': {
       maxHeight: 'calc(100vh - 222px)',
     },
   },
@@ -106,4 +119,10 @@ const useStyles = makeStyles({
     marginTop: '6px',
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
+  image: {
+    maxHeight: 'calc(100vh - 277px)',
+    '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 156px)',
+    },
+  }
 })

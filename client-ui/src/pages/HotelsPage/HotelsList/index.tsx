@@ -1,20 +1,29 @@
-import { Box, Grid, TablePagination, LinearProgress,
-  Typography, MenuItem, Drawer, Chip
-} from '@mui/material';
-import HotelItem from 'components/HotelItem';
-import Title from 'components/Title';
-import { useAppDispatch } from 'hooks/useAppDispatch';
-import IHotel from 'models/Hotel';
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchHotels } from 'store/hotels/hotelsAsync';
-import { selectHotels, selectParams, selectTotal } from 'store/hotels/hotelsSelectors';
-import { hotelsActions } from 'store/hotels/hotelsSlice';
-import classes from './styles.module.scss';
-import FilterListIcon from '@mui/icons-material/FilterList';
+// Hooks
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import NoData from 'components/NoData';
+// Components
+import HotelItem from 'components/HotelItem';
+import Title from 'components/Title';
 import HotelsFilter from '../HotelsFilter';
+// Async
+import { fetchHotels } from 'store/hotels/hotelsAsync';
+// Selectors
+import { selectHotels, selectParams, selectTotal } from 'store/hotels/hotelsSelectors';
 import { selectHotelTypes } from 'store/hotelTypes/hotelTypesSelectors';
+// Slice
+import { hotelsActions } from 'store/hotels/hotelsSlice';
+// Models
 import IHotelType from 'models/HotelType';
+import IHotel from 'models/Hotel';
+// MUI
+import { Box, Grid, LinearProgress,
+  Typography, MenuItem, Drawer, Chip, Pagination
+} from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
+// Styles
+import classes from './styles.module.scss';
 
 const HotelsList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +38,9 @@ const HotelsList: React.FC = () => {
 
   const isEmptyFilter = useMemo(() => !params.hotelType?.length && !params.search, [params.hotelType ,params.search]);
 
-  const isShowPagination = useMemo(() => total / params.limit > 1, [params, total]);
+  const totalPages = Math.ceil(total / params.limit);
+
+  const isShowPagination = useMemo(() => totalPages > 1, [params, total]);
 
   const handleOpenFilter = () => setIsOpenFilter(prev => !prev);
 
@@ -37,27 +48,18 @@ const HotelsList: React.FC = () => {
     dispatch(hotelsActions.changeHotelType(value));
   }
 
-  const handleChangePage = (_: any, value: any) => {
+  const handleChangePage = (_: any, page: any) => {
     setIsLoading(true);
 
-    dispatch(fetchHotels({...params, page: value + 1}))
+    dispatch(fetchHotels({ ...params, page }))
       .unwrap()
       .finally(() => setIsLoading(false));
   };
 
-  const handleChangeLimit = (event:any) => {
-    const { value: limit } = event.target;
-    setIsLoading(true);
-
-    dispatch(fetchHotels({...params, page: 1, limit}))
-      .unwrap()
-      .finally(() => setIsLoading(false));
-  }
-
   useEffect(() => {
     setIsLoading(true);
 
-    dispatch(fetchHotels({ ...params }))
+    dispatch(fetchHotels({ ...params, page: 1 }))
       .unwrap()
       .finally(() => setIsLoading(false));
   // eslint-disable-next-line
@@ -66,6 +68,8 @@ const HotelsList: React.FC = () => {
   useEffect(() => {
     return () => {
       dispatch(hotelsActions.setInitialField('params'));
+      dispatch(hotelsActions.setInitialField('hotels'));
+      dispatch(hotelsActions.setInitialField('total'));
     }
   // eslint-disable-next-line
   }, [])
@@ -113,7 +117,7 @@ const HotelsList: React.FC = () => {
       ) : (
         <Box>
           {isEmptyFilter && !hotels?.length ? (
-            <p>Empty List</p>
+            <NoData />
           ) : !isEmptyFilter && !hotels?.length ? (
             <p>No data matching your search or filter criteria</p>
           ) : (
@@ -128,14 +132,11 @@ const HotelsList: React.FC = () => {
 
           {isShowPagination && (
             <Box className={classes.paginationWrap}>
-              <TablePagination
-                component="div"
-                count={total}
-                page={params.page - 1}
-                onPageChange={handleChangePage}
-                rowsPerPage={params.limit}
-                onRowsPerPageChange={handleChangeLimit}
-                rowsPerPageOptions={[15, 30, 60, 90]}
+              <Pagination
+                count={totalPages}
+                color="primary"
+                page={params.page}
+                onChange={handleChangePage}
               />
             </Box>
           )}

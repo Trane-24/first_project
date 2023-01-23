@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
-import config from "config";
 // hooks
 import { useAppDispatch } from "hooks/useAppDispatch";
 import useDialog from "hooks/useDialog";
@@ -33,7 +32,7 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
   const classes = useStyle();
   const dispatch = useAppDispatch();
 
-  const imgUrl = hotelType.image ? `${config.serverURL}/${hotelType.image.path}` : '/images/hotel-no-available.png';
+  const imgUrl = hotelType.image ? hotelType.image.path : '/images/hotel-no-available.png';
 
   // menu
   const menuRef = useRef();
@@ -94,11 +93,11 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
           <Grid item xs={12} sm={4} sx={{ order: { xs: 3, sm: 0}}}>
             <img className={classes.img} src={imgUrl} alt={hotelType.name} />
           </Grid>
-          <Grid item xs={4} sm={2}>
+          <Grid item xs={11} sm={2}>
             <Typography className={classes.title}>Type name</Typography>
             <Typography className={classes.text} sx={{ fontWeight: 600 }}>{hotelType.name}</Typography>
           </Grid>
-          <Grid item xs={7} sm={5}>
+          <Grid item xs={12} sm={5} sx={{order: { xs: 3, sm: 0}}}>
             <Typography className={classes.title}>Description</Typography>
             <Typography>{hotelType.description || '-'}</Typography>
           </Grid>
@@ -117,12 +116,12 @@ const HotelTypesItem:React.FC<Props> = ({ hotelType }) => {
             >
               <MenuItem component="div" onClick={handleOpenEditModal} sx={{ display: 'flex', gap: 1.5 }}>
                 <EditIcon fontSize="small" />
-                Edit
+                Edit hotel type
               </MenuItem>
 
               <MenuItem component="div" onClick={handleOpenDeleteModal} sx={{ display: 'flex', gap: 1 }}>
                 <DeleteOutlineIcon />
-                Delete
+                Delete hotel type
               </MenuItem>
             </Menu>
           </Grid>

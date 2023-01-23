@@ -53,7 +53,7 @@ const ReservationList: React.FC<Props> = ({ guestId }) => {
     return () => {
       dispatch(reservationAction.setInitialField('params'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [guestId]);
 
   if (isLoading) return <LinearProgress />
@@ -62,27 +62,29 @@ const ReservationList: React.FC<Props> = ({ guestId }) => {
   return (
     <Box className={classes.list}>
 
-      {reservations.length ? <>
-        <Box className={classes.items}>
-          {reservations?.map((reservation: any) => (
-            <ReservationsItem reservation={reservation} key={reservation._id} />
-          ))}
-        </Box>
+      {reservations.length ? (
+        <React.Fragment>
+          <Box className={classes.items}>
+            {reservations?.map((reservation: any) => (
+              <ReservationsItem reservation={reservation} key={reservation._id} />
+            ))}
+          </Box>
 
-        <Box>
-          <TablePagination
-            className={classes.pagination}
-            component="div"
-            labelRowsPerPage="Items"
-            count={total}
-            page={page - 1}
-            onPageChange={handleChangePage}
-            rowsPerPage={limit}
-            onRowsPerPageChange={handleChangeLimit}
-            rowsPerPageOptions={[20, 50, 100]}
-          />
-        </Box>
-      </> : (
+          <Box>
+            <TablePagination
+              className={classes.pagination}
+              component="div"
+              labelRowsPerPage="Items"
+              count={total}
+              page={page - 1}
+              onPageChange={handleChangePage}
+              rowsPerPage={limit}
+              onRowsPerPageChange={handleChangeLimit}
+              rowsPerPageOptions={[20, 50, 100]}
+            />
+          </Box>
+        </React.Fragment>
+      ) : (
         <div style={{ display: 'flex', justifyContent: 'center'}}>
           <p style={{ position: 'absolute'}}>List is empty</p>
           <img
@@ -107,7 +109,7 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 202px)',
+    maxHeight: 'calc(100vh - 283px)',
     overflowY: 'scroll',
     '@media (min-width: 600px)': {
       maxHeight: 'calc(100vh - 222px)',
@@ -118,9 +120,9 @@ const useStyles = makeStyles({
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
   image: {
-    maxHeight: 'calc(100vh - 202px)',
+    maxHeight: 'calc(100vh - 225px)',
     '@media (min-width: 600px)': {
-      maxHeight: 'calc(100vh - 222px)',
+      maxHeight: 'calc(100vh - 156px)',
     },
   }
 })

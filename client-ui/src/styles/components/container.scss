@@ -2,12 +2,16 @@
 
 .container {
   width: 100%;
-  // max-width: 1040px;
-  max-width: 1240px;
+  max-width: 1040px;
   margin-right: auto;
   margin-left: auto;
   padding-right: 16px;
   padding-left: 16px;
+
+  @include onTablet {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
 
   @include onDesktop {
     max-width: 1396px;

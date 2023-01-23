@@ -6,6 +6,10 @@ import appReducer from "./app/appSlice";
 import hotelsReducer from "./hotels/hotelsSlice";
 import hotelTypesReducer from "./hotelTypes/hotelTypesSlice";
 import assetsReducer from "./assets/assetsSlice";
+<<<<<<< HEAD
+=======
+import reservationsReducer from "./reservations/reservationsSlice";
+>>>>>>> 474d7eafdaa64ab7a428c77c19c7e61ce5f44261
 import helpdeskReducer from "./helpdesk/helpdeskSlice";
 // middlewares
 import errorMiddleware from "../middlewares/errorMiddelware";
@@ -18,6 +22,10 @@ const rootReducer = combineReducers({
   hotels: hotelsReducer,
   hotelTypes: hotelTypesReducer,
   assets: assetsReducer,
+<<<<<<< HEAD
+=======
+  reservations: reservationsReducer,
+>>>>>>> 474d7eafdaa64ab7a428c77c19c7e61ce5f44261
   helpdesk: helpdeskReducer,
 });
 

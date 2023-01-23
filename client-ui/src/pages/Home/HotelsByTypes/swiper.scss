@@ -1,0 +1,13 @@
+.swiper {
+  position: relative;
+  width: 100%;
+}
+
+.swiper-slide img {
+  object-fit: cover;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 1px;
+}

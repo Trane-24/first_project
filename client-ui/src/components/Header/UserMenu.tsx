@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // Hooks
 import useDialog from 'hooks/useDialog';
-// Selecgors
+import { useWindowDimensions } from 'hooks/useWindowDimensions';
+// Actions
+import { usersActions } from 'store/users/usersSlice';
+import { authActions } from 'store/auth/authSlice';
+// Selectors
 import { selectIsAuthorization } from 'store/auth/authSelectors';
+import { selectCurrentUser } from 'store/users/usersSelectors';
 // MUI
-import { Avatar, Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Logout } from '@mui/icons-material';
 // Icon
-import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
-import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
-// Style
-import classes from './styles.module.scss';
+import {
+  HouseOutlined as HouseOutlinedIcon,
+  ExitToAppOutlined as ExitToAppOutlinedIcon,
+  AppRegistration as AppRegistrationIcon,
+  HomeWorkOutlined as HomeWorkOutlinedIcon,
+  PersonOutlined as PersonOutlinedIcon,
+  SupportAgent as SupportAgentIcon,
+  AccountCircleOutlined as AccountCircleOutlinedIcon,
+} from '@mui/icons-material';
 // Services
 import StorageService from 'services/StorageService';
-
 // Components
 import SignInForm from 'components/SignIn.form';
 import SignUpForm from 'components/SignUp.form';
-import { selectCurrentUser } from 'store/users/usersSelectors';
-import { usersActions } from 'store/users/usersSlice';
-import { Logout } from '@mui/icons-material';
-import { authActions } from 'store/auth/authSlice';
+// Style
+import classes from './styles.module.scss';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
@@ -48,6 +55,11 @@ const UserMenu:React.FC = () => {
     dispatch(usersActions.removeCurrentUser());
   }
 
+  const { width } = useWindowDimensions();
+  const isMobile = useMemo(() => {
+    return width < 600;
+  }, [ width ])
+
   const { Dialog:SignInDialog, openDialog:openSignInDialog, closeDialog:closeSignInDialog } = useDialog();
   const { Dialog:SignUpDialog, openDialog:openSignUpDialog, closeDialog:closeSignUpDialog } = useDialog();
 
@@ -62,20 +74,41 @@ const UserMenu:React.FC = () => {
   
       {isAuthorization ? (
         <React.Fragment>
-          <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', cursor: 'pointer' }} onClick={handleClick}>
-            <Typography>{`Welcome, ${currentUser?.firstName}`}</Typography>
-            <Tooltip title="Account settings">
-              <IconButton
-                size="small"
-                sx={{ ml: 0.5 }}
-                aria-controls={open ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <ExpandMoreIcon sx={{ color: '#000' }} />
-              </IconButton>
-            </Tooltip>
+          <IconButton sx={{ mr: 1}} component={NavLink} to="/helpdesk">
+            <SupportAgentIcon />
+          </IconButton>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textAlign: 'center',
+              cursor: 'pointer',
+            }}
+            onClick={handleClick}
+          >
+            {isMobile ? (
+              <Tooltip title="Account settings">
+                <IconButton>
+                  <AccountCircleOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <React.Fragment>
+              <Typography>{`Welcome, ${currentUser?.firstName}`}</Typography>
+
+              <Tooltip title="Account settings">
+                <IconButton
+                  size="small"
+                  sx={{ ml: 0.5 }}
+                >
+                  <ExpandMoreIcon sx={{ color: '#000' }} />
+                </IconButton>
+              </Tooltip>
+            </React.Fragment>
+            )}
           </Box>
+
           <Menu
             anchorEl={anchorEl}
             id="account-menu"
@@ -112,22 +145,25 @@ const UserMenu:React.FC = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             <MenuItem onClick={handleClick} component={NavLink} to="my-profile">
-              <Avatar /> Profile
+              <ListItemIcon>
+                <PersonOutlinedIcon fontSize="small"/>
+              </ListItemIcon>
+              Profile
             </MenuItem>
 
             {currentUser?.role === 'guest' && (
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={handleClick} component={NavLink} to="/reservations">
                 <ListItemIcon>
-                  <AppRegistrationIcon fontSize='small'/>
+                  <AppRegistrationIcon fontSize="small"/>
                 </ListItemIcon>
                 Reservations
               </MenuItem>
             )}
 
             {currentUser?.role === 'owner' && (
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={handleClick} component={NavLink} to="/my-hotels">
                 <ListItemIcon>
-                  <AppRegistrationIcon fontSize='small'/>
+                  <HomeWorkOutlinedIcon fontSize="small"/>
                 </ListItemIcon>
                 Hotels
               </MenuItem>
@@ -141,7 +177,7 @@ const UserMenu:React.FC = () => {
               Logout
             </MenuItem>
 
-      </Menu>
+          </Menu>
         </React.Fragment>
       ) : (
         <React.Fragment>

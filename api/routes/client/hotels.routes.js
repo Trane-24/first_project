@@ -11,10 +11,10 @@ router.get('/search', async (req, res) => {
   try {
     const { limit, page, search, hotelType } = req.query;
     const regex = new RegExp(search, 'gi');
-    const params = { verified: true, name: {'$regex': regex} };
+    const params = { verified: true, $or: [{ name: {'$regex': regex} }, { country: {'$regex': regex} }, { city: {'$regex': regex} }] };
     if (hotelType) params['hotelType'] = { $in: hotelType.split(',') };
     const total = await Hotel.find(params).count();
-    const hotels = await Hotel.find(params, '-owner').skip((page-1)*limit).limit(limit)
+    const hotels = await Hotel.find(params, '-owner').sort({ _id: -1 }).skip((page-1)*limit).limit(limit)
       .populate('images', 'path')
       .populate({ path: 'hotelType', populate: { path: 'image' } })
 
@@ -53,6 +53,24 @@ router.get('/', authMiddleware, async (req, res) => {
       .populate({ path: 'hotelType', populate: { path: 'image' } })
 
     return res.json({ data: hotels, total });
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+});
+
+router.get('/search/:id', async (req, res) => {
+  try {
+    const hotel = await Hotel.findOne({ _id: req.params.id }, '-owner');
+
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+
+    return await Hotel.findOne({ _id: req.params.id }, '-owner')
+      .then(data => data.populate('images', 'path'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
+      .then(data => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
@@ -171,6 +189,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
       },
       {
         ...req.body,
+        owner: owner._id,
         images: req.body.imagesIds,
         hotelType: req.body.hotelTypeId,
         verified: false,

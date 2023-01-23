@@ -63,3 +63,12 @@ export const updateHotel = createAsyncThunk('hotes/Update hotel', async (data: a
     return thunkApi.rejectWithValue(e.response.data)
   }
 });
+// verified hotel
+export const markAsAerified = createAsyncThunk('hotels/Verified hotel', async (id: string, thunkApi) => {
+  try {
+    const { data: hotel } = await HttpService.put(`${url}/${id}/actions/markAsVerified`, {})
+    return hotel._id;
+  } catch(e: any) {
+    return thunkApi.rejectWithValue(e.response.data);
+  }
+})

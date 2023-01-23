@@ -1,0 +1,25 @@
+@import 'styles/utils/mixins';
+
+.list_content {
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #E0E0E0;
+}
+
+.list {
+  padding: 0;
+  max-height: calc(100vh - 352px);
+  overflow-y: scroll;
+
+  @include onTablet {
+    max-height: calc(100vh - 360px);
+  }
+}
+
+.pagination {
+  margin-top: 6px;
+  padding: 6px 0;
+  box-shadow: 0px -3px 6px -1px rgb(0 0 0 / 8%);
+}

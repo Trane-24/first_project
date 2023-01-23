@@ -9,6 +9,12 @@ import PrivateRoute from 'components/PrivateRoute';
 import HotelsPage from 'pages/HotelsPage';
 import AboutPage from 'pages/AboutPage';
 import HotelInfo from 'pages/HotelsPage/HotelInfo';
+<<<<<<< HEAD
+=======
+import MyHotelsPage from 'pages/MyHotelsPage';
+import Reservations from 'pages/GuestPages/Reservations';
+import ContactUs from 'pages/ContactUs';
+>>>>>>> 474d7eafdaa64ab7a428c77c19c7e61ce5f44261
 import HelpdeskPage from 'pages/Helpdesk';
 
 const AppRouting:React.FC = () => {
@@ -16,7 +22,7 @@ const AppRouting:React.FC = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact-us" element={<></>} />
+      <Route path="/contact-us" element={<ContactUs />} />
 
       <Route path="/list-your-property" element={
         <PublicRoute>
@@ -30,6 +36,7 @@ const AppRouting:React.FC = () => {
         </PrivateRoute>
       } />
 
+<<<<<<< HEAD
       <Route path="/helpdesk" element={
         <PrivateRoute>
           <HelpdeskPage />
@@ -38,6 +45,29 @@ const AppRouting:React.FC = () => {
 
       <Route path='/hotels' element={<HotelsPage />} />
       <Route path='/hotels/:hotelId' element={<HotelInfo />} />
+=======
+      <Route path="/reservations" element={
+          <PrivateRoute>
+            <Reservations />
+          </PrivateRoute>
+      } />
+
+      <Route path="/my-hotels" element={
+          <PrivateRoute>
+            <MyHotelsPage />
+          </PrivateRoute>
+      } />
+
+      
+      <Route path="/helpdesk" element={
+          <PrivateRoute>
+            <HelpdeskPage />
+          </PrivateRoute>
+      } />
+
+      <Route path="/hotels" element={<HotelsPage />} />
+      <Route path="/hotels/:hotelId" element={<HotelInfo />} />
+>>>>>>> 474d7eafdaa64ab7a428c77c19c7e61ce5f44261
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const Router = require('express');
 const User = require('../../models/User');
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken');
 const Hotel = require('../../models/Hotel');
 const Reservation = require('../../models/Reservation');
 const router = new Router();
 const authMiddleware = require('../../middlewares/auth.middleware');
+const userMiddleware = require('../../middlewares/user.middleware');
 
 router.get('/', authMiddleware, async (req, res) => {
   try {
@@ -35,14 +38,29 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', userMiddleware, async (req, res) => {
   try {
-    const { startDate, endDate, hotelId } = req.body;
+    const { reservationData, guestData } = req.body;
 
-    const guest = await User.findOne({ _id: req.user.id, role: 'guest' });
+    const { startDate, endDate, hotelId } = reservationData;
 
-    if (!guest) {
-      return res.status(403).json({message: 'No access'});
+    if (guestData) {
+      const { email, password, ...nextData } = guestData;
+      const candidate = await User.findOne({email});
+
+      if(candidate) {
+        return res.status(400).json({message: `User with email ${email} already exist`});
+      }
+
+      const hashPassword = await bcrypt.hash(password, 8);
+      const user = new User({email, password: hashPassword, ...nextData });
+      await user.save();
+    } else {
+      const guest = await User.findOne({ _id: req.user.id, role: 'guest' });
+
+      if (!guest) {
+        return res.status(403).json({message: 'No access'});
+      }
     }
 
     if (!startDate) {
@@ -65,10 +83,16 @@ router.post('/', authMiddleware, async (req, res) => {
       return res.status(404).json({message: 'Hotel not found'});
     }
 
+    let guest;
+
+    if (guestData) {
+      guest = await User.findOne({ email: guestData.email });
+    }
+
     const reservation = new Reservation({
-      ...req.body,
-      guest: guest._id,
-      hotel: req.body.hotelId,
+      ...reservationData,
+      guest: guestData ? guest._id : req.user.id,
+      hotel: reservationData.hotelId,
       status: 'pending',
     });
 

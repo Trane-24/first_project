@@ -19,7 +19,7 @@ import UserForm from './UsersForm';
 import { makeStyles } from '@mui/styles';
 import {
   IconButton, ListItemIcon, Menu, MenuItem,
-  Tooltip, Typography, Card, Grid
+  Tooltip, Typography, Card, Grid, Divider
 } from '@mui/material';
 import {
   DeleteOutline as DeleteOutlineIcon,
@@ -81,19 +81,21 @@ const UserItem: React.FC<Props> = ({ user }) => {
       </Dialog>
 
       <Card className={classes.card}>
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item xs={10} md={4} alignSelf="center" sx={{ order: -1 }}>
             <Typography className={classes.text}>{`${user.firstName} ${user.lastName}`}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
             <Typography className={classes.title}>E-mail</Typography>
-            <Typography className={classes.text}>{user.email}</Typography>
+            <Tooltip title={user.email}>
+              <Typography className={classes.text}>{user.email}</Typography>
+            </Tooltip>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
             <Typography className={classes.title}>Phone</Typography>
-            <Typography className={classes.text}>{user.phone ? formatPhone(user.phone) : ''}</Typography>
+            <Typography className={classes.text}>{user.phone ? formatPhone(user.phone) : '-'}</Typography>
           </Grid>
 
           <Grid item xs={2} md={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 } }}>
@@ -112,13 +114,6 @@ const UserItem: React.FC<Props> = ({ user }) => {
           onClose={handleOpenMenu}
           sx={{ display: 'flex', justifyContent: 'flex-start'}}
         >
-          <MenuItem component="div" onClick={handleOpenEditModal}>
-            <ListItemIcon>
-              <EditIcon fontSize='small'/>
-            </ListItemIcon>
-            Edit
-          </MenuItem>
-
           {user.role === UserRoles.Guest && (
             <MenuItem component={NavLink} to={`/admin/guests/${user._id}/reservations`}>
               <ListItemIcon>
@@ -129,19 +124,25 @@ const UserItem: React.FC<Props> = ({ user }) => {
           )}
 
           {user.role === UserRoles.Owner && (
-            <MenuItem component={NavLink} to={`/admin/guests/${user._id}/reservations`}>
+            <MenuItem component={NavLink} to={`/admin/owners/${user._id}/hotels`}>
               <ListItemIcon>
                 <HomeWorkOutlined fontSize='small'/>
               </ListItemIcon>
               Hotels
             </MenuItem>
           )}
-
+          <MenuItem component="div" onClick={handleOpenEditModal}>
+            <ListItemIcon>
+              <EditIcon fontSize='small'/>
+            </ListItemIcon>
+            {`Edit ${user.role}`} 
+          </MenuItem>
+          <Divider />
           <MenuItem component="div" onClick={handleOpenDeleteModal}>
             <ListItemIcon>
               <DeleteOutlineIcon />
             </ListItemIcon>
-            Delete
+            {`Delete ${user.role}`} 
           </MenuItem>
         </Menu>
       </Card>
@@ -169,5 +170,8 @@ const useStyles = makeStyles({
     lineHeight: '143%',
     letterSpacing: '0.17px',
     color: 'rgba(0, 0, 0, 0.87)',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
 });

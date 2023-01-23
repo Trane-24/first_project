@@ -11,6 +11,7 @@ interface IHotel {
   description?: string;
   owner: IUser;
   hotelType: IHotelType;
+  verified: boolean;
 }
 
 export default IHotel;

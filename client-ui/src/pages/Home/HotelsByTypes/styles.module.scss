@@ -1,0 +1,41 @@
+@import 'styles/utils/mixins';
+
+.block {
+  padding: 40px 0 20px;
+  background-color: #fff;
+  margin-left: auto;
+  padding-left: 16px;
+
+  @include onLaptop {
+    padding: 60px 0 20px;
+  }
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  height: 219px;
+}
+
+.img {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  transition: all 0.5s;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 3px grey;
+  font-size: 1.2rem;
+}

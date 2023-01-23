@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+// Hooks
+import { useWindowDimensions } from 'hooks/useWindowDimensions';
 // Selectors
 import { selectCurrentUser } from 'store/users/usersSelectors';
 // Actions
@@ -9,10 +11,11 @@ import { usersActions } from 'store/users/usersSlice';
 // Services
 import StorageService from 'services/StorageService';
 // mui
-import { Box, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, IconButton, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 const UserMenu:React.FC = () => {
   const dispatch = useDispatch();
@@ -31,15 +34,31 @@ const UserMenu:React.FC = () => {
     dispatch(usersActions.removeCurrentUser());
   }
 
+  const { width } = useWindowDimensions();
+  const isMobile = useMemo(() => {
+    return width < 600;
+  }, [ width ])
+
   return (
     <React.Fragment>
       <Box onClick={handleToggleMenu} sx={{ display: 'flex', gap: 0.5, alignItems: 'center', cursor: 'pointer' }}>
-        <Typography sx={{ color: '#fff' }}>
-          {`Welcome, ${currentUser?.firstName} ${currentUser?.lastName}`}
-        </Typography>
-        <Box ref={menuRef}>
-          <ExpandMoreIcon sx={{ color: '#fff' }} />
-        </Box>
+        {isMobile ? (
+          <Box ref={menuRef}>
+            <IconButton >
+              <AccountCircleOutlinedIcon sx={{ color: '#fff'}}/>
+            </IconButton>
+          </Box>
+        ) : (
+          <React.Fragment>
+            <Typography sx={{ color: '#fff' }}>
+              {`Welcome, ${currentUser?.firstName} ${currentUser?.lastName}`}
+            </Typography>
+            <Box ref={menuRef} sx={{display: 'flex'}}>
+              <ExpandMoreIcon sx={{ color: '#fff' }} />
+            </Box>
+          </React.Fragment>
+        )}
+       
       </Box>
 
       <Menu

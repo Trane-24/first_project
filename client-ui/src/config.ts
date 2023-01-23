@@ -2,7 +2,6 @@ interface IConfig {
   [key:string]: {
     production: boolean;
     apiURL: string;
-    serverURL: string;
   }
 }
 
@@ -10,17 +9,10 @@ const config:IConfig = {
   'development': {
     production: false,
     apiURL: 'http://localhost:5000/api/client',
-    serverURL: 'http://localhost:5000',
-  },
-  'qa': {
-    production: false,
-    apiURL: 'https://enigmatic-dusk-45240.herokuapp.com/api/client',
-    serverURL: 'http://localhost:5000',
   },
   'production': {
     production: true,
-    apiURL: 'https://enigmatic-dusk-45240.herokuapp.com/api/client',
-    serverURL: 'http://localhost:5000',
+    apiURL: 'https://api-hotels-reservations.appspot.com/api/client',
   }
 };
 

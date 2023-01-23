@@ -20,7 +20,7 @@ const HotelTypesHeader:React.FC = () => {
         <Button
           variant='contained'
           onClick={openDialog}
-          size="small"
+          sx={{ height: '40px'}}
         >
           Create hotel type
         </Button>

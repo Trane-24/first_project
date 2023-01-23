@@ -193,7 +193,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/postReservation"
+                "type":"object",
+                "properties": {
+                  "reservationData": {
+                    "$ref": "#/components/schemas/postReservation"
+                  },
+                  "guestData": {
+                    "$ref": "#/components/schemas/postUser"
+                  }
+                }
               }
             }
           }
@@ -461,6 +469,36 @@
         }
       }
     },
+    "/api/client/hotels/search/{id}": {
+      "get": {
+        "summary": "Get hotel",
+        "tags": [
+          "Hotels"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getHotel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/client/hotels/topHotels": {
       "get": {
         "summary": "Get hotels",
@@ -716,9 +754,6 @@
           },
           "hotel": {
             "$ref": "#/components/schemas/getHotel"
-          },
-          "guest": {
-            "$ref": "#/components/schemas/getUser"
           },
           "startDate": {
             "type": "string",

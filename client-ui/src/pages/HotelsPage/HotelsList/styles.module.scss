@@ -41,7 +41,7 @@
 
 .paginationWrap {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   padding: 10px 0;
 
   @include onTablet {

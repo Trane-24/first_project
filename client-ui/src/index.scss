@@ -1,4 +1,19 @@
-@import './styles/base/reset';
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kenia&display=swap');
+
 @import './styles/base/root';
+@import './styles/base/reset';
 
 @import './styles/components/container.scss';
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(128, 128, 128, 0.75);
+}

@@ -15,7 +15,7 @@ import UserRoles from 'types/UserRoles';
 import Phone from 'components/Phone';
 // MUI
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 // utilites
 import { isEmail, isRequired } from 'utilites/validation';
 
@@ -70,10 +70,13 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   });
 
   return (
-    <Box sx={{ p: 5, width: '100%'}}>
-      <Typography variant="h5">{`${user ? 'Update' : 'Create'} user`}</Typography>
+    <React.Fragment>
+      <DialogTitle>
+        <Typography variant="h5">{`${user ? 'Update' : 'Create'} ${user ? user.role : role}`}</Typography>
+      </DialogTitle>
 
-      <form onSubmit={onSubmit} noValidate>
+      <DialogContent dividers>
+        <form noValidate>
           <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
             {/* email */}
             <Grid item xs={12}>
@@ -136,21 +139,23 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
               />
             </Grid>
           </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-            <Button
-              variant="outlined"
-              onClick={onClose}
-            >
-              Cancel
-            </Button>
-            <LoadingButton
-              loading={isLoading}
-              type='submit'
-              variant='contained'
-            >{`${user ? 'Update' : 'Create'} user`}</LoadingButton>
-          </Box>
         </form>
-    </Box>
+      </DialogContent>
+
+      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+        <Button
+          variant="outlined"
+          onClick={onClose}
+        >
+          Cancel
+        </Button>
+        <LoadingButton
+          loading={isLoading}
+          onClick={onSubmit}
+          variant='contained'
+        >{user ? 'Save' : 'Create'}</LoadingButton>
+      </DialogActions>
+    </React.Fragment>
   );
 };
 

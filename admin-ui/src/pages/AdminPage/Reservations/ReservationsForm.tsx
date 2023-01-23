@@ -24,8 +24,8 @@ import ReservationStatuses from "types/ReservationStatuses";
 import { LoadingButton } from "@mui/lab";
 import { MobileDatePicker } from "@mui/x-date-pickers";
 import {
-  Autocomplete, Box, Button, Grid, TextField,
-  Typography, debounce, MenuItem
+  Autocomplete, Button, Grid, TextField,
+  Typography, debounce, MenuItem, DialogTitle, DialogActions, DialogContent
 } from "@mui/material";
 // utilites
 import { isRequired } from "utilites/validation";
@@ -86,7 +86,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   const debouncedChangeHandler = useCallback(
     debounce(changeQueryValue, 1000)
   , []);
@@ -130,222 +130,228 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
     dispatch(fetchUsers({ role: 'guest', search: valueGuest}))
       .unwrap()
       .finally(() => setIsLoadingGuests(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [valueGuest]);
 
   useEffect(() => {
     dispatch(fetchHotels({ search: valueHotel }))
       .unwrap()
       .finally(() => setIsLoadingHotels(false))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [valueHotel]);
 
   useEffect(() => {
     const newStartDate = dayjs(startDate).format('YYYY-MM-DD');
     const newEndDate = dayjs(endDate).format('YYYY-MM-DD');
     if (newStartDate >= newEndDate && !!endDate) {
-      setValue('endDate', dayjs(startDate).add(1, 'day').format('YYYY-MM-DD'));
+      setValue('endDate', startDate
+        ? dayjs(startDate).add(1, 'day').format('YYYY-MM-DD')
+        : dayjs(endDate).format('YYYY-MM-DD'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   }, [startDate, endDate])
 
   return (
-    <Box sx={{p: 5, width: '100%'}}>
-      <Typography variant="h5">
-        {`${reservation ? 'Update' : 'Add'} reservation`}
-      </Typography>
+    <React.Fragment>
+      <DialogTitle>
+        <Typography variant="h5">
+          {`${reservation ? 'Update' : 'Add'} reservation`}
+        </Typography>
+      </DialogTitle>
 
-      <form onSubmit={onSubmit} noValidate>
-        <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
-          {/* startDate */}
-          <Grid item xs={12}>
-            <Controller
-              control={control} name="startDate"
-              rules={{ required: isRequired}}
-              render={({ field }) => (
-                <MobileDatePicker
-                  { ...field }
-                  disablePast
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Start date"
-                      fullWidth
-                      required
-                      error={!!errors?.startDate}
-                      helperText={errors?.startDate ? errors.startDate.message : null}
-                    />
-                  )}
-                />
-              )}
-            />
-          </Grid>
-
-          {/* endDate */}
-          <Grid item xs={12}>
-            <Controller
-              control={control} name="endDate"
-              rules={{ required: isRequired}}
-              render={({ field }) => (
-                <MobileDatePicker
-                  { ...field }
-                  disablePast
-                  minDate={dayjs(startDate).add(1, 'day')}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="End date"
-                      fullWidth
-                      required
-                      error={!!errors?.endDate}
-                      helperText={errors?.endDate ? errors.endDate.message : null}
-                    />
-                  )}
-                />
-              )}
-            />
-          </Grid>
-
-          {/* notes */}
-          <Grid item xs={12}>
-            <Controller
-              control={control} name="notes"
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  multiline
-                  rows={3}
-                  label="Notes"
-                  fullWidth
-                  error={!!errors?.notes}
-                  helperText={errors?.notes ? errors.notes.message : null}
-                />
-              )}
-            />
-          </Grid>
-
-          {/* status */}
-          {reservation && (
+      <DialogContent dividers>
+        <form noValidate>
+          <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
+            {/* startDate */}
             <Grid item xs={12}>
-            <Controller
-              control={control} name="status"
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  select
-                  multiline
-                  label="Status"
-                  fullWidth
-                  error={!!errors?.notes}
-                >
-                  {Object.entries(ReservationStatuses).map((status) => {
-                    const [title, value] = status;
+              <Controller
+                control={control} name="startDate"
+                rules={{ required: isRequired}}
+                render={({ field }) => (
+                  <MobileDatePicker
+                    { ...field }
+                    disablePast
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Start date"
+                        fullWidth
+                        required
+                        error={!!errors?.startDate}
+                        helperText={errors?.startDate ? errors.startDate.message : null}
+                      />
+                    )}
+                  />
+                )}
+              />
+            </Grid>
 
-                    return (<MenuItem key={value} value={value} >{title}</MenuItem>)
-                  })}
-                </TextField>
-              )}
-            />
+            {/* endDate */}
+            <Grid item xs={12}>
+              <Controller
+                control={control} name="endDate"
+                rules={{ required: isRequired}}
+                render={({ field }) => (
+                  <MobileDatePicker
+                    { ...field }
+                    disablePast
+                    minDate={dayjs(startDate).add(1, 'day')}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="End date"
+                        fullWidth
+                        required
+                        error={!!errors?.endDate}
+                        helperText={errors?.endDate ? errors.endDate.message : null}
+                      />
+                    )}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* notes */}
+            <Grid item xs={12}>
+              <Controller
+                control={control} name="notes"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    multiline
+                    rows={3}
+                    label="Notes"
+                    fullWidth
+                    error={!!errors?.notes}
+                    helperText={errors?.notes ? errors.notes.message : null}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* status */}
+            {reservation && (
+              <Grid item xs={12}>
+              <Controller
+                control={control} name="status"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    multiline
+                    label="Status"
+                    fullWidth
+                    error={!!errors?.notes}
+                  >
+                    {Object.entries(ReservationStatuses).map((status) => {
+                      const [title, value] = status;
+
+                      return (<MenuItem key={value} value={value} >{title}</MenuItem>)
+                    })}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            )}
+
+            {/* guestId */}
+            <Grid item xs={12}>
+              <Controller
+                control={control} name="guestId"
+                rules={{ required: isRequired}}
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    disablePortal
+                    options={users || []}
+                    isOptionEqualToValue={(option, value) => option._id === value._id}
+                    onChange={(_, guest: IUser | null) => onChange(guest)}
+                    value={value || null}
+                    getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+                    loadingText='Please wait'
+                    loading={isLoadingGuests}
+                    noOptionsText='Dont have gusts'
+                    renderOption={(props, option) => (
+                      <li {...props} key={option._id} >
+                        {`${option.firstName} ${option.lastName}`}
+                      </li>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="guestId"
+                        label="Guest"
+                        required
+                        error={Boolean(errors.guestId)}
+                        helperText={errors.guestId ? `${errors.guestId.message}` : ''}
+                        onChange={(e) => {
+                          setIsLoadingGuests(true);
+                          debouncedChangeHandler(e)
+                        }}
+                      />
+                    )}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* hotelId */}
+            <Grid item xs={12}>
+              <Controller
+                control={control} name="hotelId"
+                rules={{ required: isRequired}}
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    disablePortal
+                    options={hotels || []}
+                    isOptionEqualToValue={(option, value) => option._id === value._id}
+                    onChange={(_, hotel: IHotel | null) => onChange(hotel)}
+                    value={value || null}
+                    getOptionLabel={(option) => option.name}
+                    loadingText='Please wait'
+                    loading={isLoadingHotels}
+                    noOptionsText='Dont have hotels'
+                    renderOption={(props, option) => (
+                      <li {...props} key={option._id} >
+                        {option.name}
+                      </li>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="hotelId"
+                        label="Hotel"
+                        required
+                        error={Boolean(errors.hotelId)}
+                        helperText={errors.hotelId ? `${errors.hotelId.message}` : ''}
+                        onChange={(e) => {
+                          setIsLoadingHotels(true);
+                          debouncedChangeHandler(e);
+                        }}
+                      />
+                    )}
+                  />
+                )}
+              />
+            </Grid>
           </Grid>
-          )}
+        </form>
+      </DialogContent>
 
-          {/* guestId */}
-          <Grid item xs={12}>
-            <Controller
-              control={control} name="guestId"
-              rules={{ required: isRequired}}
-              render={({ field: { onChange, value } }) => (
-                <Autocomplete
-                  disablePortal
-                  options={users || []}
-                  isOptionEqualToValue={(option, value) => option._id === value._id}
-                  onChange={(_, guest: IUser | null) => onChange(guest)}
-                  value={value || null}
-                  getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                  loadingText='Please wait'
-                  loading={isLoadingGuests}
-                  noOptionsText='Dont have gusts'
-                  renderOption={(props, option) => (
-                    <li {...props} key={option._id} >
-                      {`${option.firstName} ${option.lastName}`}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      name="guestId"
-                      label="Guest"
-                      required
-                      error={Boolean(errors.guestId)}
-                      helperText={errors.guestId ? `${errors.guestId.message}` : ''}
-                      onChange={(e) => {
-                        setIsLoadingGuests(true);
-                        debouncedChangeHandler(e)
-                      }}
-                    />
-                  )}
-                />
-              )}
-            />
-          </Grid>
+      <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
 
-          {/* hotelId */}
-          <Grid item xs={12}>
-            <Controller
-              control={control} name="hotelId"
-              rules={{ required: isRequired}}
-              render={({ field: { onChange, value } }) => (
-                <Autocomplete
-                  disablePortal
-                  options={hotels || []}
-                  isOptionEqualToValue={(option, value) => option._id === value._id}
-                  onChange={(_, hotel: IHotel | null) => onChange(hotel)}
-                  value={value || null}
-                  getOptionLabel={(option) => option.name}
-                  loadingText='Please wait'
-                  loading={isLoadingHotels}
-                  noOptionsText='Dont have hotels'
-                  renderOption={(props, option) => (
-                    <li {...props} key={option._id} >
-                      {option.name}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      name="hotelId"
-                      label="Hotel"
-                      required
-                      error={Boolean(errors.hotelId)}
-                      helperText={errors.hotelId ? `${errors.hotelId.message}` : ''}
-                      onChange={(e) => {
-                        setIsLoadingHotels(true);
-                        debouncedChangeHandler(e);
-                      }}
-                    />
-                  )}
-                />
-              )}
-            />
-          </Grid>
-        </Grid>
+        <LoadingButton
+          loading={isLoading}
+          variant="contained"
+          onClick={onSubmit}
+        >
+          {reservation ? 'Save' : 'Create'}
+        </LoadingButton>
+      </DialogActions>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2}}>
-          <Button variant="outlined" onClick={onClose}>
-            Cancel
-          </Button>
-
-          <LoadingButton
-            loading={isLoading}
-            type="submit"
-            variant="contained"
-          >
-            {`${reservation ? 'Update' : 'Add'} reservation`}
-          </LoadingButton>
-        </Box>
-      </form>
-
-    </Box>
+    </React.Fragment>
   )
 };
 

@@ -16,6 +16,15 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          '& .Mui-selected': {
+            color: '#fefefe !important',
+          },
+        }
+      }
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true,

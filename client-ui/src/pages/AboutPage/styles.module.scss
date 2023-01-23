@@ -1,122 +1,57 @@
 @import 'styles/utils/mixins';
 
-.about {
-  padding: 10px 0;
+.block {
+  padding: 60px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  text-align: justify;
+  gap: 40px;
 
-  @include onTablet {
-    padding: 30px 0;
-  }
-
-  @include onLaptop {
+  @include on900 {
     flex-direction: row;
-    align-items: flex-start;
-    padding: 65px 0;
   }
+}
+
+.revers {
+  flex-direction: column-reverse;
+  
+  @include on900 {
+    flex-direction: row;
+  }
+}
+
+.ourMission {
+  @include flex-center;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .title {
   font-size: 24px;
-  padding-bottom: 10px;
   font-weight: 400;
 
   @include onLaptop {
     font-size: 40px;
-    padding-bottom: 30px;
   }
 }
 
-.about img {
-  width: 100%;
-  max-width: 500px;
-}
-
-.ourMission {
-  padding: 10px 0;
-  background-color: #eee;
-  text-align: justify;
-
-  @include onTablet {
-    padding: 30px 0;
-  }
-
-  
-  @include onLaptop {
-    padding: 65px 0;
-  }
-}
-
-.ourMission_content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.hassleFreeTravel {
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 20px;
-  text-align: justify;
-
-  @include onTablet {
-    padding: 30px 0;
-  }
+.subtitle {
+  padding-top: 10px;
 
   @include onLaptop {
-    padding: 65px 0;
-    flex-direction: row;
-    align-items: flex-start;
+    padding-top: 20px;
   }
 }
 
-.hassleFreeTravel img {
+.image {
   width: 100%;
-  max-width: 500px;
   border-radius: 8px;
-}
+  height: 350px;
+  object-fit: cover;
 
-.ourTeam {
-  padding: 10px 0;
-  background-color: rgba(238, 238, 238, 0.6);
-
-  @include onTablet {
-    padding: 30px 0;
-  }
-
-  @include onLaptop {
-    padding: 65px 0;
-  }
-}
-
-.ourTeam img {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 8px;
-}
-
-.ourTeam_content {
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  text-align: justify;
-
-  @include onTablet {
-    padding: 30px 0;
-    justify-content: space-between;
-  }
-
-  @include onLaptop {
-    padding: 65px 0;
-    flex-direction: row;
-    align-items: flex-start;
+  @include on900 {
+    width: 50%;
   }
 }
