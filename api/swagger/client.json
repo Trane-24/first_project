@@ -611,34 +611,6 @@
             }
           }
         }
-      },
-      "post": {
-        "summary": "Send message",
-        "tags": [
-          "Helpdesk"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/postMessage"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/getMessage"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/admin/hotelTypes": {

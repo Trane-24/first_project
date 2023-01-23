@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Router = require('express');
-const User = require('../../models/User');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
 const router = new Router();
@@ -31,54 +30,6 @@ router.get('/messages/:id', authMiddleware, async (req, res) => {
       .populate('toUser', 'firstName lastName');
 
     return res.json({ data: messages, total });
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.post('/messages/:id', authMiddleware, async (req, res) => {
-  try {
-    if (!req.body.message) {
-      return res.status(400).json({message: 'message is require'});
-    }
-
-    const client = await User.findOne({ _id: req.params.id });
-
-    if (!client) {
-      return res.status(404).json({message: 'Client not found'});
-    }
-
-    const conversation = await Conversation.findOne({ clientId: req.params.id });
-
-    if (!conversation) {
-      const newConversation = new Conversation({
-        client: req.params.id,
-        read: false,
-        message: req.body.message,
-      })
-      
-      await newConversation.save();
-    } else {
-      await conversation.update({
-        client: req.params.id,
-        read: false,
-        message: req.body.message,
-      });
-    }
-
-    const message = new Message({
-      message: req.body.message,
-      read: false,
-      fromUser: req.user.id,
-      toUser: req.params.id,
-      clientId: req.params.id,
-    });
-
-    return message.save()
-      .then(data => data.populate('fromUser', 'firstName lastName'))
-      .then(data => data.populate('toUser', 'firstName lastName'))
-      .then(data => res.json(data)) 
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});

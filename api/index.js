@@ -1,11 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
-const ws = require('ws');
+const wss = require('./ws');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
-// Models
-const User = require('./models/User');
 // Routes
 const authRouter = require('../api/routes/admin/auth.routes');
 const clientAuthRouter = require('../api/routes/client/auth.routes');
@@ -48,43 +46,13 @@ app.use('/api/client/hotelTypes', clientHotelTypesRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
+
 const start = async () => {
   try {
     await mongoose.connect(config.get('dbUrl'))
     app.listen(PORT, () => {
       console.log(`Server started on ${PORT} port`);
     });
-    const wss = new ws.Server({ port: 5001 }, () => console.log(`Websocket server started`));
-    wss.on('connection', (ws) => {
-      ws.on('message', async (messageOutput) => {
-        const { event, message, fromUser, clientId } = JSON.parse(messageOutput);
-        switch (event) {
-          case 'message': 
-            console.log(JSON.parse(messageOutput));
-            // const sender = await User.findOne({ _id: fromUser._id });
-
-            // const msg = new Message({
-            //   message,
-            //   read: false,
-            //   fromUser: fromUser._id,
-            //   clientId: clientId ? clientId : fromUser._id,
-            // });
-
-            // const response = await msg.save()
-            //   .then(data => data.populate('fromUser', 'firstName lastName'))
-            //   .then(data => sendMessages({...data._doc, event}))
-            break;
-          default:
-            break;
-        }
-      })
-    })
-
-    function sendMessages(message) {
-      wss.clients.forEach((client) => {
-        client.send(JSON.stringify(message));
-      })
-    }
   } catch (e) {
     console.log(e)
   }

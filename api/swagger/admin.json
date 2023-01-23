@@ -762,34 +762,6 @@
             }
           }
         }
-      },
-      "post": {
-        "summary": "Create conversation",
-        "tags": [
-          "Helpdesk"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/postHotel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/getHotel"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/admin/helpdesk/messages/{clientId}": {
@@ -844,34 +816,6 @@
                       "type": "number"
                     }
                   }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Send message",
-        "tags": [
-          "Helpdesk"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/postMessage"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/getMessage"
                 }
               }
             }
