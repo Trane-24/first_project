@@ -1,6 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+const ws = require('ws');
+const app = express();
+const PORT = process.env.PORT || config.get('serverPort');
+// Models
+const User = require('./models/User');
+// Routes
 const authRouter = require('../api/routes/admin/auth.routes');
 const clientAuthRouter = require('../api/routes/client/auth.routes');
 const usersRouter = require('../api/routes/admin/users.routes');
@@ -15,10 +21,9 @@ const helpdeskRouter = require('../api/routes/admin/helpdesk.routes');
 const clientHelpdeskRouter = require('../api/routes/client/helpdesk.routes');
 const hotelTypesRouter = require('../api/routes/admin/hotelTypes.routes');
 const clientHotelTypesRouter = require('../api/routes/client/hotelTypes.routes');
-const app = express();
-const PORT = process.env.PORT || config.get('serverPort');
+// Middlewares
 const corsMiddleware = require('../api/middlewares/cors.middleware');
-const ws = require('ws');
+// Swager
 const swaggerUi = require('swagger-ui-express');
 // const swaggerDoc = require('../api/swagger/client.json');
 const swaggerDoc = require('./swagger/admin.json');
@@ -51,12 +56,23 @@ const start = async () => {
     });
     const wss = new ws.Server({ port: 5001 }, () => console.log(`Websocket server started`));
     wss.on('connection', (ws) => {
-      ws.on('message', (messageOutput) => {
-        console.log(JSON.parse(messageOutput));
-        const { event, message, userId, clientId } = JSON.parse(messageOutput);
+      ws.on('message', async (messageOutput) => {
+        const { event, message, fromUser, clientId } = JSON.parse(messageOutput);
         switch (event) {
           case 'message': 
-            sendMessages(JSON.parse(messageOutput))
+            console.log(JSON.parse(messageOutput));
+            // const sender = await User.findOne({ _id: fromUser._id });
+
+            // const msg = new Message({
+            //   message,
+            //   read: false,
+            //   fromUser: fromUser._id,
+            //   clientId: clientId ? clientId : fromUser._id,
+            // });
+
+            // const response = await msg.save()
+            //   .then(data => data.populate('fromUser', 'firstName lastName'))
+            //   .then(data => sendMessages({...data._doc, event}))
             break;
           default:
             break;
