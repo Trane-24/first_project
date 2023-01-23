@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
-const wss = require('./ws');
+const ws = require('./ws');
 const app = express();
 const PORT = process.env.PORT || config.get('serverPort');
 // Routes

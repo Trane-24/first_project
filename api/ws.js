@@ -24,7 +24,6 @@ wss.on('connection', async (ws, request) => {
 
     switch (event) {
       case 'message': 
-        const sender = await User.findOne({ _id: fromUser });
         const conversation = await Conversation.findOne({ client: clientId });
 
         if (!conversation) {
@@ -51,7 +50,7 @@ wss.on('connection', async (ws, request) => {
 
         await msg.save()
           .then(data => data.populate('fromUser', 'firstName lastName'))
-          .then(data => sendMessages({...data._doc, event}, sender.role))
+          .then(data => sendMessages({...data._doc, event}))
         break;
       default:
         break;
@@ -59,20 +58,15 @@ wss.on('connection', async (ws, request) => {
   })
 })
 
-function sendMessages(message, role) {
-  if (role === 'admin') {
-    clients.forEach((client) => {
-      client.ws.send(JSON.stringify(message))
-    })
-  } else {
-    clients.filter(client => {
-      const clientId = JSON.stringify(client._id);
-      const senderId = JSON.stringify(message.fromUser._id)
-      return client.role === 'admin' || clientId === senderId
-    }).forEach((cl) => {
-      cl.ws.send(JSON.stringify(message))
-    })
-  }
+function sendMessages(message) {
+  clients.filter(client => {
+    const messageClientId = JSON.stringify(message.clientId);
+    const clientId = JSON.stringify(client._id);
+    const senderId = JSON.stringify(message.fromUser._id)
+    return client.role === 'admin' || clientId === senderId || clientId === messageClientId
+  }).forEach((cl) => {
+    cl.ws.send(JSON.stringify(message))
+  })
 }
 
 module.exports = wss;
