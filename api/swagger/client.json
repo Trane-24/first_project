@@ -613,6 +613,32 @@
         }
       }
     },
+    "/api/admin/helpdesk/messages/actions/markAsRead": {
+      "put": {
+        "summary": "Mark messages as read",
+        "tags": [
+          "Helpdesk"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Messages has been mask as read"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/admin/hotelTypes": {
       "get": {
         "summary": "Get hotel types",
