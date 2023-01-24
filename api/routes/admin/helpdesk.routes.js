@@ -36,4 +36,38 @@ router.get('/messages/:id', authMiddleware, async (req, res) => {
   }
 });
 
+router.put('/messages/:id/actions/markAsRead', authMiddleware, async (req, res) => {
+  try {
+
+  await Conversation.findOneAndUpdate(
+    {
+      client: req.params.id,
+    },
+    {
+      $set: {
+        read: true,
+      },
+    }
+  )
+  await Message.updateMany(
+    {
+      $and: [
+        {clientId: req.params.id},
+        {fromUser: req.params.id }
+      ]
+    },
+    {
+      $set: {
+        read: true,
+      },
+    },
+  )
+
+  return res.json({ message: 'Messages has been mask as read' });
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+});
+
 module.exports = router;
