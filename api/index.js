@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+const ws = require('./ws');
+const app = express();
+const PORT = process.env.PORT || config.get('serverPort');
+// Routes
 const authRouter = require('../api/routes/admin/auth.routes');
 const clientAuthRouter = require('../api/routes/client/auth.routes');
 const usersRouter = require('../api/routes/admin/users.routes');
@@ -15,10 +19,9 @@ const helpdeskRouter = require('../api/routes/admin/helpdesk.routes');
 const clientHelpdeskRouter = require('../api/routes/client/helpdesk.routes');
 const hotelTypesRouter = require('../api/routes/admin/hotelTypes.routes');
 const clientHotelTypesRouter = require('../api/routes/client/hotelTypes.routes');
-const app = express();
-const PORT = process.env.PORT || config.get('serverPort');
+// Middlewares
 const corsMiddleware = require('../api/middlewares/cors.middleware');
-const ws = require('ws');
+// Swager
 const swaggerUi = require('swagger-ui-express');
 // const swaggerDoc = require('../api/swagger/client.json');
 const swaggerDoc = require('./swagger/admin.json');
@@ -43,32 +46,13 @@ app.use('/api/client/hotelTypes', clientHotelTypesRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
+
 const start = async () => {
   try {
     await mongoose.connect(config.get('dbUrl'))
     app.listen(PORT, () => {
       console.log(`Server started on ${PORT} port`);
     });
-    const wss = new ws.Server({ port: 5001 }, () => console.log(`Websocket server started`));
-    wss.on('connection', (ws) => {
-      ws.on('message', (messageOutput) => {
-        console.log(JSON.parse(messageOutput));
-        const { event, message, userId, clientId } = JSON.parse(messageOutput);
-        switch (event) {
-          case 'message': 
-            sendMessages(JSON.parse(messageOutput))
-            break;
-          default:
-            break;
-        }
-      })
-    })
-
-    function sendMessages(message) {
-      wss.clients.forEach((client) => {
-        client.send(JSON.stringify(message));
-      })
-    }
   } catch (e) {
     console.log(e)
   }
