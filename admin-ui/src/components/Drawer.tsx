@@ -19,8 +19,8 @@ import {
   HolidayVillageOutlined as HolidayVillageOutlinedIcon,
   Close as CloseIcon,
   TravelExplore as TravelExploreIcon,
+  SupportAgent as SupportAgentIcon,
 } from '@mui/icons-material';
-
 
 interface INav {
   to: string;
@@ -39,6 +39,7 @@ const Drawer:FC = () => {
     return {
       'admin': [
         { to: `/admin/agents`, label: 'Agents', icon: PeopleOutlinedIcon },
+        { to: `/admin/helpdesk`, label: 'Helpdesk', icon: SupportAgentIcon },
       ],
       'owner': [
         { to: `/admin/owners`, label: 'Owners', icon: PeopleOutlinedIcon },

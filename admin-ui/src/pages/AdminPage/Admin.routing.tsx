@@ -9,6 +9,7 @@ import ReservationPage from './Reservations';
 import UserReservations from './Users/UserReservations';
 import UserHotels from './Users/UserHotels';
 import HotelsType from './HotelTypes';
+import HelpdeskPage from './Helpdesk';
 
 const AdminRouting:React.FC = () => {
   return (
@@ -45,6 +46,8 @@ const AdminRouting:React.FC = () => {
       <Route path="my-profile" element={<ProfilePage />} />
 
       <Route path="hotel-types" element={<HotelsType />} />
+
+      <Route path="helpdesk" element={<HelpdeskPage />} />
 
       <Route path="*" element={<Navigate to="/admin/agents" />} />
     </Routes>

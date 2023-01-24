@@ -19,6 +19,9 @@
   border-radius: 8px 8px 0 8px;
   color: #fff;
 
+  word-break: break-word;
+  white-space: pre-line;
+
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -31,7 +34,7 @@
 }
 
 .text {
-  white-space: pre-line;
+
   align-self: flex-end;
 }
 

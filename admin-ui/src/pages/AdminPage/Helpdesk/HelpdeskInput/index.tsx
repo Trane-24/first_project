@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+// react-hook-form
 import { Controller, useForm } from 'react-hook-form';
 // hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
 import { sendMessasges } from 'store/helpdesk/helpdeskAsync';
+// Selectors
+import { selectCurrentConversation } from 'store/helpdesk/helpdeskSelectors';
 // MUI
 import { IconButton, TextField } from '@mui/material';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-// Styles
-import classes from './styles.module.scss';
+import { makeStyles } from '@mui/styles';
 
 interface Props {
   scrollToEnd: () => void;
@@ -20,7 +23,9 @@ interface IForm {
 
 const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
   const dispatch = useAppDispatch();
+  const classes = useStyle();
 
+  const currentConversation = useSelector(selectCurrentConversation);
 
   const { handleSubmit, control, setValue, watch } = useForm({
     defaultValues: {
@@ -31,7 +36,12 @@ const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
   const messageWatcher = watch('message');
 
   const sendMessage = () => {
-    dispatch(sendMessasges(messageWatcher))
+    const newData = {
+      message: messageWatcher,
+      userId: currentConversation.client._id,
+    }
+
+    dispatch(sendMessasges(newData))
       .unwrap()
       .then(() => scrollToEnd())
   };
@@ -74,3 +84,17 @@ const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
 }
 
 export default HelpdeskInput;
+
+const useStyle = makeStyles({
+  input: {
+    borderRadius: '0 0 8px 8px',
+    outline: 'none',
+    backgroundColor: '#fff',
+  },
+  btn: {
+    display: 'flex',
+    gap: '8px',
+    fontSize: '20px',
+    color: '#49AAD1',
+  }
+});
