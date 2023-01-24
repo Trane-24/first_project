@@ -27,7 +27,7 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
 
   const [first, setFirst] = useState(false);
 
-  let date = messages ? messages[0].createdAt : null;
+  let date = messages?.length ? messages[0].createdAt : null;
   // Intersection Observer
   const [ref, { entry }] = useIntersectionObserver();
   const isVisible = entry && entry.isIntersecting;
@@ -60,17 +60,20 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
   // eslint-disable-next-line
   }, []);
 
-  console.log('render')
-
   return (
     <React.Fragment>
-      <Divider sx={{ mb: 2}}>
-        <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
-      </Divider>
+      {date ? (
+        <Divider sx={{ mb: 2}}>
+          <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
+        </Divider>
+      ) : (
+        <div>Write first message...</div>
+      )}
+
       {messages?.map((message, ind) => {
           const isSameDay = dayjs(message.createdAt).isSame(date, 'day');
           if (isSameDay) {
-            return <HelpdeskMessage message={message} ind={ind} referenc={ref} key={message._id}/>
+            return <HelpdeskMessage message={message} referenc={ind === 5 ? ref : null} key={message._id}/>
           } else {
             date = message.createdAt;
             return (
@@ -78,7 +81,7 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
                 <Divider sx={{ mb: 2}}>
                   <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
                 </Divider>
-                <HelpdeskMessage message={message} ind={ind} referenc={ref}/>
+                <HelpdeskMessage message={message} referenc={ind === 5 ? ref : null} />
               </React.Fragment>
             )
           }
