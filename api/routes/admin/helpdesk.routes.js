@@ -12,7 +12,7 @@ router.get('/conversations', authMiddleware, async (req, res) => {
     const regex = new RegExp(search, 'gi');
     const params = { ...nextParams };
     const total = await Conversation.find(params).count();
-    const conversations = await Conversation.find(params).skip((page-1)*limit).limit(limit).populate('client');
+    const conversations = await Conversation.find(params).skip((page-1)*limit).limit(limit).populate('client', 'firstName lastName');
 
     return res.json({ data: conversations, total });
   } catch (e) {
