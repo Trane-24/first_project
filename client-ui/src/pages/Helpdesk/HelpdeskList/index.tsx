@@ -80,7 +80,7 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRe
               <HelpdeskMessage
                 message={message}
                 referenc={ind === 5 ? ref : null}
-                referenc2={ind === messages.length - 5 ? refScrollDown : null}
+                referenc2={ind === messages.length - 3 ? refScrollDown : null}
                 key={message._id}
               />
             )
@@ -94,7 +94,7 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRe
                 <HelpdeskMessage
                   message={message}
                   referenc={ind === 5 ? ref : null}
-                  referenc2={ind === messages.length - 5 ? refScrollDown : null}
+                  referenc2={ind === messages.length - 3 ? refScrollDown : null}
                 />
               </React.Fragment>
             )
