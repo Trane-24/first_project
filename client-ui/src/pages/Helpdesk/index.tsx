@@ -1,27 +1,30 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 // hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Store
-import { fetchMessages } from 'store/helpdesk/helpdeskAsync';
-import { selectMessages, selectParams } from 'store/helpdesk/helpdeskSelectors';
+import { selectMessages } from 'store/helpdesk/helpdeskSelectors';
 import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
 // Components
 import Title from 'components/Title';
 import HelpdeskInput from './HelpdeskInput';
 import HelpdeskList from './HelpdeskList';
 // MUI
-import { LinearProgress } from '@mui/material';
+import { IconButton, LinearProgress } from '@mui/material';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 // Styles
 import classes from './styles.module.scss';
-
+import { useIntersectionObserver } from 'react-intersection-observer-hook';
 
 const HelpdeskPage:React.FC = () => {
   const dispatch = useAppDispatch();
   const messages = useSelector(selectMessages);
-  const params = useSelector(selectParams);
 
   const ref = useRef<HTMLDivElement | null>(null);
+
+  // Intersection Observer for scrollDown
+  const [ refScrollDown, { entry: entry2 }] = useIntersectionObserver();
+  const isVisibleRefScrollDown = entry2 && entry2.isIntersecting;
 
   const scrollToEnd = useCallback(() => {
     ref.current?.scrollIntoView({
@@ -30,12 +33,9 @@ const HelpdeskPage:React.FC = () => {
   }, [ref]);
 
   useEffect(() => {
-    dispatch(fetchMessages(params))
 
     return () => {
-      dispatch(helpdeskActions.setInitialField('messages'))
       dispatch(helpdeskActions.setInitialField('params'))
-      dispatch(helpdeskActions.setInitialField('total'))
     }
   // eslint-disable-next-line
   }, [])
@@ -47,10 +47,16 @@ const HelpdeskPage:React.FC = () => {
         {messages ? (
           <div className={classes.helpdeskContent}>
             <ul className={classes.list}>
-              <HelpdeskList scrollToEnd={scrollToEnd} />
+              <HelpdeskList scrollToEnd={scrollToEnd} refScrollDown={refScrollDown} isVisibleRefScrollDown={isVisibleRefScrollDown}/>
               <div style={{ height: '1px'}} ref={ref}/>
             </ul>
-            <HelpdeskInput scrollToEnd={scrollToEnd}/>
+            <HelpdeskInput scrollToEnd={scrollToEnd} />
+
+            {!isVisibleRefScrollDown && (
+              <IconButton className={classes.btnScrollDown} onClick={scrollToEnd}>
+                <ArrowCircleDownIcon />
+              </IconButton>
+            )}
           </div>
         ) : (
           <LinearProgress />

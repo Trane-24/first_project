@@ -23,8 +23,8 @@ const clientHotelTypesRouter = require('../api/routes/client/hotelTypes.routes')
 const corsMiddleware = require('../api/middlewares/cors.middleware');
 // Swager
 const swaggerUi = require('swagger-ui-express');
-// const swaggerDoc = require('../api/swagger/client.json');
-const swaggerDoc = require('./swagger/admin.json');
+const swaggerDoc = require('../api/swagger/client.json');
+// const swaggerDoc = require('./swagger/admin.json');
 
 app.use(corsMiddleware)
 app.use('/assets', express.static('assets'));

@@ -7,6 +7,7 @@
 }
 
 .helpdeskContent {
+  position: relative;
   margin-top: 20px;
   border: 1px solid #49AAD1;
   border-radius: 5px;
@@ -29,4 +30,10 @@
   @include onLaptop {
     height: calc(100vh - (354px));
   }
+}
+
+.btnScrollDown {
+  position: absolute;
+  bottom: 90px;
+  left: 48%;
 }

@@ -2,13 +2,13 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 // hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
-// Async
-import { sendMessasges } from 'store/helpdesk/helpdeskAsync';
 // MUI
 import { IconButton, TextField } from '@mui/material';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+
 // Styles
 import classes from './styles.module.scss';
+import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
 
 interface Props {
   scrollToEnd: () => void;
@@ -21,7 +21,6 @@ interface IForm {
 const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
   const dispatch = useAppDispatch();
 
-
   const { handleSubmit, control, setValue, watch } = useForm({
     defaultValues: {
       message: '',
@@ -31,9 +30,7 @@ const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
   const messageWatcher = watch('message');
 
   const sendMessage = () => {
-    dispatch(sendMessasges(messageWatcher))
-      .unwrap()
-      .then(() => scrollToEnd())
+    dispatch(helpdeskActions.sendMessage(messageWatcher))
   };
   
   const onSubmit = handleSubmit((data: IForm) => {
@@ -41,7 +38,7 @@ const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
     if (!message) return;
 
     sendMessage();
-
+    scrollToEnd();
     setValue('message', '');
   });
 

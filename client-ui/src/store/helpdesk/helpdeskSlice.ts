@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IMessage from "models/Message";
-import { fetchMessages, sendMessasges } from "./helpdeskAsync";
+import { fetchMessages } from "./helpdeskAsync";
 
 interface IState {
   messages: IMessage[] | null;
@@ -8,7 +8,8 @@ interface IState {
   params: {
     page: number;
     limit: number;
-  }
+  },
+  isConnected: boolean;
 }
 
 const initialState: IState = {
@@ -17,7 +18,8 @@ const initialState: IState = {
   params: {
     page: 1,
     limit: 20,
-  }
+  },
+  isConnected: false,
 };
 
 const helpdeskSlice = createSlice({
@@ -30,25 +32,32 @@ const helpdeskSlice = createSlice({
         [action.payload]: initialState[action.payload]
       }
     },
+    startConnecting: (state => {
+      state.isConnected = true;
+    }),
+    addMessage: (state, action) => {
+      console.log('addMessage', action.payload)
+      state.messages = state.messages && state.messages.length < state.total
+      ? [...state.messages.slice(1), action.payload]
+      : state.messages && state.messages.length === state.total
+        ? [...state.messages, action.payload]
+        : [action.payload];
+      state.total = state.total + 1;
+    },
+    sendMessage: (state, action) => {
+
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMessages.pending, (state, actions) => {
-        state.params = actions.meta.arg;
+      .addCase(fetchMessages.pending, (state, action) => {
+        state.params = action.meta.arg;
       })
-      .addCase(fetchMessages.fulfilled, (state, actions) => {
+      .addCase(fetchMessages.fulfilled, (state, action) => {
         state.messages = state.messages
-          ? [...actions.payload.data.reverse(), ...state.messages]
-          : actions.payload.data.reverse();
-        state.total = actions.payload.total;
-      })
-      .addCase(sendMessasges.fulfilled, (state, actions) => {
-        state.messages = state.messages && state.messages.length < state.total
-          ? [...state.messages.slice(1), actions.payload]
-          : state.messages && state.messages.length === state.total
-            ? [...state.messages, actions.payload]
-            : [actions.payload];
-        state.total = state.total + 1;
+          ? [...action.payload.data.reverse(), ...state.messages]
+          : action.payload.data.reverse();
+        state.total = action.payload.total;
       })
   }
 })

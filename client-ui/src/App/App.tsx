@@ -16,15 +16,19 @@ import Header from '../components/Header';
 import Footer from 'components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import UserRoles from 'types/UserRoles';
+import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
+import { fetchMessages } from 'store/helpdesk/helpdeskAsync';
+import { selectParams } from 'store/helpdesk/helpdeskSelectors';
 
 const App:React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // state
+  // Selectors
   const isAuthorization = useSelector(selectIsAuthorization);
   const currentUser = useSelector(selectCurrentUser);
+  const params = useSelector(selectParams);
 
   useEffect(() => {
     dispatch(AuthAsync.checkIsAuthorization({}));
@@ -37,6 +41,11 @@ const App:React.FC = () => {
     }
     if (currentUser && currentUser.role === UserRoles.Guest && pathname === '/my-hotels') {
       navigate('/reservations')
+    }
+
+    if (currentUser) {
+      dispatch(helpdeskActions.startConnecting())
+      dispatch(fetchMessages(params));
     }
     // eslint-disable-next-line
   }, [currentUser]);

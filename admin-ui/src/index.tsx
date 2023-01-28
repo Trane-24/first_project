@@ -7,7 +7,7 @@ import { setupStore } from './store';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import App from './App/App';
 import { LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs as DateAdapter } from '@mui/x-date-pickers/AdapterDayjs'
+  import { AdapterDayjs as DateAdapter } from '@mui/x-date-pickers/AdapterDayjs'
 // styles
 import theme from './theme'
 import './index.css';

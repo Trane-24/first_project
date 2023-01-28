@@ -17,9 +17,11 @@ import dayjs from 'dayjs';
 
 interface Props {
   scrollToEnd: () => void;
+  refScrollDown: any;
+  isVisibleRefScrollDown: any;
 }
 
-const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
+const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRefScrollDown }) => {
   const dispatch = useAppDispatch();
   const messages = useSelector(selectMessages);
   const params = useSelector(selectParams);
@@ -28,17 +30,19 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
   const [first, setFirst] = useState(false);
 
   let date = messages?.length ? messages[0].createdAt : null;
-  // Intersection Observer
+  // Intersection Observer for refetch
   const [ref, { entry }] = useIntersectionObserver();
   const isVisible = entry && entry.isIntersecting;
   //
   const changeFirstRender = (value:boolean): void => {
     setTimeout(() => {
       setFirst(value);
-    }, 100)
+    }, 500)
   }
 
   const reFetch = () => {
+    console.log('total', total)
+    console.log('messages.length', messages?.length)
     if (total === messages?.length) return;
 
     dispatch(fetchMessages({
@@ -49,16 +53,23 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
 
   useEffect(() => {
     if(isVisible && first) {
-      reFetch()
+      reFetch();
     }
     changeFirstRender(true)
   // eslint-disable-next-line
   }, [isVisible]);
 
   useEffect(() => {
-    scrollToEnd();
+    scrollToEnd()
   // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (isVisibleRefScrollDown) {
+      scrollToEnd();
+    }
+  // eslint-disable-next-line
+  }, [messages])
 
   return (
     <React.Fragment>
@@ -66,14 +77,19 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
         <Divider sx={{ mb: 2}}>
           <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
         </Divider>
-      ) : (
-        <div>Write first message...</div>
-      )}
+      ) : null}
 
       {messages?.map((message, ind) => {
           const isSameDay = dayjs(message.createdAt).isSame(date, 'day');
           if (isSameDay) {
-            return <HelpdeskMessage message={message} referenc={ind === 5 ? ref : null} key={message._id}/>
+            return (
+              <HelpdeskMessage
+                message={message}
+                referenc={ind === 5 ? ref : null}
+                referenc2={ind === messages.length - 5 ? refScrollDown : null}
+                key={message._id}
+              />
+            )
           } else {
             date = message.createdAt;
             return (
@@ -81,7 +97,11 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
                 <Divider sx={{ mb: 2}}>
                   <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
                 </Divider>
-                <HelpdeskMessage message={message} referenc={ind === 5 ? ref : null} />
+                <HelpdeskMessage
+                  message={message}
+                  referenc={ind === 5 ? ref : null}
+                  referenc2={ind === messages.length - 5 ? refScrollDown : null}
+                />
               </React.Fragment>
             )
           }
