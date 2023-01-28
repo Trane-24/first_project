@@ -29,7 +29,7 @@ const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
   
   const onSubmit = handleSubmit((data: IForm) => {
     const message = data.message.trim();
-    if (message) return;
+    if (!message) return;
     
     const nextData: IForm = {
       ...data,
@@ -37,7 +37,7 @@ const HelpdeskInput: React.FC<Props> = ({ scrollToEnd }) => {
     }
 
     dispatch(helpdeskActions.sendMessage(nextData));
-    
+
     reset();
     scrollToEnd();
   });
