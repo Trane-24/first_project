@@ -1,17 +1,17 @@
 import React from 'react';
+import { IntersectionObserverHookRefCallback } from 'react-intersection-observer-hook';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+import dayjs from 'dayjs';
 // MUI
 import { Avatar } from '@mui/material';
+import { Done as DoneIcon, DoneAll as DoneAllIcon } from '@mui/icons-material';
 // Models
 import IMessage from 'models/Message';
 // Slectors
 import { selectCurrentUser } from 'store/users/usersSelectors';
 // Styles
 import classes from './styles.module.scss';
-// Utilites
-import dayjs from 'dayjs';
-import classNames from 'classnames';
-import { IntersectionObserverHookRefCallback } from 'react-intersection-observer-hook';
 
 interface Props {
   message: IMessage;
@@ -34,6 +34,7 @@ const HelpdeskMessage: React.FC<Props> = ({ message, referenc, referenc2 }) => {
         </span>
         <span className={classNames(classes.time, {[classes.adminTime]: isAdmin})}>
           {dayjs(message.createdAt).format('h:mm A')}
+          {message.read ? <DoneAllIcon className={classes.status} /> : <DoneIcon className={classes.status} />}
         </span>
       </div>
 

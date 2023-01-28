@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
+import { useIntersectionObserver } from 'react-intersection-observer-hook';
 import { useSelector } from 'react-redux';
 // hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
@@ -11,10 +12,9 @@ import HelpdeskInput from './HelpdeskInput';
 import HelpdeskList from './HelpdeskList';
 // MUI
 import { IconButton, LinearProgress } from '@mui/material';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import { ArrowDownward as ArrowDownwardIcon } from '@mui/icons-material';
 // Styles
 import classes from './styles.module.scss';
-import { useIntersectionObserver } from 'react-intersection-observer-hook';
 
 const HelpdeskPage:React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,12 +23,12 @@ const HelpdeskPage:React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   // Intersection Observer for scrollDown
-  const [ refScrollDown, { entry: entry2 }] = useIntersectionObserver();
-  const isVisibleRefScrollDown = entry2 && entry2.isIntersecting;
+  const [ refScrollDown, { entry }] = useIntersectionObserver();
+  const isVisibleRefScrollDown = entry ? entry.isIntersecting : true;
 
-  const scrollToEnd = useCallback(() => {
+  const scrollToEnd = useCallback((smooth: boolean = false) => {
     ref.current?.scrollIntoView({
-      behavior: 'auto',
+      behavior: smooth ? 'smooth' : 'auto',
     });
   }, [ref]);
 
@@ -53,8 +53,12 @@ const HelpdeskPage:React.FC = () => {
             <HelpdeskInput scrollToEnd={scrollToEnd} />
 
             {!isVisibleRefScrollDown && (
-              <IconButton className={classes.btnScrollDown} onClick={scrollToEnd}>
-                <ArrowCircleDownIcon />
+              <IconButton
+                color="secondary"
+                className={classes.btnScrollDown}
+                onClick={() => scrollToEnd(true)}
+              >
+                <ArrowDownwardIcon />
               </IconButton>
             )}
           </div>

@@ -14,6 +14,9 @@ const theme = createTheme({
       main: '#48A8D0',
       light: 'rgba(72, 168, 208, 0.12)'
     },
+    secondary: {
+      main: '#3D98BF',
+    }
   },
   components: {
     MuiPagination: {
@@ -74,6 +77,22 @@ const theme = createTheme({
             },
             '&:disabled': {
               borderColor: 'rgba(0,0,0,0.12)'
+            }
+          }
+        },
+        {
+          props: { color: 'secondary' },
+          style: {
+            backgroundColor: 'rgba(72,168,208,0.5)',
+            padding: '7px',
+            borderRadius: '50%',
+            transition: 'ease-in-out 0.3s',
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: 'rgba(72,168,208,1)'
+            },
+            '&:disabled': {
+              backgroundColor: 'rgba(0,0,0,0.12)'
             }
           }
         }

@@ -6,7 +6,7 @@ const User = require('./models/User');
 const Message = require('./models/Message');
 const Conversation = require('./models/Conversation');
 
-const clients = [];
+const clients = {};
 
 const wss = new ws.Server({ port: 5001 }, () => console.log(`Websocket server started`));
 
@@ -15,7 +15,7 @@ wss.on('connection', async (ws, request) => {
   const decoded = jwt.verify(token, config.get('secretKey'));
   const user = await User.findOne({ _id: decoded.id }, 'firstName lastName role');
   if (user) {
-    clients.push({ ...user._doc, ws });
+    clients[user._id] = { ...user._doc, ws };
   }
 
   ws.on('message', async (messageOutput) => {
@@ -59,7 +59,7 @@ wss.on('connection', async (ws, request) => {
 })
 
 function sendMessages(message) {
-  clients.filter(client => {
+  Object.values(clients).filter(client => {
     const messageClientId = JSON.stringify(message.clientId);
     const clientId = JSON.stringify(client._id);
     const senderId = JSON.stringify(message.fromUser._id)

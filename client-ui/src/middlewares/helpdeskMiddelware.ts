@@ -1,49 +1,33 @@
 import StorageService from "services/StorageService";
 import { helpdeskActions } from "store/helpdesk/helpdeskSlice";
 
-const actions = ['helpdesk/startConnecting', 'helpdesk/sendMessage'];
-// enum action {
-//   connect = 'helpdesk/startConnecting',
-//   send = 'helpdesk/sendMessage',
-// }
-let ws: WebSocket | undefined;
+const helpdeskMiddleware = ({ dispatch, getState}: any) => {
+  let ws: WebSocket | null = null;
 
-const wsMiddleware = ({ dispatch, getState}: any) => (next: any) => (action: any) => {
-  const { type, payload } = action;
+  return (next: any) => (action: any) => {
+    const { type, payload } = action;
+  
+    const { currentUser } = getState().users;
+  
+    if (type === 'helpdesk/connect') {
+      ws = new WebSocket(`ws://localhost:5001?token=${StorageService.getToken()}`);
+  
+      ws.onmessage = (message: any) => {
+        dispatch(helpdeskActions.addMessage(JSON.parse(message.data)))
+      }
+    }
 
-  if (!actions.includes(type)) {
+    if (type === 'helpdesk/disconnect') {
+      ws?.close();
+      ws = null;
+    }
+  
+    if (type === 'helpdesk/sendMessage') {
+      ws?.send(JSON.stringify({ ...payload, event: 'message', fromUser: currentUser._id }));
+    }
+  
     return next(action);
   }
-
-  const state = getState();
-  const token = StorageService.getToken();
-  const currentUser = state.users.currentUser;
-
-  const sendMessage = () => {
-    const dataMessage = { message: payload, event: 'message', fromUser: currentUser._id};
-
-    ws?.send(JSON.stringify(dataMessage));
-  }
-
-  switch (type) {
-    case 'helpdesk/startConnecting':
-      ws = new WebSocket(`ws://localhost:5001?token=${token}`);
-      break;
-    case 'helpdesk/sendMessage':
-      sendMessage();
-      break;
-  }
-
-  if (ws === undefined) {
-    return next(action);
-  }
-
-  ws.onmessage = (message: any) => {
-    console.log('ws.onmessage', JSON.parse(message.data));
-    dispatch(helpdeskActions.addMessage(JSON.parse(message.data)))
-  }
-
-  return next(action);
 }
 
-export default wsMiddleware;
+export default helpdeskMiddleware;

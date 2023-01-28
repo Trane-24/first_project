@@ -14,14 +14,3 @@ export const fetchMessages = createAsyncThunk('helpdesk/Fetch messages', async (
     return thunkApi.rejectWithValue(e.response.data);
   }
 });
-// send message
-// export const sendMessasges = createAsyncThunk('helpdesk/Send message', async (params: any, thunkApi) => {
-//   try {
-//     const newMessage = { message: params };
-
-//     const response = await HttpService.post(`${url}/messages`, newMessage);
-//     return response.data;
-//   } catch (e: any) {
-//     return thunkApi.rejectWithValue(e.response.data);
-//   }
-// })

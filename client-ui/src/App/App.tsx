@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 // Hooks
 import { useAppDispatch } from 'hooks/useAppDispatch';
 // Async
 import AuthAsync from 'store/auth/authAsync';
+import { fetchMessages } from 'store/helpdesk/helpdeskAsync';
+// Actions
+import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
 // Selectors
 import { selectIsAuthorization } from 'store/auth/authSelectors';
 import { selectCurrentUser } from 'store/users/usersSelectors';
+import { selectParams } from 'store/helpdesk/helpdeskSelectors';
+// Types
+import UserRoles from 'types/UserRoles';
 // Mui
 import { LinearProgress } from '@mui/material';
 // Components
@@ -14,11 +21,6 @@ import AppRouting from './App.routing';
 import Notifications from 'components/Notifications';
 import Header from '../components/Header';
 import Footer from 'components/Footer';
-import { useLocation, useNavigate } from 'react-router-dom';
-import UserRoles from 'types/UserRoles';
-import { helpdeskActions } from 'store/helpdesk/helpdeskSlice';
-import { fetchMessages } from 'store/helpdesk/helpdeskAsync';
-import { selectParams } from 'store/helpdesk/helpdeskSelectors';
 
 const App:React.FC = () => {
   const dispatch = useAppDispatch();
@@ -44,8 +46,10 @@ const App:React.FC = () => {
     }
 
     if (currentUser) {
-      dispatch(helpdeskActions.startConnecting())
+      dispatch(helpdeskActions.connect());
       dispatch(fetchMessages(params));
+    } else {
+      dispatch(helpdeskActions.disconnect());
     }
     // eslint-disable-next-line
   }, [currentUser]);

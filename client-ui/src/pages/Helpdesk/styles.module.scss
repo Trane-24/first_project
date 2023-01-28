@@ -14,7 +14,7 @@
 }
 
 .list {
-  height: calc(100vh - (338px));
+  height: calc(100vh - (344px));
   padding: 10px 14px;
   border-radius: 8px 8px 0 0;
   overflow-y: scroll;
@@ -24,11 +24,11 @@
   gap: 10px;
 
   @include onTablet {
-    height: calc(100vh - (348px));
+    height: calc(100vh - (354px));
   }
 
   @include onLaptop {
-    height: calc(100vh - (354px));
+    height: calc(100vh - (360px));
   }
 }
 

@@ -14,6 +14,7 @@ import { useIntersectionObserver } from 'react-intersection-observer-hook';
 import { Chip, Divider } from '@mui/material';
 // Utilites
 import dayjs from 'dayjs';
+import { formatMessageDate } from 'utilites/dateFormatter';
 
 interface Props {
   scrollToEnd: () => void;
@@ -41,8 +42,6 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRe
   }
 
   const reFetch = () => {
-    console.log('total', total)
-    console.log('messages.length', messages?.length)
     if (total === messages?.length) return;
 
     dispatch(fetchMessages({
@@ -60,11 +59,6 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRe
   }, [isVisible]);
 
   useEffect(() => {
-    scrollToEnd()
-  // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
     if (isVisibleRefScrollDown) {
       scrollToEnd();
     }
@@ -75,7 +69,7 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRe
     <React.Fragment>
       {date ? (
         <Divider sx={{ mb: 2}}>
-          <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
+          <Chip label={formatMessageDate(date)} className={classes.chip} />
         </Divider>
       ) : null}
 
@@ -95,7 +89,7 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd, refScrollDown, isVisibleRe
             return (
               <React.Fragment key={message._id}>
                 <Divider sx={{ mb: 2}}>
-                  <Chip label={dayjs(date).format('MMMM DD')} className={classes.chip} />
+                  <Chip label={formatMessageDate(date)} className={classes.chip} />
                 </Divider>
                 <HelpdeskMessage
                   message={message}

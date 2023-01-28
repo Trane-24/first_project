@@ -9,7 +9,6 @@ interface IState {
     page: number;
     limit: number;
   },
-  isConnected: boolean;
 }
 
 const initialState: IState = {
@@ -17,24 +16,17 @@ const initialState: IState = {
   total: 0,
   params: {
     page: 1,
-    limit: 20,
+    limit: 50,
   },
-  isConnected: false,
 };
 
 const helpdeskSlice = createSlice({
   name: 'helpdesk',
   initialState,
   reducers: {
-    setInitialField: (state, action: PayloadAction<keyof IState>) => {
-      return {
-        ...state,
-        [action.payload]: initialState[action.payload]
-      }
-    },
-    startConnecting: (state => {
-      state.isConnected = true;
-    }),
+    connect: (state:IState) => {},
+    disconnect: (state:IState) => {},
+    sendMessage: (state, action) => {},
     addMessage: (state, action) => {
       console.log('addMessage', action.payload)
       state.messages = state.messages && state.messages.length < state.total
@@ -44,8 +36,11 @@ const helpdeskSlice = createSlice({
         : [action.payload];
       state.total = state.total + 1;
     },
-    sendMessage: (state, action) => {
-
+    setInitialField: (state, action: PayloadAction<keyof IState>) => {
+      return {
+        ...state,
+        [action.payload]: initialState[action.payload]
+      }
     },
   },
   extraReducers: (builder) => {

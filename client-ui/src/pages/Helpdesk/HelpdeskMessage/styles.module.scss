@@ -42,6 +42,14 @@
   align-self: flex-end;
   color: #98CBE2;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  & .status {
+    font-size:inherit;
+    color: #fff;
+  }
 }
 
 .adminTime {

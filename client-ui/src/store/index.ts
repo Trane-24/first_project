@@ -10,7 +10,7 @@ import reservationsReducer from "./reservations/reservationsSlice";
 import helpdeskReducer from "./helpdesk/helpdeskSlice";
 // middlewares
 import errorMiddleware from "../middlewares/errorMiddelware";
-import wsMiddleware from "middlewares/helpdeskMiddelware";
+import helpdeskMiddleware from "middlewares/helpdeskMiddelware";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -29,7 +29,7 @@ export const setupStore = () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }).concat([errorMiddleware, wsMiddleware])
+      }).concat([errorMiddleware, helpdeskMiddleware])
   });
 };
 
