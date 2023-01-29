@@ -8,8 +8,11 @@ const authMiddleware = require('../../middlewares/auth.middleware');
 
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const { limit, page } = req.query;
-    const params = {...req.query};
+    const { limit, page, hotelId, statuses, start, end, ...nextParams } = req.query;
+    const params = { ...nextParams };
+    if (hotelId) params['hotel'] = hotelId;
+    if (statuses) params['status'] = { $in: statuses.split(',') }; 
+    if (start && end) params['startDate'] = { $gte: start, $lte: end };
     const total = await Reservation.find(params).count();
     const reservations = await Reservation.find(params).skip((page-1)*limit).limit(limit)
       .populate(

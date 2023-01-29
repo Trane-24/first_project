@@ -6,7 +6,8 @@ const Reservation = new Schema({
   startDate: { type: String, require: true },
   endDate: { type: String, require: true },
   notes: { type: String },
-  status: { type: String, enum: ['pending', 'rejected', 'completed'], default: 'pending' }
+  status: { type: String, enum: ['pending', 'rejected', 'completed'], default: 'pending' },
+  includeIntoCheckInCalendar: { type: Boolean, default: true },
 });
 
 module.exports = model('Reservation', Reservation);

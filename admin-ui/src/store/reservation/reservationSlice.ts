@@ -3,7 +3,7 @@ import IReservation from "models/Reservation";
 import { createReservation, deleteReservation, fetchReservation, updateReservation } from "./reservationAsync";
 
 interface IState {
-  reservations: IReservation[] | null,
+  reservations: IReservation[] | null;
   total: number;
   params: any;
 }

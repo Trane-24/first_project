@@ -285,10 +285,33 @@
             }
           },
           {
-            "name": "status",
+            "name": "start",
             "in": "path",
             "schema": {
               "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end",
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "hotelId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "statuses",
+            "in": "path",
+            "schema": {
+              "type": "array",
               "enum": ["pending", "completed", "rejected"]
             }
           }
@@ -1093,6 +1116,9 @@
           },
           "notes": {
             "type": "string"
+          },
+          "includeIntoCheckInCalendar": {
+            "type": "boolean"
           }
         }
       },
@@ -1124,6 +1150,9 @@
             "type": "string",
             "enum": ["pending", "rejected", "completed"],
             "example": "pending"
+          },
+          "includeIntoCheckInCalendar": {
+            "type": "boolean"
           }
         }
       },
