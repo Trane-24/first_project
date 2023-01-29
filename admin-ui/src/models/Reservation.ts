@@ -10,6 +10,7 @@ interface IReservation {
   status: ReservationStatuses;
   hotel: IHotel;
   guest: IUser;
+  includeIntoCheckInCalendar: boolean;
 }
 
 export default IReservation;
