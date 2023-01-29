@@ -25,7 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import { MobileDatePicker } from "@mui/x-date-pickers";
 import {
   Autocomplete, Button, Grid, TextField,
-  Typography, debounce, MenuItem, DialogTitle, DialogActions, DialogContent
+  Typography, debounce, MenuItem, DialogTitle, DialogActions, DialogContent, Checkbox, FormControlLabel
 } from "@mui/material";
 // utilites
 import { isRequired } from "utilites/validation";
@@ -43,6 +43,7 @@ interface IForm {
   guestId: any;
   hotelId: any;
   status: ReservationStatuses;
+  includeIntoCheckInCalendar: boolean;
 }
 
 const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
@@ -65,6 +66,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       guestId: reservation ? reservation.guest : null,
       hotelId: reservation ? reservation.hotel : null,
       status: reservation ? reservation.status :  ReservationStatuses.Completed,
+      includeIntoCheckInCalendar: reservation ? reservation.includeIntoCheckInCalendar : true,
     }
   });
 
@@ -101,6 +103,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
       guestId: data.guestId._id,
       hotelId: data.hotelId._id,
       status: data.status,
+      includeIntoCheckInCalendar: data.includeIntoCheckInCalendar,
     };
 
      if (reservation) {
@@ -154,14 +157,14 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
   return (
     <React.Fragment>
       <DialogTitle>
-        <Typography variant="h5">
+        <Typography>
           {`${reservation ? 'Update' : 'Add'} reservation`}
         </Typography>
       </DialogTitle>
 
       <DialogContent dividers>
         <form noValidate>
-          <Grid container spacing={2} sx={{ pt: 4, pb: 4 }}>
+          <Grid container spacing={2} sx={{ pt: 2, pb: 1 }}>
             {/* startDate */}
             <Grid item xs={12}>
               <Controller
@@ -333,6 +336,22 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
                 )}
               />
             </Grid>
+            {/* includeIntoCheckInCalendar */}
+            {reservation && (
+              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end', paddingRight: '10px'}}>
+                <Controller
+                  control={control} name="includeIntoCheckInCalendar"
+                  render={({ field: { onChange, value, ...field} }) => (
+                    <FormControlLabel labelPlacement="start"
+                      control={
+                        <Checkbox onChange={onChange} checked={value} {...field} />
+                      }
+                      label="Include in to calendar"
+                    />
+                  )}
+                />
+              </Grid>
+            )}
           </Grid>
         </form>
       </DialogContent>
