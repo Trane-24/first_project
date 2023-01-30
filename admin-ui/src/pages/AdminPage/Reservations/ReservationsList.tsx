@@ -109,10 +109,13 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   items: {
-    maxHeight: 'calc(100vh - 283px)',
+    maxHeight: 'calc(100vh - 331px)',
     overflowY: 'scroll',
     '@media (min-width: 600px)': {
-      maxHeight: 'calc(100vh - 222px)',
+      maxHeight: 'calc(100vh - 339px)',
+    },
+    '@media (min-width: 1140px)': {
+      maxHeight: 'calc(100vh - 214px)',
     },
   },
   pagination: {
@@ -120,8 +123,11 @@ const useStyles = makeStyles({
     boxShadow: '0px -3px 6px -1px rgb(0 0 0 / 8%)',
   },
   image: {
-    maxHeight: 'calc(100vh - 225px)',
+    maxHeight: 'calc(100vh - 272px)',
     '@media (min-width: 600px)': {
+      maxHeight: 'calc(100vh - 281px)',
+    },
+    '@media (min-width: 1140px)': {
       maxHeight: 'calc(100vh - 156px)',
     },
   }

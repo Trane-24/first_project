@@ -28,7 +28,6 @@ class HttpService {
         nextData[key] = false;
       }
     });
-    console.log('!!!', nextData)
     return await axios.put(path, nextData, { headers: { Authorization: `Barrer ${StorageService.getToken()}` } });
   }
 
