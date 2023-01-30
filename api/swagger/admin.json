@@ -502,6 +502,13 @@
             "schema": {
               "type": "boolean"
             }
+          },
+          {
+            "name": "search",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

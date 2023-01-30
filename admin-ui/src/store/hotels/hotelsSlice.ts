@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import IHotel from '../../models/Hotel';
+import IHotel from 'models/Hotel';
 import { createHotel, deleteHotel, fetchHotels, markAsAerified, updateHotel } from './hotelsAsync';
 
 interface IState {

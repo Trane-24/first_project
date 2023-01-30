@@ -22,10 +22,8 @@ class HttpService {
   public static async put(path: string, data: any) {
     const nextData: any = {};
     Object.keys(data).forEach((key: string) => {
-      if (data[key]) {
+      if (data[key] !== undefined && data[key] !== null && data[key] !== '') {
         nextData[key] = data[key]
-      } else if (key === 'includeIntoCheckInCalendar') {
-        nextData[key] = false;
       }
     });
     return await axios.put(path, nextData, { headers: { Authorization: `Barrer ${StorageService.getToken()}` } });
