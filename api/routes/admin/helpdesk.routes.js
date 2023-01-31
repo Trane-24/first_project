@@ -7,13 +7,53 @@ const authMiddleware = require('../../middlewares/auth.middleware');
 
 router.get('/conversations', authMiddleware, async (req, res) => {
   try {
-    const { limit, page, search, ...nextParams } = req.query;
-    const regex = new RegExp(search, 'gi');
-    const params = { ...nextParams };
-    const total = await Conversation.find(params).count();
-    const conversations = await Conversation.find(params).sort({ updatedAt: -1 }).skip((page-1)*limit).limit(limit).populate('client', 'firstName lastName');
+    const page = req.query.page ? +req.query.page : 1;
+    const limit = req.query.limit ? +req.query.limit : 20;
+    const skip = ((page-1) * limit);
 
-    return res.json({ data: conversations, total });
+    const regex = new RegExp(req.query.search, 'gi');
+
+    return Conversation.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "client",
+          foreignField: "_id",
+          as: "client",
+        },
+      },
+      {
+        $unwind: {
+          path: "$client",
+        },
+      },
+      {
+        $match: {
+          $or: [
+            {"client.firstName": {'$regex': regex}},
+            {"client.lastName": {'$regex': regex}},
+          ]
+          
+        },
+      },
+      {
+        $sort: {
+          updatedAt: -1
+        }
+      },
+      {
+        $facet: {
+          data: [{ $skip: skip }, { $limit: limit }],
+          total: [
+            {
+              $count: 'total'
+            }
+          ]
+        }
+      },
+    ])
+    .then((data) => ({ ...data[0], total: data[0].total[0]?.total || 0 }))
+    .then((data) => res.json(data))
   } catch (e) {
     console.log(e);
     res.send({message: 'Server error'});
