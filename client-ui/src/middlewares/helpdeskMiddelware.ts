@@ -1,3 +1,4 @@
+import config from "config";
 import StorageService from "services/StorageService";
 import { helpdeskActions } from "store/helpdesk/helpdeskSlice";
 
@@ -10,8 +11,8 @@ const helpdeskMiddleware = ({ dispatch, getState}: any) => {
     const { currentUser } = getState().users;
   
     if (type === 'helpdesk/connect') {
-      ws = new WebSocket(`ws://localhost:5001?token=${StorageService.getToken()}`);
-  
+      ws = new WebSocket(`${config.wsURL}?token=${StorageService.getToken()}`);
+
       ws.onmessage = (message: any) => {
         dispatch(helpdeskActions.addMessage(JSON.parse(message.data)))
       }
