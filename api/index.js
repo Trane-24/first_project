@@ -10,10 +10,10 @@ const corsMiddleware = require('../api/middlewares/cors.middleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = require('./swagger/admin.json');
 
-const server = http.createServer(app);
-
 app.use(corsMiddleware)
 app.use(express.json());
+
+const server = http.createServer(app);
 
 // Routes
 require('./routes/auth.js')(app);
