@@ -1,15 +1,10 @@
 const mongoose = require('mongoose');
-const Router = require('express');
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken');
 const Hotel = require('../../models/Hotel');
 const Reservation = require('../../models/Reservation');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
-const userMiddleware = require('../../middlewares/user.middleware');
 
-router.get('/', authMiddleware, async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const guest = await User.findOne({ _id: req.user.id, role: 'guest' });
     if (!guest) {
@@ -36,9 +31,9 @@ router.get('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.post('/', userMiddleware, async (req, res) => {
+exports.post = async (req, res) => {
   try {
     const { reservationData, guestData } = req.body;
 
@@ -114,6 +109,4 @@ router.post('/', userMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}

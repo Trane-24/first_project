@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
-const Router = require('express');
 const User = require('../../models/User');
 const Hotel = require('../../models/Hotel');
 const HotelType = require('../../models/HotelType');
 const Reservation = require('../../models/Reservation');
-const Asset = require('../../models/Asset');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
 
-router.get('/', authMiddleware, async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const { limit, page, search, ...nextParams } = req.query;
     const regex = new RegExp(search, 'gi');
@@ -24,9 +20,9 @@ router.get('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/:id', authMiddleware, async (req, res) => {
+exports.getOne = async (req, res) => {
   try {
     const hotel = await Hotel.findOne({_id: req.params.id})
       .populate({ path: 'hotelType', populate: { path: 'image' } })
@@ -40,9 +36,9 @@ router.get('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.post('/', authMiddleware, async (req, res) => {
+exports.post = async (req, res) => {
   try {
     const { name, ownerId, hotelTypeId } = req.body;
 
@@ -90,27 +86,9 @@ router.post('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.delete('/:id', authMiddleware, async (req, res) => {
-  try {
-    const hotel = await Hotel.findOne({_id: req.params.id});
-    if (!hotel) {
-      return res.status(404).json({message: 'Hotel not found'});
-    }
-    const reservation = await Reservation.findOne({ hotel: hotel.id });
-    if (reservation) {
-      return res.status(400).json({message: 'Hotel can\'t be deleted as there are reservation assigned'});
-    }
-    await hotel.delete();
-    return res.json({ message: 'Hotel was successfully deleted' });
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.put('/:id', authMiddleware, async (req, res) => {
+exports.put = async (req, res) => {
   try {
     const { name, ownerId, hotelTypeId } = req.body;
     if (!name) {
@@ -164,9 +142,27 @@ router.put('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.put('/:id/actions/markAsVerified', authMiddleware, async (req, res) => {
+exports.delete = async (req, res) => {
+  try {
+    const hotel = await Hotel.findOne({_id: req.params.id});
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+    const reservation = await Reservation.findOne({ hotel: hotel.id });
+    if (reservation) {
+      return res.status(400).json({message: 'Hotel can\'t be deleted as there are reservation assigned'});
+    }
+    await hotel.delete();
+    return res.json({ message: 'Hotel was successfully deleted' });
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+}
+
+exports.markAsVerified = async (req, res) => {
   try {
     const hotel = await Hotel.findOne({ _id: req.params.id });
     if (!hotel) {
@@ -185,7 +181,4 @@ router.put('/:id/actions/markAsVerified', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-
-module.exports = router;
+}

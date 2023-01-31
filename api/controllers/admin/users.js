@@ -1,15 +1,9 @@
-const Router = require('express');
 const bcrypt = require('bcryptjs')
 const User = require('../../models/User');
 const Hotel = require('../../models/Hotel');
 const Reservation = require('../../models/Reservation');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
-const { check, validationResult } = require('express-validator');
 
-router.get('/fetchMe',
-  authMiddleware,
-  async (req, res) => {
+exports.getMe = async (req, res) => {
   try {
     return await User.findOne({ _id: req.user.id }, 'firstName lastName phone role email')
       .then(data => res.json(data))
@@ -17,9 +11,9 @@ router.get('/fetchMe',
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/', authMiddleware, async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const { limit, page, search } = req.query;
     const regex = new RegExp(search, 'gi');
@@ -31,9 +25,9 @@ router.get('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/:id', authMiddleware, async (req, res) => {
+exports.getOne = async (req, res) => {
   try {
     const user = await User.findOne({_id: req.params.id}, 'firstName lastName phone role email');
     if (!user) {
@@ -44,20 +38,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.post('/',
-  authMiddleware,
-  [
-    check('email', 'Uncorrecct email').isEmail(),
-  ],
-  async (req, res) => {
+exports.post = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-      return res.status(400).json({message: 'E-mail is not valid', errors})
-    }
-
     const { firstName, lastName, email, role } = req.body;
     if (!firstName) {
       return res.status(400).json({message: 'firstName is require'});
@@ -88,9 +72,9 @@ router.post('/',
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.delete('/:id', authMiddleware, async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const user = await User.findOne({_id: req.params.id});
     if (!user) {
@@ -116,23 +100,10 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.put('/:id',
-  authMiddleware,
-  [
-    check('email', 'Uncorrecct email').isEmail(),
-    check('password', 'Password must be longer than 8 symbol').isLength({min:8}),
-  ],
-  async (req, res) => {
+exports.put = async (req, res) => {
   try {
-    if (req.body.password) {
-      const errors = validationResult(req);
-      if(!errors.isEmpty()) {
-        return res.status(400).json({message: 'Uncorrect request', errors})
-      }
-    }
-
     const user = await User.findOne({ _id: req.params.id });
     if (!user) {
       return res.status(404).json({message: 'User not found'});
@@ -177,6 +148,4 @@ router.put('/:id',
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}

@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
-const Router = require('express');
 const User = require('../../models/User');
 const Hotel = require('../../models/Hotel');
 const Reservation = require('../../models/Reservation');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
 
-router.get('/', authMiddleware, async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const { limit, page, hotelId, statuses, start, end, ...nextParams } = req.query;
     const params = { ...nextParams };
@@ -32,9 +29,9 @@ router.get('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/:id', authMiddleware, async (req, res) => {
+exports.getOne = async (req, res) => {
   try {
     const reservation = await Reservation.findOne({_id: req.params.id})
       .populate(
@@ -58,9 +55,9 @@ router.get('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.post('/', authMiddleware, async (req, res) => {
+exports.post = async (req, res) => {
   try {
     const { startDate, endDate, guestId, hotelId } = req.body;
 
@@ -121,23 +118,9 @@ router.post('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.delete('/:id', authMiddleware, async (req, res) => {
-  try {
-    const reservation = await Reservation.findOne({_id: req.params.id});
-    if (!reservation) {
-      return res.status(404).json({message: 'Reservation not found'});
-    }
-    await reservation.delete();
-    return res.json({ message: 'Reservation was successfully deleted' });
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.put('/:id', authMiddleware, async (req, res) => {
+exports.put = async (req, res) => {
   try {
     const { startDate, endDate, guestId, hotelId } = req.body;
 
@@ -194,6 +177,18 @@ router.put('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-module.exports = router;
+exports.delete = async (req, res) => {
+  try {
+    const reservation = await Reservation.findOne({_id: req.params.id});
+    if (!reservation) {
+      return res.status(404).json({message: 'Reservation not found'});
+    }
+    await reservation.delete();
+    return res.json({ message: 'Reservation was successfully deleted' });
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+}

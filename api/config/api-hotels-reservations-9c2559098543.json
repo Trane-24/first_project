@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "api-hotels-reservations",
+    "private_key_id": "9c2559098543dbe203186b7445d9373ab15e0f73",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC+jGobKP3pfR72\nRTanjRrk+UxBhXhxS1dtMKqUy6u70vLjcNp2qLZVbhpgTbl5UuVelNg0puJ19IUB\njDB46l50YCQ5AFlT+BgGz9o8E26J4SNSQMeoXkbAz54ewhZ4sr5HVT5DbtEXlY7K\n7vIp3lSxyMSnfKOO6I8K/sVBFTEuCxqp8y1LgFQyOgWm/Gq4NJQ7bnlCeTesKvVI\nlzZ0p9cb5UzckrsBqTE00xtMINPCWOvZTYVjReIsopy27o4oDX4QMbA8cQcw3+8h\nKaXQ6gAfhP4GcUE4VWSiA+YilG7HB6Z2/M4iqwSDvTmtQKYnhIdXtG5c5+POcDD/\nOExljCFVAgMBAAECggEAKs7KTqg+pOwsXsjNXsZzTpIYONcWqCM0NK5cgDmibvuV\nABY8KjC8Z8Rozg5gFvrR11YKnYeJdFT25ZJcWGnUxwHLWXfz2YqwwSUEgv8dlAG9\niO7PPArUC+CIxiG14S9M0qM6rfURKeJ6VipowpG1hsxTK8pzRzmFW0PBxl2Psyc9\nIe4CG+QNd0NQsoQIRina8Icuqy+hH5MGg4AoldUCkw3rU8aTGSzTAjtcngIGBrQO\nCKmg1hzcqFUFgKDQ8lfICxwAH/X5Hc0IdyVudYpJxicFkVEsMXjPX5eDcLvK0rKu\nR5efLgKBKd4oy0nRW6+S40WWwssI3Sepojwesc+yCQKBgQD2qtF1sXyM0hS5irde\n9iFoIav8RBSIgYHWOKgZfvsbXt1vprNaNltIGTKNiBzKWZzuEUOXG7pGH5sfCjH7\ngZfg2nqFm4YULWTv6jyKLEm8x2HjVOLF3gKmKzTlxsi9trUXxl6esC7l7uY1mknb\nKg3cBfLwsvj4seZY7R44opSkHQKBgQDFwgnUmw0EtW5AX1rx2ydwnjKrNAUOdruI\ne2PSFcZSFRS5ZKn4aJRkTkrJ0wKQBNimg6fJiRsOSZqk132/DPsMKCO0JY+JpSe7\ngBO6YebUN7nhVK581kG0/Du4Zo3xhO50K1YErjHNaz9xNRkYicKFUCOiRDc/Xiq/\nOLF60ph8mQKBgQDj/NKI87lo9yvMqpf+H4SVGLo7+jj4SqtU8xz8I8+4ZqBI+E1B\njogkRZXiFvJ1XQqdSDuuySQMeF4J/IRiME/OtmEUaMEumR54WYoHNBQbdjXVxrmr\npR3RtJG551fXca5EAUenaLSQNZV16dtlxKL2wFDhhKp2QwfjHZcXRb4ZSQKBgQDA\nk7CXBVasGzH+Jd2eYFgL50JYThQOfbkps18FmobCMB06XLjYWp8G/ub9myqHrPB9\nVv/x1j4ur6aUl/SwM6fVstDyARHCbL5AbPzJJ8VtK8crkxdIIi1iXa6aZ+QaKeU7\n42ekry14aNQjHh4OMzjmMaBByEQ0xTLDfCX5AVPVIQKBgF/xT+ibWBs14+RWRKiZ\nUHgRGMEeteHdKEvCYylp/bHlLDyoKET5+7WUtVfwdNkaedTBrWnbTHANUdNXXrIh\niWxReepul+trAoA6B1ko5QfxPmkElTWl/qVbdVs4ACVGpAGzjatlSE8AAAa2LYDw\nRK/NPCJxwN68EYKu4C5dElIF\n-----END PRIVATE KEY-----\n",
+    "client_email": "assets@api-hotels-reservations.iam.gserviceaccount.com",
+    "client_id": "115045778207044923482",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/assets%40api-hotels-reservations.iam.gserviceaccount.com"
+  }
+  

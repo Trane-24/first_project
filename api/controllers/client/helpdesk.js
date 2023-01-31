@@ -1,10 +1,7 @@
-const mongoose = require('mongoose');
-const Router = require('express');
-const Message = require('../../models/Message');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
 
-router.get('/messages', authMiddleware, async (req, res) => {
+const Message = require('../../models/Message');
+
+exports.get = async (req, res) => {
   try {
     const { limit, page } = req.query;
     const params = { ...req.query, clientId: req.user.id };
@@ -18,9 +15,9 @@ router.get('/messages', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.put('/messages/actions/markAsRead', authMiddleware, async (req, res) => {
+exports.markAsRead = async (req, res) => {
   try {
 
   await Message.updateMany(
@@ -42,6 +39,4 @@ router.put('/messages/actions/markAsRead', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}

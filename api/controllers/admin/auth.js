@@ -1,11 +1,9 @@
-const Router = require('express');
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs')
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const router = new Router();
 
-router.post('/login', async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const {email, password} = req.body;
     const user = await User.findOne({email});
@@ -29,6 +27,4 @@ router.post('/login', async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}

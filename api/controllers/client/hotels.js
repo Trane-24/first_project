@@ -1,13 +1,9 @@
-const mongoose = require('mongoose');
-const Router = require('express');
 const User = require('../../models/User');
 const Hotel = require('../../models/Hotel');
 const HotelType = require('../../models/HotelType');
 const Reservation = require('../../models/Reservation');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
 
-router.get('/search', async (req, res) => {
+exports.search = async (req, res) => {
   try {
     const { limit, page, search, hotelType } = req.query;
     const regex = new RegExp(search, 'gi');
@@ -23,9 +19,27 @@ router.get('/search', async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/topHotels', async (req, res) => {
+exports.searchById = async (req, res) => {
+  try {
+    const hotel = await Hotel.findOne({ _id: req.params.id }, '-owner');
+
+    if (!hotel) {
+      return res.status(404).json({message: 'Hotel not found'});
+    }
+
+    return await Hotel.findOne({ _id: req.params.id }, '-owner')
+      .then(data => data.populate('images', 'path'))
+      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
+      .then(data => res.json(data))
+  } catch (e) {
+    console.log(e);
+    res.send({message: 'Server error'});
+  }
+}
+
+exports.topHotels = async (req, res) => {
   try {
     const params = { ...req.query, verified: true };
     const hotels = await Hotel.find(params, '-owner').sort({ _id: -1 }).limit(4)
@@ -37,9 +51,9 @@ router.get('/topHotels', async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/', authMiddleware, async (req, res) => {
+exports.get = async (req, res) => {
   try {
     const { limit, page } = req.query;
     const owner = await User.findOne({ _id: req.user.id, role: 'owner' });
@@ -57,27 +71,9 @@ router.get('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/search/:id', async (req, res) => {
-  try {
-    const hotel = await Hotel.findOne({ _id: req.params.id }, '-owner');
-
-    if (!hotel) {
-      return res.status(404).json({message: 'Hotel not found'});
-    }
-
-    return await Hotel.findOne({ _id: req.params.id }, '-owner')
-      .then(data => data.populate('images', 'path'))
-      .then(data => data.populate({ path: 'hotelType', populate: { path: 'image' } }))
-      .then(data => res.json(data))
-  } catch (e) {
-    console.log(e);
-    res.send({message: 'Server error'});
-  }
-});
-
-router.get('/:id', authMiddleware, async (req, res) => {
+exports.getOne = async (req, res) => {
   try {
     const owner = await User.findOne({ _id: req.user.id, role: 'owner' });
     if (!owner) {
@@ -91,9 +87,9 @@ router.get('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.post('/', authMiddleware, async (req, res) => {
+exports.post = async (req, res) => {
   try {
     const { name, hotelTypeId } = req.body;
 
@@ -135,9 +131,9 @@ router.post('/', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.delete('/:id', authMiddleware, async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const hotel = await Hotel.findOne({_id: req.params.id});
     if (!hotel) {
@@ -153,9 +149,9 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.put('/:id', authMiddleware, async (req, res) => {
+exports.put = async (req, res) => {
   try {
     const { name, hotelTypeId } = req.body;
 
@@ -204,6 +200,4 @@ router.put('/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}

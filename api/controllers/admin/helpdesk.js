@@ -1,11 +1,7 @@
-const mongoose = require('mongoose');
-const Router = require('express');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
 
-router.get('/conversations', authMiddleware, async (req, res) => {
+exports.getConversations = async (req, res) => {
   try {
     const page = req.query.page ? +req.query.page : 1;
     const limit = req.query.limit ? +req.query.limit : 20;
@@ -58,9 +54,9 @@ router.get('/conversations', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.get('/messages/:id', authMiddleware, async (req, res) => {
+exports.getMessages = async (req, res) => {
   try {
     const { limit, page } = req.query;
     const params = { ...req.query, clientId: req.params.id };
@@ -74,9 +70,9 @@ router.get('/messages/:id', authMiddleware, async (req, res) => {
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.put('/messages/:id/actions/markAsRead', authMiddleware, async (req, res) => {
+exports.markAsRead = async (req, res) => {
   try {
 
   await Conversation.findOneAndUpdate(
@@ -108,6 +104,4 @@ router.put('/messages/:id/actions/markAsRead', authMiddleware, async (req, res) 
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}

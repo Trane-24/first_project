@@ -1,13 +1,7 @@
-const Router = require('express');
 const bcrypt = require('bcryptjs')
 const User = require('../../models/User');
-const router = new Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
-const { check, validationResult } = require('express-validator');
 
-router.get('/me',
-  authMiddleware,
-  async (req, res) => {
+exports.getMe = async (req, res) => {
   try {
     return await User.findOne({ _id: req.user.id }, 'firstName lastName email phone role')
       .then(data => res.json(data))
@@ -15,23 +9,10 @@ router.get('/me',
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
+}
 
-router.put('/me',
-  authMiddleware,
-  [
-    check('email', 'Uncorrecct email').isEmail(),
-    check('password', 'Password must be longer than 8 symbol').isLength({min:8}),
-  ],
-  async (req, res) => {
+exports.putMe = async (req, res) => {
   try {
-    if (req.body.password) {
-      const errors = validationResult(req);
-      if(!errors.isEmpty()) {
-        return res.status(400).json({message: 'Uncorrect request', errors})
-      }
-    }
-
     const user = await User.findOne({ _id: req.user.id });
     if (!user) {
       return res.status(404).json({message: 'User not found'});
@@ -76,6 +57,4 @@ router.put('/me',
     console.log(e);
     res.send({message: 'Server error'});
   }
-});
-
-module.exports = router;
+}
