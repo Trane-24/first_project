@@ -33,13 +33,20 @@ exports.getConversations = async (req, res) => {
         },
       },
       {
-        $sort: {
-          updatedAt: -1
+        $project: {
+          "message": true,
+          "read": true,
+          "client": {
+            "_id": true,
+            "firstName": true,
+            "lastName": true,
+          },
+          "updatedAt": true,
         }
       },
       {
         $facet: {
-          data: [{ $skip: skip }, { $limit: limit }],
+          data: [{ $skip: skip }, { $limit: limit }, { $sort: { updatedAt: -1 } }],
           total: [
             {
               $count: 'total'
