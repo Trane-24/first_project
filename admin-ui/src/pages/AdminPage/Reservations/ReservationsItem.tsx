@@ -37,19 +37,29 @@ import { formatStartAndEndDates } from 'utilites/dateFormatter';
 
 interface Props {
   reservation: IReservation;
+  onClose?: () => void;
+  defaultExpanded?: boolean;
+  readOnly?: boolean;
 }
 
-const ReservationsItem: React.FC<Props> = ({ reservation }) => {
+const ReservationsItem: React.FC<Props> = ({
+  reservation,
+  onClose = () => {},
+  defaultExpanded = false,
+  readOnly = false,
+}) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   //menu
   const menuRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [expanded, setExpanded] = useState(defaultExpanded ? true : false);
 
-  const handleIsActive = (e: any) => {
-    setIsActive(!isActive);
+  const handleExpanded = (e: any) => {
+    e.stopPropagation();
+    if (defaultExpanded) return;
+    setExpanded(prev => !prev);
   };
 
   const handleOpenMenu = (e: any) => {
@@ -141,14 +151,27 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
         <HotelItem hotel={reservation.hotel} onClose={closeDialogHotel} defaultExpanded={true} />
       </DialogHotel>
 
-      <Accordion disableGutters>
-        <AccordionSummary
-          sx={{
-            userSelect: 'text',
-            backgroundColor: isActive ? '#ededed' : '#fff',
-          }}
-          onClick={handleIsActive}
-        >
+      <Accordion disableGutters
+         expanded={expanded}
+         onClick={handleExpanded}
+         sx={{
+          pt: defaultExpanded ? 2 : 0,
+          userSelect: 'text',
+          backgroundColor: expanded ? '#ededed' : '#fff',
+        }}
+      >
+        {defaultExpanded && !readOnly && (
+          <IconButton
+            sx={{ position: 'absolute', top: '16px', right: '16px', zIndex: 1 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+        <AccordionSummary>
             <Grid container sx={{ display: 'flex', alignItems: 'center'}} spacing={2}>
               <Grid item xs={11} md={4} sx={{ order: { xs: -1, md: 0 }}}>
                 <Typography sx={{ fontWeight: 600 }}>{reservation.hotel.name}</Typography>
@@ -191,39 +214,44 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 } }}>
-                <Tooltip title="User menu" ref={menuRef}>
-                  <IconButton onClick={handleOpenMenu}>
-                    <MoreVertIcon />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
+                {!defaultExpanded && !readOnly && (
+                  <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'flex-end', order: { xs: -1, md: 0 } }}>
+
+                    <Tooltip title="User menu" ref={menuRef}>
+                      <IconButton onClick={handleOpenMenu}>
+                        <MoreVertIcon />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Menu
+                    anchorEl={menuRef.current}
+                    id={`user-${reservation._id}-menu`}
+                    open={openMenu}
+                    onClose={handleOpenMenu}
+                    sx={{ display: 'flex', justifyContent: 'flex-start'}}
+                    >
+                    <MenuItem component="div" onClick={handleOpenEditModal}>
+                      <ListItemIcon>
+                        <EditIcon fontSize='small'/>
+                      </ListItemIcon>
+                      Edit reservation
+                    </MenuItem>
+
+                    <MenuItem component="div" onClick={handleOpenDeleteModal}>
+                      <ListItemIcon>
+                        <DeleteOutlineIcon />
+                      </ListItemIcon>
+                      Delete reservation
+                    </MenuItem>
+                    </Menu>
+                  </Grid>
+                )}
+
             </Grid>
 
-            <Menu
-              anchorEl={menuRef.current}
-              id={`user-${reservation._id}-menu`}
-              open={openMenu}
-              onClose={handleOpenMenu}
-              sx={{ display: 'flex', justifyContent: 'flex-start'}}
-            >
-              <MenuItem component="div" onClick={handleOpenEditModal}>
-                <ListItemIcon>
-                  <EditIcon fontSize='small'/>
-                </ListItemIcon>
-                Edit reservation
-              </MenuItem>
-
-              <MenuItem component="div" onClick={handleOpenDeleteModal}>
-                <ListItemIcon>
-                  <DeleteOutlineIcon />
-                </ListItemIcon>
-                Delete reservation
-              </MenuItem>
-            </Menu>
         </AccordionSummary>
 
-        <AccordionDetails sx={{ backgroundColor: isActive ? '#ededed' : '#fff' }}>
+        <AccordionDetails sx={{ backgroundColor: expanded ? '#ededed' : '#fff' }}>
           <Divider sx={{ mb: 2 }} />
 
           <Grid container spacing={2}>
@@ -237,7 +265,10 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
             </Grid>
 
             <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
-              <Button onClick={openDialogHotel}>
+              <Button onClick={(e) => {
+                e.stopPropagation();
+                openDialogHotel();
+              }}>
                 View hotel details
               </Button>
             </Grid>
@@ -245,7 +276,6 @@ const ReservationsItem: React.FC<Props> = ({ reservation }) => {
         </AccordionDetails>
       </Accordion>
 
-      
     </React.Fragment>
   );
 };

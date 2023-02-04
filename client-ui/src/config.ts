@@ -14,8 +14,8 @@ const config:IConfig = {
   },
   'production': {
     production: true,
-    apiURL: 'https://api-hotels-reservations.appspot.com/api/client',
-    wsURL: 'ws://api-hotels-reservations.appspot.com',
+    apiURL: 'https://whiteboard-me7hsknbqa-lm.a.run.app/api/client',
+    wsURL: 'wss://whiteboard-me7hsknbqa-lm.a.run.app',
   }
 };
 

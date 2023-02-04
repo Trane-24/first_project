@@ -20,7 +20,7 @@ import { selectHotelTypes } from "store/hotelTypes/hotelTypesSelectors";
 import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete, Box, Button, Grid, TextField,
-  Typography, debounce, MenuItem, DialogTitle, DialogActions, DialogContent,
+  debounce, MenuItem, DialogTitle, DialogActions, DialogContent,
 } from "@mui/material";
 // Utilites
 import { isRequired } from "utilites/validation";
@@ -104,9 +104,7 @@ const HotelsForm: React.FC<Props> = ({ hotel, onClose }) => {
   return (
     <React.Fragment>
       <DialogTitle>
-        <Typography variant="h5">
-          {`${hotel ? 'Update' : 'Create'} Hotel`}
-        </Typography>
+        {`${hotel ? 'Update' : 'Create'} Hotel`}
       </DialogTitle>
 
       <DialogContent dividers>

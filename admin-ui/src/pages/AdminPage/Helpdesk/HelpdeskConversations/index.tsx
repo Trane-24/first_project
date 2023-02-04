@@ -32,7 +32,7 @@ const HelpdeskConversations: React.FC = () => {
   const debouncedChangeHandler = useCallback(
     debounce((value: string) => {
       dispatch(fetchConversations({ data: {
-        search: value.toLocaleLowerCase(),
+        search: value,
       }}))
     }, 1000)
   , []);

@@ -6,6 +6,8 @@ interface IState {
   reservations: IReservation[] | null;
   total: number;
   params: any;
+  activeReservation: IReservation | null;
+  isLoading: boolean;
 }
 
 const initialState: IState = {
@@ -14,7 +16,9 @@ const initialState: IState = {
   params: {
     limit: 20,
     page: 1,
-  }
+  },
+  activeReservation: null,
+  isLoading: false,
 }
 
 const reservationSlice = createSlice({
@@ -22,7 +26,13 @@ const reservationSlice = createSlice({
   initialState,
   reducers: {
     setInitialField: (state, action: PayloadAction<keyof IState>) => {
-      state[action.payload] = initialState[action.payload]
+      return {
+        ...state,
+        [action.payload]: initialState[action.payload],
+      }
+    },
+    changeReservation: (state, action: PayloadAction<IReservation | null>) => {
+      state.activeReservation = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -30,10 +40,12 @@ const reservationSlice = createSlice({
     // fetch reservation
     .addCase(fetchReservation.pending, (state, action) => {
       state.params = action.meta.arg;
+      state.isLoading = true;
     })
     .addCase(fetchReservation.fulfilled, (state, action) => {
       state.reservations = action.payload.data;
       state.total = action.payload.total;
+      state.isLoading = false;
     })
     // delete reservation
     .addCase(deleteReservation.fulfilled, (state, action) => {

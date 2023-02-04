@@ -2,6 +2,7 @@ interface IConfig {
   [key:string]: {
     production: boolean;
     apiURL: string;
+    wsURL: string;
   }
 }
 
@@ -9,10 +10,12 @@ const config:IConfig = {
   'development': {
     production: false,
     apiURL: 'http://localhost:5000/api/admin',
+    wsURL: 'ws://localhost:5000',
   },
   'production': {
     production: true,
-    apiURL: 'https://api-hotels-reservations.appspot.com/api/admin',
+    apiURL: 'https://whiteboard-me7hsknbqa-lm.a.run.app/api/admin',
+    wsURL: 'wss://whiteboard-me7hsknbqa-lm.a.run.app',
   }
 };
 

@@ -28,7 +28,7 @@ import ReservationForm from "./ReservationsForm";
 import { capitalizeFirstLetter } from 'utilites/stringFormatter';
 
 const ReservationHeader: React.FC = () => {
-  // dispath
+  // dispatсh
   const dispatch = useAppDispatch();
   // Styles
   const classes = useStyles();
@@ -82,6 +82,7 @@ const ReservationHeader: React.FC = () => {
   useEffect(() => {
     return () => {
       dispatch(reservationAction.setInitialField('params'));
+      dispatch(reservationAction.setInitialField('reservations'));
       dispatch(hotelsActions.setInitialField('params'));
     }
     // eslint-disable-next-line

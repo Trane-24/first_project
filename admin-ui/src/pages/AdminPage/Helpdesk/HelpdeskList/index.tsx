@@ -43,7 +43,6 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
 
   const reFetch = () => {
     if (total === messages?.length) return;
-    console.log('reFetch')
 
     dispatch(fetchMessages({
       data: {
@@ -63,7 +62,6 @@ const HelpdeskList: React.FC<Props> = ({ scrollToEnd }) => {
   }, [isVisible]);
 
   useEffect(() => {
-    console.log('scroll')
     scrollToEnd();
 
   // eslint-disable-next-line

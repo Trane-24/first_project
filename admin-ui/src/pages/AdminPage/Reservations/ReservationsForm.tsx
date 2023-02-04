@@ -25,7 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import { MobileDatePicker } from "@mui/x-date-pickers";
 import {
   Autocomplete, Button, Grid, TextField,
-  Typography, debounce, MenuItem, DialogTitle, DialogActions, DialogContent, Checkbox, FormControlLabel
+  debounce, MenuItem, DialogTitle, DialogActions, DialogContent, Checkbox, FormControlLabel
 } from "@mui/material";
 // utilites
 import { isRequired } from "utilites/validation";
@@ -157,9 +157,7 @@ const ReservationForm: React.FC<Props> = ({ onClose, reservation }) => {
   return (
     <React.Fragment>
       <DialogTitle>
-        <Typography>
-          {`${reservation ? 'Update' : 'Add'} reservation`}
-        </Typography>
+        {`${reservation ? 'Update' : 'Add'} reservation`}
       </DialogTitle>
 
       <DialogContent dividers>

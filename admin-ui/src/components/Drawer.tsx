@@ -20,6 +20,7 @@ import {
   Close as CloseIcon,
   TravelExplore as TravelExploreIcon,
   SupportAgent as SupportAgentIcon,
+  CalendarMonth as CalendarMonthIcon,
 } from '@mui/icons-material';
 
 interface INav {
@@ -40,6 +41,7 @@ const Drawer:FC = () => {
       'admin': [
         { to: `/admin/agents`, label: 'Agents', icon: PeopleOutlinedIcon },
         { to: `/admin/helpdesk`, label: 'Helpdesk', icon: SupportAgentIcon },
+        { to: `/admin/calendar`, label: 'Calendar', icon: CalendarMonthIcon },
       ],
       'owner': [
         { to: `/admin/owners`, label: 'Owners', icon: PeopleOutlinedIcon },

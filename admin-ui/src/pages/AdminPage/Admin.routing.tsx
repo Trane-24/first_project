@@ -10,6 +10,8 @@ import UserReservations from './Users/UserReservations';
 import UserHotels from './Users/UserHotels';
 import HotelsType from './HotelTypes';
 import HelpdeskPage from './Helpdesk';
+import Calendar from './Calendar';
+import CalendarReservationInfo from './Calendar/CalendarReservationInfo';
 
 const AdminRouting:React.FC = () => {
   return (
@@ -48,6 +50,11 @@ const AdminRouting:React.FC = () => {
       <Route path="hotel-types" element={<HotelsType />} />
 
       <Route path="helpdesk" element={<HelpdeskPage />} />
+
+      <Route path="calendar">
+        <Route index element={<Calendar />} />
+        <Route path=':day' element={<CalendarReservationInfo />} />
+      </Route>
 
       <Route path="*" element={<Navigate to="/admin/agents" />} />
     </Routes>

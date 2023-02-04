@@ -1,12 +1,15 @@
 import React, { useMemo, useState } from 'react';
-import { Dialog as MuiDialog, DialogProps } from '@mui/material';
+import { Box, Dialog as MuiDialog, DialogProps } from '@mui/material';
 
 const useDialog = () => {
   const [open, setOpen] = useState(false);
 
   const openDialog = () => setOpen(true);
 
-  const closeDialog = () => setOpen(false);
+  const closeDialog = (e?: any) => {
+    if (e) e.stopPropagation();
+    setOpen(false);
+  };
 
   const Dialog = useMemo(() => {
     const DialogComponent: React.FC<Omit<DialogProps, 'onClose' | 'open'>> = ({ children, ...props}) => {
@@ -17,7 +20,9 @@ const useDialog = () => {
           onClose={closeDialog}
           fullWidth
         >
-          {children}
+          <Box onClick={(e) => e.stopPropagation()}>
+            {children}
+          </Box>
         </MuiDialog>
       )
     }

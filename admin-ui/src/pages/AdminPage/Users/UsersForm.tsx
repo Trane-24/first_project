@@ -72,7 +72,7 @@ const UsersForm: React.FC<Props> = ({ onClose, user, role }) => {
   return (
     <React.Fragment>
       <DialogTitle>
-        <Typography variant="h5">{`${user ? 'Update' : 'Create'} ${user ? user.role : role}`}</Typography>
+        {`${user ? 'Update' : 'Create'} ${user ? user.role : role}`}
       </DialogTitle>
 
       <DialogContent dividers>
