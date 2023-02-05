@@ -29,7 +29,6 @@ exports.getConversations = async (req, res) => {
             {"client.firstName": {'$regex': regex}},
             {"client.lastName": {'$regex': regex}},
           ]
-          
         },
       },
       {

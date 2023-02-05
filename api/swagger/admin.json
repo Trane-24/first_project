@@ -314,6 +314,13 @@
               "type": "array",
               "enum": ["pending", "completed", "rejected"]
             }
+          },
+          {
+            "name": "includeIntoCheckInCalendar",
+            "in": "path",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
